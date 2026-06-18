@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.DS_Store
+.angular/
+.idea/
+.vscode/
+*.log
+.env
+.env.production
+.astro/

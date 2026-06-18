@@ -1,0 +1,85 @@
+<div [class]="isDark() ? 'bg-zinc-950 text-zinc-50 dark' : 'bg-zinc-50/65 text-zinc-900'" class="h-screen overflow-hidden transition-colors duration-300 font-sans antialiased flex flex-col md:flex-row relative">
+  
+  <app-sidebar 
+    [isDark]="isDark()" 
+    [currentTheme]="currentTheme()"
+    [isCollapsed]="isSidebarCollapsed()"
+    [activeNav]="activeNav()" 
+    (navChange)="activeNav.set($event)"
+    (themeSelect)="selectTheme($event)">
+  </app-sidebar>
+
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  @if (!isSidebarCollapsed()) {
+    <div 
+      (click)="toggleSidebar()" 
+      class="fixed inset-0 bg-black/45 z-40 md:hidden transition-opacity duration-300 animate-fade-in">
+    </div>
+  }
+
+  <!-- Main Workspace Content -->
+  <div class="flex-grow flex flex-col min-w-0 overflow-hidden">
+    
+    <!-- Structured Topbar Component -->
+    <app-topbar 
+      [isDark]="isDark()" 
+      [activeNav]="activeNav()" 
+      [searchQuery]="searchQuery()" 
+      (themeChange)="toggleTheme()" 
+      (searchChange)="searchQuery.set($event)"
+      (collapseToggle)="toggleSidebar()">
+    </app-topbar>
+
+    <!-- View Panel Router -->
+    <main class="flex-grow p-6 md:p-8 overflow-y-auto min-w-0">
+      
+      @if (activeNav() === 'Dashboard') {
+        <app-dashboard 
+          [isDark]="isDark()" 
+          [tasks]="tasks()">
+        </app-dashboard>
+      } @else if (activeNav() === 'Projects') {
+        <app-projects 
+          [isDark]="isDark()" 
+          [searchQuery]="searchQuery()"
+          [tasks]="tasks()"
+          (taskDelete)="handleTaskDelete($event)"
+          (taskCreated)="handleTaskCreated($event)">
+        </app-projects>
+      } @else if (activeNav() === 'Calendar') {
+        <app-calendar 
+          [isDark]="isDark()">
+        </app-calendar>
+      } @else if (activeNav() === 'Employee') {
+        <app-employee 
+          [isDark]="isDark()">
+        </app-employee>
+      } @else if (activeNav() === 'Team') {
+        <app-team 
+          [isDark]="isDark()">
+        </app-team>
+      } @else if (activeNav() === 'Inbox') {
+        <app-inbox 
+          [isDark]="isDark()">
+        </app-inbox>
+      } @else if (activeNav() === 'Todos') {
+        <app-todos 
+          [isDark]="isDark()">
+        </app-todos>
+      } @else {
+        <!-- Dynamic Mock Panel Placeholder for development -->
+        <div [class]="isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'" class="flex flex-col items-center justify-center min-h-[300px] border rounded-2xl p-8 text-center animate-fade-in">
+          <h3 class="font-display font-extrabold text-md tracking-tight mb-2">Workspace Component Pending</h3>
+          <p class="text-xs text-zinc-400 max-w-sm mb-6 leading-relaxed">
+            The workspace panel "{{ activeNav() }}" is currently being designed. Press the button below to return to active templates dashboard.
+          </p>
+          <button (click)="activeNav.set('Projects')" class="px-4 py-2 rounded-xl bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-zinc-200 text-zinc-50 dark:text-zinc-950 font-bold text-xs transition-colors cursor-pointer select-none">
+            Return to Projects Panel
+          </button>
+        </div>
+      }
+      
+    </main>
+
+  </div>
+</div>

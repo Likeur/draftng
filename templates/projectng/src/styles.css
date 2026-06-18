@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  
+  --color-zinc-850: rgba(63, 63, 70, 0.45); /* More visible dark mode border */
+}
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+  body {
+    font-family: var(--font-sans);
+  }
+  
+  :root {
+    --color-zinc-50: #fbfaf7;         /* Claude warm light paper page background */
+    --color-zinc-100: #f4f0ea;        /* Claude warm light panel background */
+    --color-zinc-200: #e9e4da;        /* Claude warm light border */
+    --color-zinc-900: #191919;        /* Claude warm light text dark color */
+    --color-zinc-950: #191919;        /* Claude warm light headers */
+  }
+
+  .dark {
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f4f4f5;
+    --color-zinc-200: #e4e4e7;
+    --color-zinc-900: #18181b;
+    --color-zinc-950: #09090b;
+  }
+}
+
+/* Custom scrollbars for clean look */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.12);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.3);
+}
+
+/* Global micro-interaction click scale classes */
+.clickable-scale {
+  transition: transform 120ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.clickable-scale:active {
+  transform: scale(0.96) !important;
+}
+
+/* Custom Avatar Gradients */
+.avatar-grad-1 {
+  background: linear-gradient(135deg, #0d9488 0%, #4f46e5 100%);
+}
+.avatar-grad-2 {
+  background: linear-gradient(135deg, #db2777 0%, #e11d48 100%);
+}
+.avatar-grad-3 {
+  background: linear-gradient(135deg, #d97706 0%, #ca8a04 100%);
+}
+.avatar-grad-4 {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+}
+.avatar-grad-5 {
+  background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+}
+
+/* Staggered blurry page transitions and card entrance animations */
+@keyframes blur-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-blur-slide {
+  animation: blur-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
+.stagger-7 { animation-delay: 350ms; }
+.stagger-8 { animation-delay: 400ms; }
+
