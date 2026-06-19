@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
 
 const templates = [
   {
@@ -324,5 +325,6 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 			}
 		</script>
 
+		<Analytics />
 	</body>
 </html>
