@@ -26,15 +26,15 @@ const templates = [
 		<title>draftNG - Clean & Modern Angular 22+ Templates</title>
 		<meta name="description" content="A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4." />
 	</head>
-	<body class="bg-zinc-950 text-zinc-100 selection:bg-zinc-100 selection:text-zinc-950 font-sans h-screen overflow-hidden flex flex-col lg:flex-row relative">
+	<body class="bg-zinc-950 text-zinc-100 selection:bg-zinc-100 selection:text-zinc-950 font-sans min-h-screen lg:h-screen lg:overflow-hidden flex flex-col lg:flex-row relative">
 
-		<!-- Left Column: Projects Display (50% Width, Independently Scrollable) -->
-		<main class="w-full lg:w-1/2 h-full overflow-y-auto scrollbar-none bg-zinc-950 flex flex-col justify-start">
+		<!-- Left Column: Projects Display (50% Width, Independently Scrollable on Desktop, Horizontal Scroll on Mobile) -->
+		<main class="w-full lg:w-1/2 h-auto lg:h-full lg:overflow-y-auto lg:scrollbar-none bg-zinc-950 flex flex-col justify-start">
 			<div class="w-full max-w-2xl mx-auto px-6 sm:px-12 lg:pl-20 lg:pr-4 py-12 lg:py-24 flex flex-col gap-12">
 
-				<div class="flex flex-col gap-16 w-full">
+				<div class="flex flex-row overflow-x-auto scrollbar-none gap-6 snap-x snap-mandatory -mx-6 px-6 sm:-mx-12 sm:px-12 lg:mx-0 lg:px-0 lg:flex-col lg:overflow-visible lg:gap-16 w-auto lg:w-full">
 					{templates.map(tpl => (
-						<div class="w-full flex items-stretch gap-12 relative">
+						<div class="w-[85vw] sm:w-[450px] lg:w-full shrink-0 snap-start flex items-stretch gap-12 relative">
 							<!-- Card Content: transparent background, no borders, no wrapper padding -->
 							<div class="flex-grow flex flex-col justify-between min-h-[380px] group transition-all duration-500">
 								<div>
