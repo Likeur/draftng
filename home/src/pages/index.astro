@@ -12,8 +12,23 @@ const templates = [
     demo: "https://projectng-three.vercel.app/dashboard",
     video: "/project/projectng.webm",
     date: "17 Jun 2026"
+  },
+  {
+    name: "Jordy AI",
+    status: "Active",
+    category: "AI Chatbot & Platform",
+    desc: "A premium, modern AI chatbot platform template (similar to Gemini or Perplexity). Fully built with Angular 22 and Tailwind CSS v4, featuring integrated AI image generation, video generation, code generation, and a personal library.",
+    tech: ["Angular 22", "Tailwind v4", "AI Chatbot", "Multi-modal"],
+    github: "https://243studio.mychariow.market/prd_ztd707zu",
+    demo: "https://jordyai.vercel.app/chat",
+    video: "/project/jordyai.webm",
+    date: "19 Jun 2026"
   }
 ];
+
+const totalCount = templates.length;
+const freeCount = templates.filter(t => t.github && t.github.includes('github.com')).length;
+const premiumCount = templates.filter(t => !t.github || !t.github.includes('github.com')).length;
 ---
 
 <html lang="en">
@@ -30,37 +45,75 @@ const templates = [
 
 		<!-- Left Column: Projects Display (50% Width, Independently Scrollable on Desktop, Horizontal Scroll on Mobile) -->
 		<main class="w-full lg:w-1/2 h-auto lg:h-full lg:overflow-y-auto lg:scrollbar-none bg-zinc-950 flex flex-col justify-start">
-			<div class="w-full max-w-2xl mx-auto px-6 sm:px-12 lg:pl-20 lg:pr-4 py-12 lg:py-24 flex flex-col gap-12">
+			<div class="w-full max-w-2xl mx-auto px-6 sm:px-12 lg:pl-20 lg:pr-4 py-12 lg:py-24 flex flex-col gap-8">
+
+				<!-- Filter Bubbles -->
+				<div class="flex items-center gap-2 flex-wrap -mx-6 px-6 sm:-mx-12 sm:px-12 lg:mx-0 lg:px-0">
+					<button data-filter="all" class="filter-btn text-xs font-semibold px-4 py-2 rounded-full transition-all duration-300 bg-zinc-100 text-zinc-950 border border-transparent shadow-sm cursor-pointer select-none">
+						All ({totalCount})
+					</button>
+					<button data-filter="free" class="filter-btn text-xs font-semibold px-4 py-2 rounded-full transition-all duration-300 bg-zinc-900/40 text-zinc-400 border border-zinc-900 hover:bg-zinc-900 hover:text-zinc-200 cursor-pointer select-none">
+						Free ({freeCount})
+					</button>
+					<button data-filter="premium" class="filter-btn text-xs font-semibold px-4 py-2 rounded-full transition-all duration-300 bg-zinc-900/40 text-zinc-400 border border-zinc-900 hover:bg-zinc-900 hover:text-zinc-200 cursor-pointer select-none">
+						Premium ({premiumCount})
+					</button>
+				</div>
 
 				<div class="flex flex-row overflow-x-auto scrollbar-none gap-6 snap-x snap-mandatory -mx-6 px-6 sm:-mx-12 sm:px-12 lg:mx-0 lg:px-0 lg:flex-col lg:overflow-visible lg:gap-16 w-auto lg:w-full">
 					{templates.map(tpl => (
-						<div class="w-[85vw] sm:w-[450px] lg:w-full shrink-0 snap-start flex items-stretch gap-12 relative">
+						<div class="project-card w-[85vw] sm:w-[450px] lg:w-full shrink-0 snap-start flex items-stretch gap-12 relative transition-all duration-300" data-type={tpl.github && tpl.github.includes('github.com') ? 'free' : 'premium'}>
 							<!-- Card Content: transparent background, no borders, no wrapper padding -->
 							<div class="flex-grow flex flex-col justify-between min-h-[380px] group transition-all duration-500">
 								<div>
 									{tpl.video && (
-										<div class="w-full aspect-[2560/1606] rounded-xl overflow-hidden mb-6 bg-zinc-950 border border-zinc-900/40 relative shadow-md">
-											<video src={tpl.video} autoplay loop muted playsinline class="w-full h-full object-cover opacity-75 group-hover:opacity-95 transition-opacity duration-500"></video>
+										<div class="w-full rounded-xl overflow-hidden mb-6 bg-zinc-950 border border-zinc-900/40 relative shadow-md">
+											<video src={tpl.video} autoplay loop muted playsinline class="w-full h-auto block opacity-75 group-hover:opacity-95 transition-opacity duration-500"></video>
 										</div>
 									)}
-									
-									<h3 class="font-display font-bold text-2xl text-zinc-200 group-hover:text-white transition-colors mb-3">{tpl.name}</h3>
+									<div class="flex items-center gap-3 mb-3">
+										<h3 class="font-display font-bold text-2xl text-zinc-200 group-hover:text-white transition-colors">{tpl.name}</h3>
+										{(!tpl.github || !tpl.github.includes('github.com')) && (
+											<span class="text-[10px] font-bold tracking-wider uppercase bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">
+												Premium
+											</span>
+										)}
+									</div>
 									<p class="text-zinc-400 text-sm leading-relaxed mb-6">{tpl.desc}</p>
 								</div>
 
 								<div class="space-y-5 pt-4">
 
 									<div class="flex items-center gap-4 text-xs font-semibold">
-										{tpl.demo && (
-											<a href={tpl.demo} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-950 hover:text-black transition-colors group/demo bg-zinc-100 hover:bg-white px-4 py-2 rounded-lg shadow-sm">
-												Live Preview
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover/demo:translate-x-0.5 group-hover/demo:-translate-y-0.5 transition-transform"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-											</a>
+										{tpl.github && !tpl.github.includes('github.com') ? (
+											<>
+												<a href={tpl.github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-950 hover:text-black transition-colors group/demo bg-zinc-100 hover:bg-white px-4 py-2 rounded-lg shadow-sm">
+													Buy Template
+													<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover/demo:translate-x-0.5 group-hover/demo:-translate-y-0.5 transition-transform"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+												</a>
+												{tpl.demo && (
+													<a href={tpl.demo} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 transition-colors group/link py-2">
+														Live Preview
+														<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover/link:translate-x-0.5 transition-transform"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+													</a>
+												)}
+											</>
+										) : (
+											<>
+												{tpl.demo && (
+													<a href={tpl.demo} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-950 hover:text-black transition-colors group/demo bg-zinc-100 hover:bg-white px-4 py-2 rounded-lg shadow-sm">
+														Live Preview
+														<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover/demo:translate-x-0.5 group-hover/demo:-translate-y-0.5 transition-transform"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+													</a>
+												)}
+												{tpl.github && (
+													<a href={tpl.github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 transition-colors group/link py-2">
+														Get Source Code
+														<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover/link:translate-x-0.5 transition-transform"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+													</a>
+												)}
+											</>
 										)}
-										<a href={tpl.github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 transition-colors group/link py-2">
-											Get Source Code
-											<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover/link:translate-x-0.5 transition-transform"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-										</a>
 									</div>
 								</div>
 							</div>
@@ -94,6 +147,10 @@ const templates = [
 
 		<!-- Right Column: Platform Information (50% Width, Sticky/Fixed, Non-scrollable) -->
 		<aside class="w-full lg:w-1/2 h-auto lg:h-full flex flex-col justify-between gap-12 p-8 sm:p-12 lg:p-24 relative overflow-hidden bg-zinc-950 shrink-0 lg:sticky lg:top-0">
+			<!-- God Rays Canvas (Desktop only) -->
+			<div class="hidden lg:block absolute inset-0 pointer-events-none -z-20 overflow-hidden">
+				<canvas id="god-rays-canvas" class="w-full h-full opacity-35"></canvas>
+			</div>
 			<!-- Background grid *only* on the right side -->
 			<div class="absolute inset-0 bg-[linear-gradient(to_right,#18181b40_1px,transparent_1px),linear-gradient(to_bottom,#18181b40_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none -z-10"></div>
 			<div class="absolute top-[20vh] right-[10%] w-[350px] h-[350px] bg-zinc-900/10 rounded-full blur-[130px] pointer-events-none -z-10"></div>
@@ -108,7 +165,7 @@ const templates = [
 				
 				<div class="space-y-4">
 					<p class="font-display font-medium text-xl lg:text-2xl text-zinc-200 leading-tight">
-						Minimalist & high-performance Angular 22+ templates.
+						Minimalist & high-performance Angular 22+ platform templates.
 					</p>
 					<p class="text-zinc-400 text-sm leading-relaxed">
 						A curated suite of open-source platform templates styled with Tailwind CSS v4. Engineered to elevate your Angular development workflow with zoneless change detection, clean state paradigms, and interactive interfaces.
@@ -123,8 +180,8 @@ const templates = [
 			</div>
 
 			<div class="space-y-6">
-				<div class="space-y-4">
-					<span class="text-xs font-medium text-zinc-500 tracking-wide">built by likeur</span>
+				<div class="space-y-5">
+					<span class="text-sm text-zinc-500 font-sans tracking-wide">built by likeur</span>
 					<div class="flex gap-4">
 						<!-- LinkedIn -->
 						<a href="https://www.linkedin.com/in/likeur/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-11 h-11 rounded-full bg-zinc-900/20 hover:bg-zinc-900 flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 hover:scale-105 shadow-sm">
@@ -141,10 +198,131 @@ const templates = [
 							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
 						</a>
 					</div>
-				</div>
-				
 			</div>
 		</aside>
+
+		<script>
+			const filterBtns = document.querySelectorAll('.filter-btn');
+			const projectCards = document.querySelectorAll('.project-card');
+
+			filterBtns.forEach(btn => {
+				btn.addEventListener('click', () => {
+					const filter = btn.getAttribute('data-filter');
+
+					// Update buttons active/inactive states
+					filterBtns.forEach(b => {
+						if (b === btn) {
+							b.classList.remove('bg-zinc-900/40', 'text-zinc-400', 'border-zinc-900', 'hover:bg-zinc-900', 'hover:text-zinc-200');
+							b.classList.add('bg-zinc-100', 'text-zinc-950', 'border-transparent');
+						} else {
+							b.classList.remove('bg-zinc-100', 'text-zinc-950', 'border-transparent');
+							b.classList.add('bg-zinc-900/40', 'text-zinc-400', 'border-zinc-900', 'hover:bg-zinc-900', 'hover:text-zinc-200');
+						}
+					});
+
+					// Filter card visibility
+					projectCards.forEach(card => {
+						const cardType = card.getAttribute('data-type');
+						if (filter === 'all' || cardType === filter) {
+							card.classList.remove('hidden');
+						} else {
+							card.classList.add('hidden');
+						}
+					});
+				});
+			});
+
+			// Allow scrolling main projects container from anywhere on the window on desktop
+			window.addEventListener('wheel', (e) => {
+				if (window.innerWidth >= 1024) {
+					const projectsContainer = document.querySelector('main');
+					const rightColumn = document.querySelector('aside');
+					if (projectsContainer && rightColumn && e.target instanceof Node && rightColumn.contains(e.target)) {
+						projectsContainer.scrollTop += e.deltaY;
+					}
+				}
+			}, { passive: true });
+
+			// God Rays Texture Shader Canvas animation (Desktop only)
+			const canvas = document.getElementById('god-rays-canvas');
+			if (canvas instanceof HTMLCanvasElement) {
+				const ctx = canvas.getContext('2d');
+				let width = canvas.offsetWidth;
+				let height = canvas.offsetHeight;
+				canvas.width = width;
+				canvas.height = height;
+
+				window.addEventListener('resize', () => {
+					if (canvas) {
+						width = canvas.offsetWidth;
+						height = canvas.offsetHeight;
+						canvas.width = width;
+						canvas.height = height;
+					}
+				});
+
+				const raysCount = 10;
+				const rays: { angleOffset: number; speed: number; width: number; baseOpacity: number }[] = [];
+				for (let i = 0; i < raysCount; i++) {
+					rays.push({
+						angleOffset: Math.random() * Math.PI * 2,
+						speed: 0.0005 + Math.random() * 0.001,
+						width: 0.08 + Math.random() * 0.15,
+						baseOpacity: 0.04 + Math.random() * 0.08
+					});
+				}
+
+				function animate(time: number) {
+					if (!ctx || !canvas) return;
+					ctx.clearRect(0, 0, width, height);
+
+					const originX = width;
+					const originY = 0;
+					const maxRadius = Math.sqrt(width * width + height * height);
+
+					// Draw a subtle radial glow in the corner
+					const glowGrad = ctx.createRadialGradient(originX, originY, 0, originX, originY, maxRadius * 0.7);
+					glowGrad.addColorStop(0, 'rgba(255, 255, 255, 0.05)');
+					glowGrad.addColorStop(0.5, 'rgba(255, 255, 255, 0.01)');
+					glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+					ctx.fillStyle = glowGrad;
+					ctx.fillRect(0, 0, width, height);
+
+					// Draw the rays
+					rays.forEach(ray => {
+						const angle = (Math.PI * 0.75) + Math.sin(time * ray.speed + ray.angleOffset) * 0.15;
+						const halfWidth = ray.width / 2;
+
+						ctx.beginPath();
+						ctx.moveTo(originX, originY);
+
+						const startAngle = angle - halfWidth;
+						const endAngle = angle + halfWidth;
+
+						const x1 = originX + Math.cos(startAngle) * maxRadius;
+						const y1 = originY + Math.sin(startAngle) * maxRadius;
+						const x2 = originX + Math.cos(endAngle) * maxRadius;
+						const y2 = originY + Math.sin(endAngle) * maxRadius;
+
+						ctx.lineTo(x1, y1);
+						ctx.lineTo(x2, y2);
+						ctx.closePath();
+
+						const rayGrad = ctx.createRadialGradient(originX, originY, 0, originX, originY, maxRadius);
+						const currentOpacity = ray.baseOpacity * (0.8 + Math.sin(time * 0.002 + ray.angleOffset) * 0.2);
+						rayGrad.addColorStop(0, `rgba(255, 255, 255, ${currentOpacity})`);
+						rayGrad.addColorStop(0.5, `rgba(255, 255, 255, ${currentOpacity * 0.3})`);
+						rayGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+						ctx.fillStyle = rayGrad;
+						ctx.fill();
+					});
+
+					requestAnimationFrame(animate);
+				}
+				requestAnimationFrame(animate);
+			}
+		</script>
 
 	</body>
 </html>

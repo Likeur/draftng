@@ -12,8 +12,8 @@ import { WorkspaceService } from '../services/workspace.service';
   },
   template: `
     <header 
-      [class]="state.isDark() ? 'bg-zinc-950/40' : 'bg-white/40'" 
-      class="backdrop-blur-md px-6 py-3 flex items-center justify-between h-16 font-sans">
+      [class]="state.isDark() ? 'bg-zinc-950/40 border-zinc-850' : 'bg-white/40 border-zinc-200'" 
+      class="backdrop-blur-md border-b px-6 py-3 flex items-center justify-between h-16 font-sans">
       
       @if (isSearchExpanded() && isMobileSearch()) {
         <!-- Mobile Expanded Search Bar -->
@@ -172,7 +172,7 @@ export class TopbarComponent {
     return 'Projects';
   });
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) { }
 
   protected toggleNotifications(): void {
     this.isNotificationsOpen.update(n => !n);
