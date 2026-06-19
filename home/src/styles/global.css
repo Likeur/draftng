@@ -4,27 +4,20 @@
 @theme {
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
-  
-  --color-brand-50: #f4f7f6;
-  --color-brand-100: #e2ece9;
-  --color-brand-200: #c5d9d4;
-  --color-brand-300: #9cbdba;
-  --color-brand-400: #6f9c9a;
-  --color-brand-500: #4e7e7d;
-  --color-brand-600: #3f6666;
-  --color-brand-700: #355354;
-  --color-brand-800: #2d4546;
-  --color-brand-900: #273b3c;
-  --color-brand-950: #152223;
-  
-  --color-accent-400: #fbbf24;
-  --color-accent-500: #f59e0b;
+}
+
+@utility scrollbar-none {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @layer base {
   body {
-    background-color: var(--color-brand-950);
-    color: var(--color-brand-50);
+    background-color: #09090b; /* zinc-950 */
+    color: #f4f4f5; /* zinc-100 */
     font-family: var(--font-sans);
     overflow-x: hidden;
   }

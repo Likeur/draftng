@@ -1,5 +1,19 @@
 ---
 import '../styles/global.css';
+
+const templates = [
+  {
+    name: "ProjectNG",
+    status: "Active",
+    category: "Workspace & Management",
+    desc: "A premium, zoneless Angular 22+ dashboard template styled with Tailwind CSS v4. Features tasks, calendar, team view, inbox, and optimized animations.",
+    tech: ["Angular 22", "Tailwind v4", "Zoneless", "Signals"],
+    github: "https://github.com/Likeur/draftng/tree/main/templates/projectng",
+    demo: "https://projectng-three.vercel.app/dashboard",
+    video: "/project/projectng.webm",
+    date: "17 Jun 2026"
+  }
+];
 ---
 
 <html lang="en">
@@ -12,183 +26,127 @@ import '../styles/global.css';
 		<title>draftNG - Clean & Modern Angular 22+ Templates</title>
 		<meta name="description" content="A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4." />
 	</head>
-	<body class="bg-brand-950 text-brand-50 selection:bg-brand-500 selection:text-brand-950 font-sans min-h-screen flex flex-col relative">
-		<!-- Background Glows -->
-		<div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-brand-500/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
-		<div class="absolute top-[30vh] right-1/4 w-[600px] h-[600px] bg-accent-500/5 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+	<body class="bg-zinc-950 text-zinc-100 selection:bg-zinc-100 selection:text-zinc-950 font-sans h-screen overflow-hidden flex flex-col lg:flex-row relative">
 
-		<!-- Navigation Header -->
-		<header class="sticky top-0 z-50 backdrop-blur-md bg-brand-950/70 border-b border-brand-900/50 transition-all duration-300">
-			<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-				<div class="flex items-center gap-3">
-					<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center font-display font-extrabold text-brand-950 text-lg shadow-lg shadow-brand-500/10">
-						dNG
-					</div>
-					<span class="font-display font-bold text-xl tracking-tight bg-gradient-to-r from-brand-50 to-brand-300 bg-clip-text text-transparent">draftNG</span>
-				</div>
-				<nav class="hidden md:flex items-center gap-8 text-sm font-medium text-brand-300">
-					<a href="#features" class="hover:text-brand-50 transition-colors">Features</a>
-					<a href="#templates" class="hover:text-brand-50 transition-colors">Templates</a>
-					<a href="https://github.com" target="_blank" rel="noopener noreferrer" class="hover:text-brand-50 transition-colors flex items-center gap-2">
-						GitHub
-					</a>
-				</nav>
-				<div>
-					<a href="#templates" class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 text-brand-950 font-semibold text-sm transition-all duration-300 shadow-md shadow-brand-500/15 hover:shadow-brand-500/25 hover:-translate-y-0.5">
-						Browse Library
-					</a>
+		<!-- Left Column: Projects Display (50% Width, Independently Scrollable) -->
+		<main class="w-full lg:w-1/2 h-full overflow-y-auto scrollbar-none bg-zinc-950 flex flex-col justify-start">
+			<div class="w-full max-w-2xl mx-auto px-6 sm:px-12 lg:pl-20 lg:pr-4 py-12 lg:py-24 flex flex-col gap-12">
+
+				<div class="flex flex-col gap-16 w-full">
+					{templates.map(tpl => (
+						<div class="w-full flex items-stretch gap-12 relative">
+							<!-- Card Content: transparent background, no borders, no wrapper padding -->
+							<div class="flex-grow flex flex-col justify-between min-h-[380px] group transition-all duration-500">
+								<div>
+									{tpl.video && (
+										<div class="w-full h-48 sm:h-56 rounded-xl overflow-hidden mb-6 bg-zinc-950 border border-zinc-900/40 relative shadow-md">
+											<video src={tpl.video} autoplay loop muted playsinline class="w-full h-full object-cover opacity-75 group-hover:opacity-95 transition-opacity duration-500"></video>
+										</div>
+									)}
+									
+									<h3 class="font-display font-bold text-2xl text-zinc-200 group-hover:text-white transition-colors mb-3">{tpl.name}</h3>
+									<p class="text-zinc-400 text-sm leading-relaxed mb-6">{tpl.desc}</p>
+								</div>
+
+								<div class="space-y-5 pt-4">
+
+									<div class="flex items-center gap-4 text-xs font-semibold">
+										{tpl.demo && (
+											<a href={tpl.demo} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-950 hover:text-black transition-colors group/demo bg-zinc-100 hover:bg-white px-4 py-2 rounded-lg shadow-sm">
+												Live Preview
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover/demo:translate-x-0.5 group-hover/demo:-translate-y-0.5 transition-transform"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+											</a>
+										)}
+										<a href={tpl.github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200 transition-colors group/link py-2">
+											Get Source Code
+											<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover/link:translate-x-0.5 transition-transform"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!-- Timeline Ruler (Vertical stacked ticks scrolling with the cards) -->
+							<div class="hidden lg:flex w-16 shrink-0 relative items-center justify-end">
+								<div class="absolute inset-y-0 right-0 flex flex-col items-end justify-between py-4 select-none pointer-events-none">
+									{Array.from({ length: 28 }).map((_, idx) => {
+										if (idx === 4) {
+											return (
+												<div class="flex items-center relative">
+													<span class="text-[10px] font-bold text-zinc-400 font-display tracking-wider whitespace-nowrap absolute right-12">
+														{tpl.date}
+													</span>
+													<span class="w-8 h-[1.5px] bg-zinc-200 block shrink-0"></span>
+												</div>
+											);
+										}
+										return <span class="w-3 h-[1px] bg-zinc-800 block shrink-0"></span>;
+									})}
+								</div>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
-		</header>
-
-		<main class="flex-grow">
-			<!-- Hero Section -->
-			<section class="max-w-7xl mx-auto px-6 pt-24 pb-20 text-center relative">
-				<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-900/40 border border-brand-800/60 mb-6 backdrop-blur-sm">
-					<span class="w-2 h-2 rounded-full bg-accent-500 animate-pulse"></span>
-					<span class="text-xs font-semibold tracking-wider uppercase text-brand-300">Open Source Ecosystem</span>
-				</div>
-				
-				<h1 class="font-display font-extrabold text-5xl md:text-7xl leading-tight max-w-4xl mx-auto mb-8">
-					Clean Angular Templates for 
-					<span class="bg-gradient-to-r from-brand-300 via-brand-100 to-accent-400 bg-clip-text text-transparent">Modern Creators</span>
-				</h1>
-				
-				<p class="text-brand-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-12">
-					A curated suite of beautiful, production-ready, open-source dashboard and application templates. Built with Angular 22 and Tailwind CSS v4 using modern best practices.
-				</p>
-				
-				<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-					<a href="#templates" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-brand-50 font-bold text-base transition-all duration-300 shadow-lg shadow-brand-600/20 hover:shadow-brand-600/35 hover:-translate-y-0.5">
-						Explore Templates
-					</a>
-					<a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl bg-brand-900/30 hover:bg-brand-900/60 border border-brand-800/60 hover:border-brand-700 text-brand-300 hover:text-brand-50 font-bold text-base transition-all duration-300 backdrop-blur-sm">
-						View on GitHub
-					</a>
-				</div>
-			</section>
-
-			<!-- Features Section -->
-			<section id="features" class="max-w-7xl mx-auto px-6 py-20 border-t border-brand-900/40">
-				<div class="text-center mb-16">
-					<h2 class="font-display font-bold text-3xl md:text-4xl mb-4">Why draftNG?</h2>
-					<p class="text-brand-300 max-w-lg mx-auto">Engineered to elevate your Angular development workflow with modern standards.</p>
-				</div>
-				
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-					<!-- Card 1 -->
-					<div class="p-8 rounded-2xl bg-brand-900/20 border border-brand-900/60 hover:border-brand-800/80 transition-all duration-300 group hover:-translate-y-1">
-						<div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-6 group-hover:bg-brand-500/20 transition-colors">
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-							</svg>
-						</div>
-						<h3 class="font-display font-semibold text-xl mb-3">Modern Angular 22+</h3>
-						<p class="text-brand-300 text-sm leading-relaxed">
-							Leveraging cutting-edge features: standalone APIs, Signals, zoneless change detection, and optimized server-side rendering (SSR).
-						</p>
-					</div>
-
-					<!-- Card 2 -->
-					<div class="p-8 rounded-2xl bg-brand-900/20 border border-brand-900/60 hover:border-brand-800/80 transition-all duration-300 group hover:-translate-y-1">
-						<div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-6 group-hover:bg-brand-500/20 transition-colors">
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
-							</svg>
-						</div>
-						<h3 class="font-display font-semibold text-xl mb-3">Tailwind CSS v4</h3>
-						<p class="text-brand-300 text-sm leading-relaxed">
-							Utilizing CSS-first variables, ultra-fast builds, container queries, and native custom animations directly out of the box.
-						</p>
-					</div>
-
-					<!-- Card 3 -->
-					<div class="p-8 rounded-2xl bg-brand-900/20 border border-brand-900/60 hover:border-brand-800/80 transition-all duration-300 group hover:-translate-y-1">
-						<div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-6 group-hover:bg-brand-500/20 transition-colors">
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 009 11V7a4 4 0 00-8 0v4c0 2.876-.906 5.565-2.448 7.794m16.082-9.45a13.904 13.904 0 012.248 7.794V17a3 3 0 01-3 3h-2M13.616 5.34a3.997 3.997 0 013.766 3.65m-3.766-3.65L19.5 3.375" />
-							</svg>
-						</div>
-						<h3 class="font-display font-semibold text-xl mb-3">Developer Centric</h3>
-						<p class="text-brand-300 text-sm leading-relaxed">
-							Thoroughly organized components, scalable state patterns, robust typescript typings, and strict mode compliance.
-						</p>
-					</div>
-				</div>
-			</section>
-
-			<!-- Showcase Section -->
-			<section id="templates" class="max-w-7xl mx-auto px-6 py-20 border-t border-brand-900/40">
-				<div class="text-center mb-16">
-					<h2 class="font-display font-bold text-3xl md:text-4xl mb-4">Premium Templates Catalogue</h2>
-					<p class="text-brand-300 max-w-lg mx-auto">Explore our collection of open-source platform templates built for Angular developers.</p>
-				</div>
-
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-					<!-- Template Card 1 -->
-					<div class="relative overflow-hidden rounded-2xl bg-brand-900/20 border border-brand-900/60 hover:border-brand-800/80 transition-all duration-500 group flex flex-col justify-between min-h-[350px]">
-						<div class="absolute top-4 right-4 z-10">
-							<span class="px-3 py-1 text-xs font-bold tracking-wider uppercase bg-accent-500/10 text-accent-400 border border-accent-500/30 rounded-full">Coming Soon</span>
-						</div>
-						<div class="p-8">
-							<span class="text-xs font-semibold text-brand-400 tracking-widest uppercase block mb-2">Workspace & Operations</span>
-							<h3 class="font-display font-bold text-2xl mb-4 group-hover:text-brand-300 transition-colors">Vanguard Dashboard</h3>
-							<p class="text-brand-300 text-sm leading-relaxed max-w-md">
-								A comprehensive admin and metrics dashboard. Featuring complex charting, responsive sidebar navigation, advanced filter tables, and real-time state.
-							</p>
-						</div>
-						<div class="px-8 py-5 border-t border-brand-900/60 bg-brand-950/40 flex items-center justify-between mt-auto">
-							<span class="text-xs text-brand-400 font-medium">Angular 22 + Tailwind v4</span>
-							<span class="text-brand-300 text-xs flex items-center gap-1">
-								Under construction
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-								</svg>
-							</span>
-						</div>
-					</div>
-
-					<!-- Template Card 2 -->
-					<div class="relative overflow-hidden rounded-2xl bg-brand-900/20 border border-brand-900/60 hover:border-brand-800/80 transition-all duration-500 group flex flex-col justify-between min-h-[350px]">
-						<div class="absolute top-4 right-4 z-10">
-							<span class="px-3 py-1 text-xs font-bold tracking-wider uppercase bg-accent-500/10 text-accent-400 border border-accent-500/30 rounded-full">Coming Soon</span>
-						</div>
-						<div class="p-8">
-							<span class="text-xs font-semibold text-brand-400 tracking-widest uppercase block mb-2">Commerce Platform</span>
-							<h3 class="font-display font-bold text-2xl mb-4 group-hover:text-brand-300 transition-colors">Aether E-Commerce</h3>
-							<p class="text-brand-300 text-sm leading-relaxed max-w-md">
-								A dynamic storefront template. Designed for conversion with modern gallery layouts, seamless cart states, beautiful product filters, and checkouts.
-							</p>
-						</div>
-						<div class="px-8 py-5 border-t border-brand-900/60 bg-brand-950/40 flex items-center justify-between mt-auto">
-							<span class="text-xs text-brand-400 font-medium">Angular 22 + Tailwind v4</span>
-							<span class="text-brand-300 text-xs flex items-center gap-1">
-								Under construction
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-								</svg>
-							</span>
-						</div>
-					</div>
-				</div>
-			</section>
 		</main>
 
-		<!-- Footer -->
-		<footer class="border-t border-brand-900/60 bg-brand-950 py-12 text-sm text-brand-400">
-			<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-				<div class="flex items-center gap-2">
-					<div class="w-6 h-6 rounded-md bg-gradient-to-tr from-brand-600 to-accent-500 flex items-center justify-center font-display font-extrabold text-brand-950 text-xs">
+		<!-- Mobile visual boundary separator -->
+		<div class="block lg:hidden h-[1px] bg-zinc-900 w-full shrink-0"></div>
+
+		<!-- Right Column: Platform Information (50% Width, Sticky/Fixed, Non-scrollable) -->
+		<aside class="w-full lg:w-1/2 h-auto lg:h-full flex flex-col justify-between gap-12 p-8 sm:p-12 lg:p-24 relative overflow-hidden bg-zinc-950 shrink-0 lg:sticky lg:top-0">
+			<!-- Background grid *only* on the right side -->
+			<div class="absolute inset-0 bg-[linear-gradient(to_right,#18181b40_1px,transparent_1px),linear-gradient(to_bottom,#18181b40_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none -z-10"></div>
+			<div class="absolute top-[20vh] right-[10%] w-[350px] h-[350px] bg-zinc-900/10 rounded-full blur-[130px] pointer-events-none -z-10"></div>
+
+			<div class="space-y-6">
+				<div class="flex items-center gap-3">
+					<div class="w-8 h-8 rounded bg-zinc-100 flex items-center justify-center font-display font-extrabold text-zinc-950 text-base shadow-md">
 						d
 					</div>
-					<span class="font-display font-semibold text-brand-300">draftNG</span>
+					<span class="font-display font-bold text-3xl tracking-tighter text-zinc-50">draftNG</span>
 				</div>
-				<p>© 2026 draftNG. Built with Astro & Tailwind CSS v4. Released under MIT License.</p>
-				<div class="flex gap-6">
-					<a href="https://github.com" target="_blank" rel="noopener noreferrer" class="hover:text-brand-50 transition-colors">GitHub</a>
-					<a href="https://angular.dev" target="_blank" rel="noopener noreferrer" class="hover:text-brand-50 transition-colors">Angular.dev</a>
+				
+				<div class="space-y-4">
+					<p class="font-display font-medium text-xl lg:text-2xl text-zinc-200 leading-tight">
+						Minimalist & high-performance Angular 22+ templates.
+					</p>
+					<p class="text-zinc-400 text-sm leading-relaxed">
+						A curated suite of open-source platform templates styled with Tailwind CSS v4. Engineered to elevate your Angular development workflow with zoneless change detection, clean state paradigms, and interactive interfaces.
+					</p>
 				</div>
 			</div>
-		</footer>
+
+			<div class="space-y-6">
+				<div class="space-y-2">
+					<span class="text-xs font-semibold text-zinc-500 tracking-wider uppercase">Find Me & Project Details</span>
+					<div class="flex gap-4">
+						<!-- LinkedIn -->
+						<a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-11 h-11 rounded-full border border-zinc-900 bg-zinc-900/20 hover:bg-zinc-900 hover:border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 hover:scale-105 shadow-sm">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+						</a>
+						
+						<!-- X (Twitter) -->
+						<a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="w-11 h-11 rounded-full border border-zinc-900 bg-zinc-900/20 hover:bg-zinc-900 hover:border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 hover:scale-105 shadow-sm">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+						</a>
+
+						<!-- Reddit -->
+						<a href="https://reddit.com" target="_blank" rel="noopener noreferrer" aria-label="Reddit" class="w-11 h-11 rounded-full border border-zinc-900 bg-zinc-900/20 hover:bg-zinc-900 hover:border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 hover:scale-105 shadow-sm">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.85-1.64-6.24-1.72l1.32-4.19 4.3 1.02c.07.96.87 1.72 1.86 1.72 1.03 0 1.87-.84 1.87-1.87S20.17 3 19.14 3c-.88 0-1.62.62-1.8 1.44l-4.76-1.12c-.17-.04-.35.05-.4.22l-1.54 4.88c-2.45.04-4.7.67-6.38 1.69-.55-.73-1.44-1.19-2.44-1.19-1.65 0-3 1.35-3 3 0 1.09.58 2.04 1.45 2.57-.06.31-.09.63-.09.95 0 3.98 4.7 7.22 10.5 7.22s10.5-3.24 10.5-7.22c0-.32-.03-.64-.09-.95.88-.53 1.47-1.48 1.47-2.57zm-18 1c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zm11 4.5c-1.78 1.78-5.22 1.78-7 0-.2-.2-.2-.51 0-.71.2-.2.51-.2.71 0 1.39 1.39 4.19 1.39 5.58 0 .2-.2.51-.2.71 0 .2.2.2.51 0 .71zm-2.5-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+						</a>
+
+						<!-- GitHub -->
+						<a href="https://github.com/Likeur/draftng" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" class="w-11 h-11 rounded-full border border-zinc-900 bg-zinc-900/20 hover:bg-zinc-900 hover:border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 hover:scale-105 shadow-sm">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+						</a>
+					</div>
+				</div>
+				
+				<p class="text-zinc-600 text-xs leading-normal">
+					© 2026 draftNG. Built with Astro & Tailwind CSS v4. <br class="hidden lg:block" />Released under MIT License.
+				</p>
+			</div>
+		</aside>
+
 	</body>
 </html>
