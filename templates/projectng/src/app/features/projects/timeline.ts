@@ -1,5 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WorkspaceService } from '../../shared/services/workspace.service';
+import { ProjectsComponent } from './projects';
 
 interface Task {
   id: number;
@@ -16,17 +18,17 @@ interface Task {
   selector: 'app-projects-timeline',
   imports: [CommonModule],
   template: `
-    <div [class]="isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'" class="rounded-2xl border p-5 overflow-x-auto w-full">
+    <div [class]="isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'" class="rounded-2xl border p-5 overflow-x-auto w-full font-sans">
       <div class="min-w-[700px]">
       
       <!-- Calendar Navigator Bar -->
       <div class="flex items-center justify-between mb-6">
-        <button [class]="isDark() ? 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-750' : 'bg-zinc-100 border-zinc-200 text-zinc-850 hover:bg-zinc-200'" class="px-3 py-1.5 rounded-xl border text-xs font-bold transition-colors cursor-pointer select-none">
+        <button [class]="isDark() ? 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700' : 'bg-zinc-100 border-zinc-200 text-zinc-800 hover:bg-zinc-200'" class="px-3 py-1.5 rounded-xl border text-xs font-bold transition-colors cursor-pointer select-none">
           Today
         </button>
         
         <div class="flex items-center gap-1.5">
-          <button [class]="isDark() ? 'bg-zinc-800 border-zinc-700 hover:bg-zinc-750' : 'bg-white border-zinc-200 hover:bg-zinc-50'" class="p-1.5 rounded-xl border cursor-pointer">
+          <button [class]="isDark() ? 'bg-zinc-800 border-zinc-700 hover:bg-zinc-700' : 'bg-white border-zinc-200 hover:bg-zinc-50'" class="p-1.5 rounded-xl border cursor-pointer">
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" /></svg>
           </button>
           
@@ -34,7 +36,7 @@ interface Task {
             Jun 15 - Jun 21
           </div>
           
-          <button [class]="isDark() ? 'bg-zinc-800 border-zinc-700 hover:bg-zinc-750' : 'bg-white border-zinc-200 hover:bg-zinc-50'" class="p-1.5 rounded-xl border cursor-pointer">
+          <button [class]="isDark() ? 'bg-zinc-800 border-zinc-700 hover:bg-zinc-700' : 'bg-white border-zinc-200 hover:bg-zinc-50'" class="p-1.5 rounded-xl border cursor-pointer">
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
@@ -61,59 +63,84 @@ interface Task {
         <div class="absolute inset-y-0 left-[50%] -translate-x-1/2 w-[2px] bg-purple-500/60 pointer-events-none z-10" style="grid-column: 4;"></div>
 
         <!-- Render Task Blocks -->
-        @for (task of tasks(); track task.id) {
-          <div 
-            [style.grid-column]="task.gridColumn" 
-            [class]="isDark() ? 'bg-zinc-900 border-zinc-800 text-zinc-100' : 'bg-white border-zinc-200'"
-            class="rounded-xl border p-4 relative flex flex-col justify-between min-h-[110px] group transition-all hover:border-zinc-300 dark:hover:border-zinc-700"
-            [class.border-b-4]="true"
-            [class.border-b-amber-500]="task.theme === 'orange'"
-            [class.border-b-purple-500]="task.theme === 'purple'"
-            [class.border-b-pink-500]="task.theme === 'pink'"
-            [class.border-b-emerald-500]="task.theme === 'green'"
-            [class.border-b-blue-500]="task.theme === 'blue'">
-            
-            <!-- Card content -->
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <h4 class="font-bold text-xs group-hover:text-teal-500 transition-colors">{{ task.title }}</h4>
-                <p class="text-[9px] text-zinc-400 mt-1 font-semibold">{{ task.dateRange }}</p>
-              </div>
-              
-              <!-- Action Button (Delete) -->
-              <button (click)="taskDelete.emit(task.id)" class="p-1 rounded-md text-zinc-400 hover:text-red-500 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all opacity-0 group-hover:opacity-100 cursor-pointer select-none">
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-              </button>
+        @if (isLoading()) {
+          <!-- Shimmering Gantt Blocks -->
+          <div class="rounded-xl border border-zinc-200/30 dark:border-zinc-800/40 p-4 relative flex flex-col justify-between min-h-[110px] animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20" style="grid-column: 1 / 4;">
+            <div class="space-y-1.5">
+              <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2"></div>
+              <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-20"></div>
             </div>
-
-            <!-- Footer of card -->
-            <div class="flex items-center justify-between mt-3">
-              <!-- Priority -->
-              <span 
-                [class]="task.priority === 'High' ? 'text-red-500 bg-red-500/10 border-red-500/20' : (task.priority === 'Medium' ? 'text-yellow-550 bg-yellow-550/10 border-yellow-550/20' : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20')"
-                class="flex items-center gap-1 px-2.5 py-0.5 rounded-full border text-[8px] font-bold uppercase tracking-wider">
-                <span [class]="task.priority === 'High' ? 'bg-red-500' : (task.priority === 'Medium' ? 'bg-yellow-550' : 'bg-emerald-500')" class="w-1 h-1 rounded-full"></span>
-                {{ task.priority }}
-              </span>
-
-              <!-- Assignees stack -->
-              <div class="flex items-center -space-x-1.5 select-none">
-                @for (assignee of task.assignees.slice(0, 3); track assignee) {
-                  <div 
-                    [class]="getAvatarGrad(assignee) + (isDark() ? ' border-zinc-950' : ' border-zinc-50')" 
-                    class="w-5.5 h-5.5 rounded-full border flex items-center justify-center font-bold text-[7px] text-white">
-                    {{ assignee }}
-                  </div>
-                }
-                @if (task.assignees.length > 3) {
-                  <div class="w-5.5 h-5.5 rounded-full border bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center font-bold text-[7px] text-zinc-400" [class]="isDark() ? 'border-zinc-950' : 'border-zinc-50'">
-                    +{{ task.assignees.length - 3 }}
-                  </div>
-                }
-              </div>
-            </div>
-
+            <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-16 mt-3"></div>
           </div>
+          <div class="rounded-xl border border-zinc-200/30 dark:border-zinc-800/40 p-4 relative flex flex-col justify-between min-h-[110px] animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20" style="grid-column: 3 / 7;">
+            <div class="space-y-1.5">
+              <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3"></div>
+              <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-24"></div>
+            </div>
+            <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-16 mt-3"></div>
+          </div>
+          <div class="rounded-xl border border-zinc-200/30 dark:border-zinc-800/40 p-4 relative flex flex-col justify-between min-h-[110px] animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20" style="grid-column: 4 / 8;">
+            <div class="space-y-1.5">
+              <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2"></div>
+              <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-20"></div>
+            </div>
+            <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-16 mt-3"></div>
+          </div>
+        } @else {
+          @for (task of tasks(); track task.id) {
+            <div 
+              [style.grid-column]="task.gridColumn" 
+              [class]="isDark() ? 'bg-zinc-900 border-zinc-800 text-zinc-100' : 'bg-white border-zinc-200'"
+              class="rounded-xl border p-4 relative flex flex-col justify-between min-h-[110px] group transition-all hover:border-zinc-300 dark:hover:border-zinc-700"
+              [class.border-b-4]="true"
+              [class.border-b-amber-500]="task.theme === 'orange'"
+              [class.border-b-purple-500]="task.theme === 'purple'"
+              [class.border-b-pink-500]="task.theme === 'pink'"
+              [class.border-b-emerald-500]="task.theme === 'green'"
+              [class.border-b-blue-500]="task.theme === 'blue'">
+              
+              <!-- Card content -->
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="font-bold text-xs group-hover:text-teal-500 transition-colors">{{ task.title }}</h4>
+                  <p class="text-[9px] text-zinc-400 mt-1 font-semibold">{{ task.dateRange }}</p>
+                </div>
+                
+                <!-- Action Button (Delete) -->
+                <button (click)="deleteTask(task.id)" class="p-1 rounded-md text-zinc-400 hover:text-red-500 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all opacity-0 group-hover:opacity-100 cursor-pointer select-none">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                </button>
+              </div>
+
+              <!-- Footer of card -->
+              <div class="flex items-center justify-between mt-3">
+                <!-- Priority -->
+                <span 
+                  [class]="task.priority === 'High' ? 'text-red-500 bg-red-500/10 border-red-500/20' : (task.priority === 'Medium' ? 'text-yellow-550 bg-yellow-550/10 border-yellow-550/20' : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20')"
+                  class="flex items-center gap-1 px-2.5 py-0.5 rounded-full border text-[8px] font-bold uppercase tracking-wider">
+                  <span [class]="task.priority === 'High' ? 'bg-red-500' : (task.priority === 'Medium' ? 'bg-yellow-550' : 'bg-emerald-500')" class="w-1.5 h-1.5 rounded-full"></span>
+                  {{ task.priority }}
+                </span>
+
+                <!-- Assignees stack -->
+                <div class="flex items-center -space-x-1.5 select-none">
+                  @for (assignee of task.assignees.slice(0, 3); track assignee) {
+                    <div 
+                      [class]="getAvatarGrad(assignee) + (isDark() ? ' border-zinc-950' : ' border-zinc-50')" 
+                      class="w-5.5 h-5.5 rounded-full border flex items-center justify-center font-bold text-[7px] text-white">
+                      {{ assignee }}
+                    </div>
+                  }
+                  @if (task.assignees.length > 3) {
+                    <div class="w-5.5 h-5.5 rounded-full border bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center font-bold text-[7px] text-zinc-400" [class]="isDark() ? 'border-zinc-950' : 'border-zinc-50'">
+                      +{{ task.assignees.length - 3 }}
+                    </div>
+                  }
+                </div>
+              </div>
+
+            </div>
+          }
         }
       </div>
     </div>
@@ -121,9 +148,20 @@ interface Task {
   `
 })
 export class TimelineComponent {
-  public readonly isDark = input<boolean>(false);
-  public readonly tasks = input<Task[]>([]);
-  public readonly taskDelete = output<number>();
+  private readonly state = inject(WorkspaceService);
+  protected readonly projectsComp = inject(ProjectsComponent);
+  
+  protected readonly isDark = this.state.isDark;
+  protected readonly tasks = this.projectsComp.filteredTasks;
+
+  protected readonly isLoading = signal(true);
+  constructor() {
+    setTimeout(() => this.isLoading.set(false), 600);
+  }
+
+  protected deleteTask(id: number): void {
+    this.state.handleTaskDelete(id);
+  }
 
   protected getAvatarGrad(initials: string): string {
     const map: Record<string, string> = {

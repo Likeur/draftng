@@ -1,5 +1,6 @@
-import { Component, input, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WorkspaceService } from '../shared/services/workspace.service';
 
 interface Employee {
   id: number;
@@ -50,53 +51,78 @@ interface Employee {
               </tr>
             </thead>
             <tbody class="divide-y" [class]="isDark() ? 'divide-zinc-850' : 'divide-zinc-100'">
-              @for (emp of paginatedEmployees(); track emp.id) {
-                <tr class="hover:bg-zinc-100/10 dark:hover:bg-zinc-800/10 transition-colors">
-                  <!-- Name Card (Dynamic gradient backdrop with initials instead of images) -->
-                  <td class="p-4 flex items-center gap-3">
-                    <div [class]="emp.avatarGrad" class="w-8 h-8 rounded-full flex items-center justify-center font-display font-extrabold text-[9px] text-zinc-950 shrink-0 select-none">
-                      {{ emp.initials }}
-                    </div>
-                    <div>
-                      <p class="font-bold text-zinc-850 dark:text-zinc-50">{{ emp.name }}</p>
-                      <p class="text-[10px] text-zinc-400 font-semibold">{{ emp.email }}</p>
-                    </div>
-                  </td>
-                  
-                  <!-- Role -->
-                  <td class="p-4 font-semibold text-zinc-550 dark:text-zinc-400">{{ emp.role }}</td>
-                  
-                  <!-- Team -->
-                  <td class="p-4">
-                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-650 dark:text-zinc-350">
-                      {{ emp.team }}
-                    </span>
-                  </td>
-                  
-                  <!-- Active tasks load -->
-                  <td class="p-4 font-bold text-teal-500">{{ emp.tasksCount }} tasks</td>
-                  
-                  <!-- Status -->
-                  <td class="p-4">
-                    <span 
-                      [class]="emp.status === 'Active' ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' : (emp.status === 'On Leave' ? 'text-red-500 bg-red-500/10 border-red-500/20' : 'text-zinc-500 bg-zinc-550/10 border-zinc-500/20')"
-                      class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border text-[9px] font-bold cursor-pointer select-none clickable-scale"
-                      (click)="toggleStatus(emp.id)">
-                      <span [class]="emp.status === 'Active' ? 'bg-emerald-500' : (emp.status === 'On Leave' ? 'bg-red-500' : 'bg-zinc-500')" class="w-1.5 h-1.5 rounded-full"></span>
-                      {{ emp.status }}
-                    </span>
-                  </td>
-                  
-                  <!-- Action buttons -->
-                  <td class="p-4 text-right space-x-1.5">
-                    <button 
-                      (click)="assignTask(emp.id)" 
-                      [class]="isDark() ? 'bg-zinc-800 border-zinc-700 text-zinc-350 hover:bg-zinc-700' : 'bg-zinc-100 border-zinc-200 text-zinc-850 hover:bg-zinc-200'"
-                      class="px-2.5 py-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-colors clickable-scale">
-                      Assign
-                    </button>
-                  </td>
-                </tr>
+              @if (isLoading()) {
+                @for (dummy of dummyArray; track $index) {
+                  <tr class="animate-pulse">
+                    <!-- Member shimmer -->
+                    <td class="p-4 flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 shrink-0"></div>
+                      <div class="space-y-1.5 w-24">
+                        <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+                        <div class="h-2 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3"></div>
+                      </div>
+                    </td>
+                    <!-- Role shimmer -->
+                    <td class="p-4"><div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-16"></div></td>
+                    <!-- Team shimmer -->
+                    <td class="p-4"><div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-12"></div></td>
+                    <!-- Active Tasks shimmer -->
+                    <td class="p-4"><div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-10"></div></td>
+                    <!-- Status shimmer -->
+                    <td class="p-4"><div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-14"></div></td>
+                    <!-- Actions shimmer -->
+                    <td class="p-4 text-right"><div class="h-6 bg-zinc-200 dark:bg-zinc-800 rounded w-12 ml-auto"></div></td>
+                  </tr>
+                }
+              } @else {
+                @for (emp of paginatedEmployees(); track emp.id) {
+                  <tr class="hover:bg-zinc-100/10 dark:hover:bg-zinc-800/10 transition-colors">
+                    <!-- Name Card (Dynamic gradient backdrop with initials instead of images) -->
+                    <td class="p-4 flex items-center gap-3">
+                      <div [class]="emp.avatarGrad" class="w-8 h-8 rounded-full flex items-center justify-center font-display font-extrabold text-[9px] text-zinc-950 shrink-0 select-none">
+                        {{ emp.initials }}
+                      </div>
+                      <div>
+                        <p class="font-bold text-zinc-800 dark:text-zinc-50">{{ emp.name }}</p>
+                        <p class="text-[10px] text-zinc-400 font-semibold">{{ emp.email }}</p>
+                      </div>
+                    </td>
+                    
+                    <!-- Role -->
+                    <td class="p-4 font-semibold text-zinc-550 dark:text-zinc-400">{{ emp.role }}</td>
+                    
+                    <!-- Team -->
+                    <td class="p-4">
+                      <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-650 dark:text-zinc-350">
+                        {{ emp.team }}
+                      </span>
+                    </td>
+                    
+                    <!-- Active tasks load -->
+                    <td class="p-4 font-bold text-teal-500">{{ emp.tasksCount }} tasks</td>
+                    
+                    <!-- Status -->
+                    <td class="p-4">
+                      <span 
+                        [class]="emp.status === 'Active' ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' : (emp.status === 'On Leave' ? 'text-red-500 bg-red-500/10 border-red-500/20' : 'text-zinc-500 bg-zinc-550/10 border-zinc-500/20')"
+                        class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border text-[9px] font-bold cursor-pointer select-none clickable-scale"
+                        (click)="toggleStatus(emp.id)">
+                        <span [class]="emp.status === 'Active' ? 'bg-emerald-500' : (emp.status === 'On Leave' ? 'bg-red-500' : 'bg-zinc-500')" class="w-1.5 h-1.5 rounded-full"></span>
+                        {{ emp.status }}
+                      </span>
+                    </td>
+                    
+                    <!-- Action buttons -->
+                    <td class="p-4 text-right space-x-1.5">
+                      <button 
+                        (click)="assignTask(emp.id)" 
+                        [class]="isDark() ? 'bg-zinc-800 border-zinc-700 text-zinc-350 hover:bg-zinc-700' : 'bg-zinc-100 border-zinc-200 text-zinc-850 hover:bg-zinc-200'"
+                        class="px-2.5 py-1.5 rounded-lg border text-[10px] font-bold cursor-pointer transition-colors clickable-scale">
+                        Assign
+                      </button>
+                    </td>
+                  </tr>
+                }
               }
             </tbody>
           </table>
@@ -131,7 +157,14 @@ interface Employee {
   `
 })
 export class EmployeeComponent {
-  public readonly isDark = input<boolean>(false);
+  private readonly state = inject(WorkspaceService);
+  protected readonly isDark = this.state.isDark;
+
+  protected readonly isLoading = signal(true);
+  protected readonly dummyArray = Array.from({ length: 5 });
+  constructor() {
+    setTimeout(() => this.isLoading.set(false), 600);
+  }
 
   // Pagination parameters
   protected readonly currentPage = signal(1);

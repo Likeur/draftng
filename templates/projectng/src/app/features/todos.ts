@@ -1,7 +1,8 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DropdownComponent } from '../shared/components/dropdown';
+import { WorkspaceService } from '../shared/services/workspace.service';
 
 interface TodoTask {
   id: number;
@@ -51,64 +52,79 @@ interface TodoTask {
               <span class="w-2 h-2 rounded-full bg-zinc-400"></span>
               <h3 class="font-bold text-xs">Todo</h3>
             </div>
-            <span class="text-[9px] bg-zinc-100 dark:bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded font-bold">
+            <span class="text-[9px] bg-zinc-100 dark:bg-zinc-800 text-zinc-455 px-1.5 py-0.5 rounded font-bold">
               {{ getTasksByColumn('Todo').length }}
             </span>
           </div>
 
           <!-- Cards Stack -->
           <div class="flex flex-col gap-3 flex-grow">
-            @for (task of getTasksByColumn('Todo'); track task.id) {
-              @if (dragOverTaskId() === task.id) {
-                <div class="border-t-2 border-dashed border-zinc-400 dark:border-zinc-600 my-1 animate-pulse"></div>
-              }
-              <div 
-                draggable="true"
-                (dragstart)="onDragStart($event, task)"
-                (dragover)="onDragOverCard($event, task)"
-                (dragleave)="onDragLeaveCard($event)"
-                (dragend)="onDragEnd()"
-                [class]="isDark() ? 'border-zinc-850/60 hover:border-zinc-700' : 'border-zinc-100 hover:border-zinc-300'"
-                [class.bg-zinc-950]="isDark() && dragOverTaskId() !== task.id"
-                [class.bg-zinc-50]="!isDark() && dragOverTaskId() !== task.id"
-                [class.bg-zinc-100]="dragOverTaskId() === task.id && !isDark()"
-                [class.bg-zinc-800]="dragOverTaskId() === task.id && isDark()"
-                class="p-4 pl-5 rounded-xl border flex flex-col justify-between gap-3 cursor-grab active:cursor-grabbing transition-all select-none group relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1.5" [class]="getThemeBgClass(task.theme)"></div>
-                
-                <div class="space-y-1">
-                  <div class="flex items-center gap-1.5">
-                    <!-- 6-dot drag handle icon -->
-                    <svg class="w-3 h-3.5 text-zinc-400 dark:text-zinc-600 cursor-grab active:cursor-grabbing flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                      <circle cx="8" cy="6" r="2" />
-                      <circle cx="8" cy="12" r="2" />
-                      <circle cx="8" cy="18" r="2" />
-                      <circle cx="16" cy="6" r="2" />
-                      <circle cx="16" cy="12" r="2" />
-                      <circle cx="16" cy="18" r="2" />
-                    </svg>
-                    <h4 class="font-bold text-xs group-hover:text-teal-500 transition-colors">{{ task.title }}</h4>
+            @if (isLoading()) {
+              @for (dummy of [1, 2]; track $index) {
+                <div class="p-4 pl-5 rounded-xl border border-zinc-200/30 dark:border-zinc-850/40 bg-zinc-50 dark:bg-zinc-950/20 min-h-[105px] flex flex-col justify-between gap-3 animate-pulse">
+                  <div class="space-y-2">
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4"></div>
+                    <div class="h-2 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
                   </div>
-                  <p class="text-[9px] text-zinc-450 leading-relaxed font-semibold">{{ task.description }}</p>
+                  <div class="flex justify-between items-center">
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-10"></div>
+                    <div class="w-5 h-5 rounded-full bg-zinc-200 dark:bg-zinc-800"></div>
+                  </div>
                 </div>
-
-                <div class="flex items-center justify-between mt-1">
-                  <span 
-                    [class]="task.priority === 'High' ? 'text-red-500 bg-red-500/10 border-red-500/20' : (task.priority === 'Medium' ? 'text-yellow-600 bg-yellow-500/10 border-yellow-500/20' : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20')"
-                    class="px-2 py-0.5 rounded text-[8px] font-bold border uppercase tracking-wider">
-                    {{ task.priority }}
-                  </span>
+              }
+            } @else {
+              @for (task of getTasksByColumn('Todo'); track task.id) {
+                @if (dragOverTaskId() === task.id) {
+                  <div class="border-t-2 border-dashed border-zinc-400 dark:border-zinc-600 my-1 animate-pulse"></div>
+                }
+                <div 
+                  draggable="true"
+                  (dragstart)="onDragStart($event, task)"
+                  (dragover)="onDragOverCard($event, task)"
+                  (dragleave)="onDragLeaveCard($event)"
+                  (dragend)="onDragEnd()"
+                  [class]="isDark() ? 'border-zinc-850/60 hover:border-zinc-700' : 'border-zinc-100 hover:border-zinc-300'"
+                  [class.bg-zinc-950]="isDark() && dragOverTaskId() !== task.id"
+                  [class.bg-zinc-50]="!isDark() && dragOverTaskId() !== task.id"
+                  [class.bg-zinc-100]="dragOverTaskId() === task.id && !isDark()"
+                  [class.bg-zinc-800]="dragOverTaskId() === task.id && isDark()"
+                  class="p-4 pl-5 rounded-xl border flex flex-col justify-between gap-3 cursor-grab active:cursor-grabbing transition-all select-none group relative overflow-hidden">
+                  <div class="absolute left-0 top-0 bottom-0 w-1.5" [class]="getThemeBgClass(task.theme)"></div>
                   
-                  <span [class]="task.assigneeGrad" class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[7px] text-white">
-                    {{ task.assignee }}
-                  </span>
-                </div>
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-1.5">
+                      <!-- 6-dot drag handle icon -->
+                      <svg class="w-3 h-3.5 text-zinc-400 dark:text-zinc-600 cursor-grab active:cursor-grabbing flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <circle cx="8" cy="6" r="2" />
+                        <circle cx="8" cy="12" r="2" />
+                        <circle cx="8" cy="18" r="2" />
+                        <circle cx="16" cy="6" r="2" />
+                        <circle cx="16" cy="12" r="2" />
+                        <circle cx="16" cy="18" r="2" />
+                      </svg>
+                      <h4 class="font-bold text-xs group-hover:text-teal-500 transition-colors">{{ task.title }}</h4>
+                    </div>
+                    <p class="text-[9px] text-zinc-455 leading-relaxed font-semibold">{{ task.description }}</p>
+                  </div>
 
-              </div>
-            } @empty {
-              <div class="flex-grow flex items-center justify-center border border-dashed rounded-xl" [class]="isDark() ? 'border-zinc-800 text-zinc-600' : 'border-zinc-200 text-zinc-400'">
-                <p class="text-[10px] font-semibold">Drag tasks here</p>
-              </div>
+                  <div class="flex items-center justify-between mt-1">
+                    <span 
+                      [class]="task.priority === 'High' ? 'text-red-500 bg-red-500/10 border-red-500/20' : (task.priority === 'Medium' ? 'text-yellow-600 bg-yellow-500/10 border-yellow-500/20' : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20')"
+                      class="px-2 py-0.5 rounded text-[8px] font-bold border uppercase tracking-wider">
+                      {{ task.priority }}
+                    </span>
+                    
+                    <span [class]="task.assigneeGrad" class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[7px] text-white">
+                      {{ task.assignee }}
+                    </span>
+                  </div>
+
+                </div>
+              } @empty {
+                <div class="flex-grow flex items-center justify-center border border-dashed rounded-xl" [class]="isDark() ? 'border-zinc-800 text-zinc-600' : 'border-zinc-200 text-zinc-400'">
+                  <p class="text-[10px] font-semibold">Drag tasks here</p>
+                </div>
+              }
             }
           </div>
         </div>
@@ -125,64 +141,79 @@ interface TodoTask {
               <span class="w-2 h-2 rounded-full bg-amber-500"></span>
               <h3 class="font-bold text-xs">In Progress</h3>
             </div>
-            <span class="text-[9px] bg-zinc-100 dark:bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded font-bold">
+            <span class="text-[9px] bg-zinc-100 dark:bg-zinc-800 text-zinc-455 px-1.5 py-0.5 rounded font-bold">
               {{ getTasksByColumn('In Progress').length }}
             </span>
           </div>
 
           <!-- Cards Stack -->
           <div class="flex flex-col gap-3 flex-grow">
-            @for (task of getTasksByColumn('In Progress'); track task.id) {
-              @if (dragOverTaskId() === task.id) {
-                <div class="border-t-2 border-dashed border-zinc-400 dark:border-zinc-600 my-1 animate-pulse"></div>
-              }
-              <div 
-                draggable="true"
-                (dragstart)="onDragStart($event, task)"
-                (dragover)="onDragOverCard($event, task)"
-                (dragleave)="onDragLeaveCard($event)"
-                (dragend)="onDragEnd()"
-                [class]="isDark() ? 'border-zinc-850/60 hover:border-zinc-700' : 'border-zinc-100 hover:border-zinc-300'"
-                [class.bg-zinc-950]="isDark() && dragOverTaskId() !== task.id"
-                [class.bg-zinc-50]="!isDark() && dragOverTaskId() !== task.id"
-                [class.bg-zinc-100]="dragOverTaskId() === task.id && !isDark()"
-                [class.bg-zinc-800]="dragOverTaskId() === task.id && isDark()"
-                class="p-4 pl-5 rounded-xl border flex flex-col justify-between gap-3 cursor-grab active:cursor-grabbing transition-all select-none group relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1.5" [class]="getThemeBgClass(task.theme)"></div>
-                
-                <div class="space-y-1">
-                  <div class="flex items-center gap-1.5">
-                    <!-- 6-dot drag handle icon -->
-                    <svg class="w-3 h-3.5 text-zinc-400 dark:text-zinc-600 cursor-grab active:cursor-grabbing flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                      <circle cx="8" cy="6" r="2" />
-                      <circle cx="8" cy="12" r="2" />
-                      <circle cx="8" cy="18" r="2" />
-                      <circle cx="16" cy="6" r="2" />
-                      <circle cx="16" cy="12" r="2" />
-                      <circle cx="16" cy="18" r="2" />
-                    </svg>
-                    <h4 class="font-bold text-xs group-hover:text-teal-500 transition-colors">{{ task.title }}</h4>
+            @if (isLoading()) {
+              @for (dummy of [1]; track $index) {
+                <div class="p-4 pl-5 rounded-xl border border-zinc-200/30 dark:border-zinc-850/40 bg-zinc-50 dark:bg-zinc-950/20 min-h-[105px] flex flex-col justify-between gap-3 animate-pulse">
+                  <div class="space-y-2">
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4"></div>
+                    <div class="h-2 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
                   </div>
-                  <p class="text-[9px] text-zinc-450 leading-relaxed font-semibold">{{ task.description }}</p>
+                  <div class="flex justify-between items-center">
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-10"></div>
+                    <div class="w-5 h-5 rounded-full bg-zinc-200 dark:bg-zinc-800"></div>
+                  </div>
                 </div>
-
-                <div class="flex items-center justify-between mt-1">
-                  <span 
-                    [class]="task.priority === 'High' ? 'text-red-500 bg-red-500/10 border-red-500/20' : (task.priority === 'Medium' ? 'text-yellow-600 bg-yellow-500/10 border-yellow-500/20' : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20')"
-                    class="px-2 py-0.5 rounded text-[8px] font-bold border uppercase tracking-wider">
-                    {{ task.priority }}
-                  </span>
+              }
+            } @else {
+              @for (task of getTasksByColumn('In Progress'); track task.id) {
+                @if (dragOverTaskId() === task.id) {
+                  <div class="border-t-2 border-dashed border-zinc-400 dark:border-zinc-600 my-1 animate-pulse"></div>
+                }
+                <div 
+                  draggable="true"
+                  (dragstart)="onDragStart($event, task)"
+                  (dragover)="onDragOverCard($event, task)"
+                  (dragleave)="onDragLeaveCard($event)"
+                  (dragend)="onDragEnd()"
+                  [class]="isDark() ? 'border-zinc-850/60 hover:border-zinc-700' : 'border-zinc-100 hover:border-zinc-300'"
+                  [class.bg-zinc-950]="isDark() && dragOverTaskId() !== task.id"
+                  [class.bg-zinc-50]="!isDark() && dragOverTaskId() !== task.id"
+                  [class.bg-zinc-100]="dragOverTaskId() === task.id && !isDark()"
+                  [class.bg-zinc-800]="dragOverTaskId() === task.id && isDark()"
+                  class="p-4 pl-5 rounded-xl border flex flex-col justify-between gap-3 cursor-grab active:cursor-grabbing transition-all select-none group relative overflow-hidden">
+                  <div class="absolute left-0 top-0 bottom-0 w-1.5" [class]="getThemeBgClass(task.theme)"></div>
                   
-                  <span [class]="task.assigneeGrad" class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[7px] text-white">
-                    {{ task.assignee }}
-                  </span>
-                </div>
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-1.5">
+                      <!-- 6-dot drag handle icon -->
+                      <svg class="w-3 h-3.5 text-zinc-400 dark:text-zinc-600 cursor-grab active:cursor-grabbing flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <circle cx="8" cy="6" r="2" />
+                        <circle cx="8" cy="12" r="2" />
+                        <circle cx="8" cy="18" r="2" />
+                        <circle cx="16" cy="6" r="2" />
+                        <circle cx="16" cy="12" r="2" />
+                        <circle cx="16" cy="18" r="2" />
+                      </svg>
+                      <h4 class="font-bold text-xs group-hover:text-teal-500 transition-colors">{{ task.title }}</h4>
+                    </div>
+                    <p class="text-[9px] text-zinc-455 leading-relaxed font-semibold">{{ task.description }}</p>
+                  </div>
 
-              </div>
-            } @empty {
-              <div class="flex-grow flex items-center justify-center border border-dashed rounded-xl" [class]="isDark() ? 'border-zinc-800 text-zinc-600' : 'border-zinc-200 text-zinc-400'">
-                <p class="text-[10px] font-semibold">Drag tasks here</p>
-              </div>
+                  <div class="flex items-center justify-between mt-1">
+                    <span 
+                      [class]="task.priority === 'High' ? 'text-red-500 bg-red-500/10 border-red-500/20' : (task.priority === 'Medium' ? 'text-yellow-600 bg-yellow-500/10 border-yellow-500/20' : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20')"
+                      class="px-2 py-0.5 rounded text-[8px] font-bold border uppercase tracking-wider">
+                      {{ task.priority }}
+                    </span>
+                    
+                    <span [class]="task.assigneeGrad" class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[7px] text-white">
+                      {{ task.assignee }}
+                    </span>
+                  </div>
+
+                </div>
+              } @empty {
+                <div class="flex-grow flex items-center justify-center border border-dashed rounded-xl" [class]="isDark() ? 'border-zinc-800 text-zinc-600' : 'border-zinc-200 text-zinc-400'">
+                  <p class="text-[10px] font-semibold">Drag tasks here</p>
+                </div>
+              }
             }
           </div>
         </div>
@@ -199,64 +230,79 @@ interface TodoTask {
               <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
               <h3 class="font-bold text-xs">Done</h3>
             </div>
-            <span class="text-[9px] bg-zinc-100 dark:bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded font-bold">
+            <span class="text-[9px] bg-zinc-100 dark:bg-zinc-800 text-zinc-455 px-1.5 py-0.5 rounded font-bold">
               {{ getTasksByColumn('Done').length }}
             </span>
           </div>
 
           <!-- Cards Stack -->
           <div class="flex flex-col gap-3 flex-grow">
-            @for (task of getTasksByColumn('Done'); track task.id) {
-              @if (dragOverTaskId() === task.id) {
-                <div class="border-t-2 border-dashed border-zinc-400 dark:border-zinc-600 my-1 animate-pulse"></div>
-              }
-              <div 
-                draggable="true"
-                (dragstart)="onDragStart($event, task)"
-                (dragover)="onDragOverCard($event, task)"
-                (dragleave)="onDragLeaveCard($event)"
-                (dragend)="onDragEnd()"
-                [class]="isDark() ? 'border-zinc-850/60 hover:border-zinc-700' : 'border-zinc-100 hover:border-zinc-300'"
-                [class.bg-zinc-950]="isDark() && dragOverTaskId() !== task.id"
-                [class.bg-zinc-50]="!isDark() && dragOverTaskId() !== task.id"
-                [class.bg-zinc-100]="dragOverTaskId() === task.id && !isDark()"
-                [class.bg-zinc-800]="dragOverTaskId() === task.id && isDark()"
-                class="p-4 pl-5 rounded-xl border flex flex-col justify-between gap-3 cursor-grab active:cursor-grabbing transition-all select-none group relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1.5" [class]="getThemeBgClass(task.theme)"></div>
-                
-                <div class="space-y-1">
-                  <div class="flex items-center gap-1.5">
-                    <!-- 6-dot drag handle icon -->
-                    <svg class="w-3 h-3.5 text-zinc-400 dark:text-zinc-600 cursor-grab active:cursor-grabbing flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                      <circle cx="8" cy="6" r="2" />
-                      <circle cx="8" cy="12" r="2" />
-                      <circle cx="8" cy="18" r="2" />
-                      <circle cx="16" cy="6" r="2" />
-                      <circle cx="16" cy="12" r="2" />
-                      <circle cx="16" cy="18" r="2" />
-                    </svg>
-                    <h4 class="font-bold text-xs group-hover:text-teal-500 transition-colors">{{ task.title }}</h4>
+            @if (isLoading()) {
+              @for (dummy of [1]; track $index) {
+                <div class="p-4 pl-5 rounded-xl border border-zinc-200/30 dark:border-zinc-850/40 bg-zinc-50 dark:bg-zinc-950/20 min-h-[105px] flex flex-col justify-between gap-3 animate-pulse">
+                  <div class="space-y-2">
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4"></div>
+                    <div class="h-2 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
                   </div>
-                  <p class="text-[9px] text-zinc-450 leading-relaxed font-semibold">{{ task.description }}</p>
+                  <div class="flex justify-between items-center">
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-10"></div>
+                    <div class="w-5 h-5 rounded-full bg-zinc-200 dark:bg-zinc-800"></div>
+                  </div>
                 </div>
-
-                <div class="flex items-center justify-between mt-1">
-                  <span 
-                    [class]="task.priority === 'High' ? 'text-red-500 bg-red-500/10 border-red-500/20' : (task.priority === 'Medium' ? 'text-yellow-600 bg-yellow-500/10 border-yellow-500/20' : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20')"
-                    class="px-2 py-0.5 rounded text-[8px] font-bold border uppercase tracking-wider">
-                    {{ task.priority }}
-                  </span>
+              }
+            } @else {
+              @for (task of getTasksByColumn('Done'); track task.id) {
+                @if (dragOverTaskId() === task.id) {
+                  <div class="border-t-2 border-dashed border-zinc-400 dark:border-zinc-600 my-1 animate-pulse"></div>
+                }
+                <div 
+                  draggable="true"
+                  (dragstart)="onDragStart($event, task)"
+                  (dragover)="onDragOverCard($event, task)"
+                  (dragleave)="onDragLeaveCard($event)"
+                  (dragend)="onDragEnd()"
+                  [class]="isDark() ? 'border-zinc-850/60 hover:border-zinc-700' : 'border-zinc-100 hover:border-zinc-300'"
+                  [class.bg-zinc-950]="isDark() && dragOverTaskId() !== task.id"
+                  [class.bg-zinc-50]="!isDark() && dragOverTaskId() !== task.id"
+                  [class.bg-zinc-100]="dragOverTaskId() === task.id && !isDark()"
+                  [class.bg-zinc-800]="dragOverTaskId() === task.id && isDark()"
+                  class="p-4 pl-5 rounded-xl border flex flex-col justify-between gap-3 cursor-grab active:cursor-grabbing transition-all select-none group relative overflow-hidden">
+                  <div class="absolute left-0 top-0 bottom-0 w-1.5" [class]="getThemeBgClass(task.theme)"></div>
                   
-                  <span [class]="task.assigneeGrad" class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[7px] text-white">
-                    {{ task.assignee }}
-                  </span>
-                </div>
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-1.5">
+                      <!-- 6-dot drag handle icon -->
+                      <svg class="w-3 h-3.5 text-zinc-400 dark:text-zinc-600 cursor-grab active:cursor-grabbing flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <circle cx="8" cy="6" r="2" />
+                        <circle cx="8" cy="12" r="2" />
+                        <circle cx="8" cy="18" r="2" />
+                        <circle cx="16" cy="6" r="2" />
+                        <circle cx="16" cy="12" r="2" />
+                        <circle cx="16" cy="18" r="2" />
+                      </svg>
+                      <h4 class="font-bold text-xs group-hover:text-teal-500 transition-colors">{{ task.title }}</h4>
+                    </div>
+                    <p class="text-[9px] text-zinc-455 leading-relaxed font-semibold">{{ task.description }}</p>
+                  </div>
 
-              </div>
-            } @empty {
-              <div class="flex-grow flex items-center justify-center border border-dashed rounded-xl" [class]="isDark() ? 'border-zinc-800 text-zinc-600' : 'border-zinc-200 text-zinc-400'">
-                <p class="text-[10px] font-semibold">Drag tasks here</p>
-              </div>
+                  <div class="flex items-center justify-between mt-1">
+                    <span 
+                      [class]="task.priority === 'High' ? 'text-red-500 bg-red-500/10 border-red-500/20' : (task.priority === 'Medium' ? 'text-yellow-600 bg-yellow-500/10 border-yellow-500/20' : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20')"
+                      class="px-2 py-0.5 rounded text-[8px] font-bold border uppercase tracking-wider">
+                      {{ task.priority }}
+                    </span>
+                    
+                    <span [class]="task.assigneeGrad" class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[7px] text-white">
+                      {{ task.assignee }}
+                    </span>
+                  </div>
+
+                </div>
+              } @empty {
+                <div class="flex-grow flex items-center justify-center border border-dashed rounded-xl" [class]="isDark() ? 'border-zinc-800 text-zinc-600' : 'border-zinc-200 text-zinc-400'">
+                  <p class="text-[10px] font-semibold">Drag tasks here</p>
+                </div>
+              }
             }
           </div>
         </div>
@@ -341,7 +387,13 @@ interface TodoTask {
   `
 })
 export class TodosComponent {
-  public readonly isDark = input<boolean>(false);
+  private readonly state = inject(WorkspaceService);
+  protected readonly isDark = this.state.isDark;
+
+  protected readonly isLoading = signal(true);
+  constructor() {
+    setTimeout(() => this.isLoading.set(false), 600);
+  }
 
   protected getThemeBgClass(theme: string): string {
     switch (theme) {

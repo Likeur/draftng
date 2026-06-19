@@ -1,5 +1,6 @@
-import { Component, input, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WorkspaceService } from '../shared/services/workspace.service';
 
 interface InboxItem {
   id: number;
@@ -101,7 +102,7 @@ interface MessageReply {
                       <span class="text-[8px] text-zinc-400 font-semibold">{{ reply.timestamp }}</span>
                     </div>
                     <div 
-                      [class]="reply.sender === 'jacksimba218269' ? (isDark() ? 'bg-teal-500/10 text-teal-200 border-teal-500/20' : 'bg-teal-50 text-teal-950 border-teal-100') : (isDark() ? 'bg-zinc-950 text-zinc-250 border-zinc-850' : 'bg-zinc-50 text-zinc-850 border-zinc-100')" 
+                      [class]="reply.sender === 'jacksimba218269' ? (isDark() ? 'bg-teal-500/10 text-teal-200 border-teal-500/20' : 'bg-teal-50 text-teal-950 border-teal-100') : (isDark() ? 'bg-zinc-950 text-zinc-250 border-zinc-850' : 'bg-zinc-50 text-zinc-800 border-zinc-100')" 
                       class="p-3 rounded-xl border text-xs leading-relaxed font-semibold">
                       {{ reply.details }}
                     </div>
@@ -139,64 +140,80 @@ interface MessageReply {
       } @else {
         <!-- Inbox Items List (Flat layout, shadow-free, subtle dark borders) -->
         <section [class]="isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'" class="border rounded-2xl overflow-hidden divide-y" [class.divide-zinc-850]="isDark()" [class.divide-zinc-100]="!isDark()">
-          @for (item of filteredItems(); track item.id; let idx = $index) {
-            
-            <div 
-              (click)="selectConversation(item)"
-              [class.bg-teal-500/[0.02]]="item.isUnread" 
-              class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors hover:bg-zinc-100/10 dark:hover:bg-zinc-800/10 cursor-pointer animate-blur-slide"
-              [style.animation-delay]="(idx * 60) + 'ms'">
+          @if (isLoading()) {
+            @for (dummy of [1, 2, 3]; track $index) {
+              <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-pulse bg-zinc-50/10 dark:bg-zinc-950/10">
+                <div class="flex items-start gap-3.5 w-full">
+                  <div class="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 shrink-0"></div>
+                  <div class="space-y-2 w-3/4">
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/3"></div>
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+                    <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-20"></div>
+                  </div>
+                </div>
+                <div class="h-8 bg-zinc-200 dark:bg-zinc-800 rounded w-16 shrink-0 self-end sm:self-center"></div>
+              </div>
+            }
+          } @else {
+            @for (item of filteredItems(); track item.id; let idx = $index) {
               
-              <div class="flex items-start gap-3.5">
-                <!-- Avatar with gradient -->
-                <div 
-                  [class]="item.senderGrad" 
-                  class="w-8 h-8 rounded-full flex items-center justify-center font-display font-extrabold text-[9px] text-white shrink-0 select-none">
-                  {{ item.senderInitials }}
-                </div>
+              <div 
+                (click)="selectConversation(item)"
+                [class.bg-teal-500/[0.02]]="item.isUnread" 
+                class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors hover:bg-zinc-100/10 dark:hover:bg-zinc-800/10 cursor-pointer animate-blur-slide"
+                [style.animation-delay]="(idx * 60) + 'ms'">
                 
-                <div class="space-y-1">
-                  <p class="text-xs">
-                    <span class="font-bold text-zinc-900 dark:text-zinc-50">{{ item.sender }}</span>
-                    <span class="text-zinc-400 font-medium ml-1.5">{{ item.action }}</span>
-                    <span class="font-bold text-teal-500 ml-1.5 select-all cursor-pointer">#{{ item.taskTitle }}</span>
-                  </p>
-                  <p class="text-xs text-zinc-500 leading-relaxed max-w-2xl font-semibold">
-                    "{{ item.details }}"
-                  </p>
-                  <span class="text-[9px] text-zinc-400 block font-semibold pt-1">{{ item.timestamp }}</span>
+                <div class="flex items-start gap-3.5">
+                  <!-- Avatar with gradient -->
+                  <div 
+                    [class]="item.senderGrad" 
+                    class="w-8 h-8 rounded-full flex items-center justify-center font-display font-extrabold text-[9px] text-white shrink-0 select-none">
+                    {{ item.senderInitials }}
+                  </div>
+                  
+                  <div class="space-y-1">
+                    <p class="text-xs">
+                      <span class="font-bold text-zinc-900 dark:text-zinc-50">{{ item.sender }}</span>
+                      <span class="text-zinc-400 font-medium ml-1.5">{{ item.action }}</span>
+                      <span class="font-bold text-teal-500 ml-1.5 select-all cursor-pointer">#{{ item.taskTitle }}</span>
+                    </p>
+                    <p class="text-xs text-zinc-500 leading-relaxed max-w-2xl font-semibold">
+                      "{{ item.details }}"
+                    </p>
+                    <span class="text-[9px] text-zinc-400 block font-semibold pt-1">{{ item.timestamp }}</span>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Action controls -->
-              <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                @if (item.isUnread) {
+                <!-- Action controls -->
+                <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                  @if (item.isUnread) {
+                    <button 
+                      (click)="$event.stopPropagation(); markAsRead(item.id)"
+                      [class]="isDark() ? 'bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-zinc-200' : 'bg-zinc-100 border-zinc-200 hover:bg-zinc-250 text-zinc-800'"
+                      class="px-3 py-1.5 rounded-lg border text-[10px] font-bold transition-colors cursor-pointer select-none clickable-scale">
+                      Mark Read
+                    </button>
+                  }
                   <button 
-                    (click)="$event.stopPropagation(); markAsRead(item.id)"
-                    [class]="isDark() ? 'bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-zinc-200' : 'bg-zinc-100 border-zinc-200 hover:bg-zinc-250 text-zinc-855'"
-                    class="px-3 py-1.5 rounded-lg border text-[10px] font-bold transition-colors cursor-pointer select-none clickable-scale">
-                    Mark Read
+                    (click)="$event.stopPropagation(); archiveItem(item.id)"
+                    [class]="isDark() ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'"
+                    class="p-1.5 rounded-lg cursor-pointer transition-colors clickable-scale select-none">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                    </svg>
                   </button>
-                }
-                <button 
-                  (click)="$event.stopPropagation(); archiveItem(item.id)"
-                  [class]="isDark() ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'"
-                  class="p-1.5 rounded-lg cursor-pointer transition-colors clickable-scale select-none">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                  </svg>
-                </button>
+                </div>
+
               </div>
 
-            </div>
-
-          } @empty {
-            <div class="p-12 text-center flex flex-col items-center justify-center gap-2 text-zinc-500 font-semibold text-xs select-none">
-              <svg class="w-8 h-8 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p>Your inbox is completely clean.</p>
-            </div>
+            } @empty {
+              <div class="p-12 text-center flex flex-col items-center justify-center gap-2 text-zinc-500 font-semibold text-xs select-none">
+                <svg class="w-8 h-8 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p>Your inbox is completely clean.</p>
+              </div>
+            }
           }
         </section>
       }
@@ -205,7 +222,13 @@ interface MessageReply {
   `
 })
 export class InboxComponent {
-  public readonly isDark = input<boolean>(false);
+  private readonly state = inject(WorkspaceService);
+  protected readonly isDark = this.state.isDark;
+
+  protected readonly isLoading = signal(true);
+  constructor() {
+    setTimeout(() => this.isLoading.set(false), 600);
+  }
 
   protected readonly inboxFilter = signal<'unread' | 'all'>('unread');
   protected readonly selectedItem = signal<InboxItem | null>(null);

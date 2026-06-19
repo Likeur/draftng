@@ -1,6 +1,7 @@
-import { Component, input, computed, signal, PLATFORM_ID, inject, ElementRef, ViewChild, AfterViewInit, effect } from '@angular/core';
+import { Component, computed, signal, PLATFORM_ID, inject, ElementRef, ViewChild, AfterViewInit, effect } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
+import { WorkspaceService } from '../shared/services/workspace.service';
 
 Chart.register(...registerables);
 
@@ -30,20 +31,35 @@ interface PlanningItem {
       
       <!-- Grid Cards (Subtle dark borders, flat styling) -->
       <section class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        @for (metric of metrics(); track metric.label; let i = $index) {
-          <div 
-            [class]="isDark() ? 'bg-zinc-900 border-zinc-850 text-zinc-100' : 'bg-white border-zinc-200 text-zinc-855'" 
-            class="p-5 rounded-2xl border shadow-none animate-blur-slide"
-            [style.animation-delay]="(i * 60) + 'ms'">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-[10px] font-bold text-zinc-400 select-none">{{ metric.label }}</span>
-              <span [class]="metric.badgeClass" class="px-2 py-0.5 rounded text-[8px] font-bold">
-                {{ metric.status }}
-              </span>
+        @if (isLoading()) {
+          @for (dummy of [1, 2, 3, 4]; track $index) {
+            <div 
+              [class]="isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'" 
+              class="p-5 rounded-2xl border shadow-none animate-pulse flex flex-col justify-between h-28">
+              <div class="flex items-center justify-between">
+                <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/3"></div>
+                <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-8"></div>
+              </div>
+              <div class="h-6 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2"></div>
+              <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3"></div>
             </div>
-            <p class="font-display font-extrabold text-2xl tracking-tight">{{ metric.value }}</p>
-            <p class="text-[9px] text-zinc-400 mt-1 font-semibold">Active tasks count</p>
-          </div>
+          }
+        } @else {
+          @for (metric of metrics(); track metric.label; let i = $index) {
+            <div 
+              [class]="isDark() ? 'bg-zinc-900 border-zinc-850 text-zinc-100' : 'bg-white border-zinc-200 text-zinc-800'" 
+              class="p-5 rounded-2xl border shadow-none animate-blur-slide"
+              [style.animation-delay]="(i * 60) + 'ms'">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] font-bold text-zinc-400 select-none">{{ metric.label }}</span>
+                <span [class]="metric.badgeClass" class="px-2 py-0.5 rounded text-[8px] font-bold">
+                  {{ metric.status }}
+                </span>
+              </div>
+              <p class="font-display font-extrabold text-2xl tracking-tight">{{ metric.value }}</p>
+              <p class="text-[9px] text-zinc-400 mt-1 font-semibold">Active tasks count</p>
+            </div>
+          }
         }
       </section>
 
@@ -60,14 +76,31 @@ interface PlanningItem {
               <h3 class="font-bold text-xs text-zinc-400">Completion Velocity</h3>
               <p class="text-[9px] text-zinc-400 mt-0.5 font-semibold">Real-time work resolution trends.</p>
             </div>
-            <span class="text-[10px] bg-teal-500/10 text-teal-500 border border-teal-500/20 px-2 py-0.5 rounded-full font-bold select-none cursor-pointer clickable-scale">
-              Chart.js Active
-            </span>
           </div>
 
           <!-- Chart.js canvas wrapper -->
           <div class="h-44 w-full relative">
-            <canvas #velocityChartCanvas></canvas>
+            @if (isChartLoading()) {
+              <!-- Skeleton Loader for Chart -->
+              <div class="absolute inset-0 flex flex-col justify-between animate-pulse pb-6">
+                <!-- Grid line skeletons -->
+                <div class="h-px bg-zinc-200 dark:bg-zinc-800 w-full"></div>
+                <div class="h-px bg-zinc-200 dark:bg-zinc-800 w-full"></div>
+                <div class="h-px bg-zinc-200 dark:bg-zinc-800 w-full"></div>
+                <div class="h-px bg-zinc-200 dark:bg-zinc-800 w-full"></div>
+                <!-- Shimmering line graph mock -->
+                <div class="flex items-end gap-3 h-full px-4 pt-4 pb-2">
+                  <div class="bg-zinc-200 dark:bg-zinc-800 rounded-md w-full h-[20%] animate-pulse" style="animation-delay: 100ms"></div>
+                  <div class="bg-zinc-200 dark:bg-zinc-800 rounded-md w-full h-[45%] animate-pulse" style="animation-delay: 200ms"></div>
+                  <div class="bg-zinc-200 dark:bg-zinc-800 rounded-md w-full h-[35%] animate-pulse" style="animation-delay: 300ms"></div>
+                  <div class="bg-zinc-200 dark:bg-zinc-800 rounded-md w-full h-[65%] animate-pulse" style="animation-delay: 400ms"></div>
+                  <div class="bg-zinc-200 dark:bg-zinc-800 rounded-md w-full h-[55%] animate-pulse" style="animation-delay: 500ms"></div>
+                  <div class="bg-zinc-200 dark:bg-zinc-800 rounded-md w-full h-[85%] animate-pulse" style="animation-delay: 600ms"></div>
+                  <div class="bg-zinc-200 dark:bg-zinc-800 rounded-md w-full h-[70%] animate-pulse" style="animation-delay: 700ms"></div>
+                </div>
+              </div>
+            }
+            <canvas #velocityChartCanvas [class.opacity-0]="isChartLoading()" [class.pointer-events-none]="isChartLoading()"></canvas>
           </div>
         </div>
 
@@ -76,27 +109,42 @@ interface PlanningItem {
           [class]="isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'" 
           class="p-5 rounded-2xl border flex flex-col justify-between items-center text-center shadow-none animate-blur-slide"
           style="animation-delay: 300ms;">
-          <div class="w-full text-left">
-            <h3 class="font-bold text-xs text-zinc-400">Roster Completion</h3>
-            <p class="text-[9px] text-zinc-400 mt-0.5 font-semibold">Overall completion progress metric.</p>
-          </div>
-          
-          <div class="my-4 relative flex items-center justify-center">
-            <svg class="w-28 h-28 transform -rotate-90">
-              <circle cx="56" cy="56" r="44" class="stroke-zinc-100 dark:stroke-zinc-800" stroke-width="7" fill="transparent"/>
-              <circle cx="56" cy="56" r="44" class="stroke-teal-500" stroke-width="7" fill="transparent"
-                [attr.stroke-dasharray]="circleCircumference"
-                [attr.stroke-dashoffset]="circleStrokeOffset()"/>
-            </svg>
-            <div class="absolute flex flex-col items-center justify-center select-none">
-              <span class="font-display font-extrabold text-xl tracking-tight text-zinc-800 dark:text-zinc-50">{{ completionPercent() }}%</span>
-              <span class="text-[9px] font-bold text-zinc-400 mt-0.5">Finished</span>
+          @if (isLoading()) {
+            <div class="w-full text-left">
+              <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/3 mb-1.5 animate-pulse"></div>
+              <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2 animate-pulse"></div>
             </div>
-          </div>
+            <div class="my-4 relative flex items-center justify-center animate-pulse">
+              <div class="w-28 h-28 rounded-full border-[7px] border-zinc-100 dark:border-zinc-800"></div>
+              <div class="absolute flex flex-col items-center justify-center w-12 gap-1.5">
+                <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+                <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3"></div>
+              </div>
+            </div>
+            <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3 animate-pulse"></div>
+          } @else {
+            <div class="w-full text-left">
+              <h3 class="font-bold text-xs text-zinc-400">Roster Completion</h3>
+              <p class="text-[9px] text-zinc-400 mt-0.5 font-semibold">Overall completion progress metric.</p>
+            </div>
+            
+            <div class="my-4 relative flex items-center justify-center">
+              <svg class="w-28 h-28 transform -rotate-90">
+                <circle cx="56" cy="56" r="44" class="stroke-zinc-100 dark:stroke-zinc-800" stroke-width="7" fill="transparent"/>
+                <circle cx="56" cy="56" r="44" class="stroke-teal-500" stroke-width="7" fill="transparent"
+                  [attr.stroke-dasharray]="circleCircumference"
+                  [attr.stroke-dashoffset]="circleStrokeOffset()"/>
+              </svg>
+              <div class="absolute flex flex-col items-center justify-center select-none">
+                <span class="font-display font-extrabold text-xl tracking-tight text-zinc-800 dark:text-zinc-50">{{ completionPercent() }}%</span>
+                <span class="text-[9px] font-bold text-zinc-400 mt-0.5">Finished</span>
+              </div>
+            </div>
 
-          <p class="text-[10px] text-zinc-400 font-semibold leading-normal">
-            {{ doneCount() }} of {{ totalTasks() }} assigned tasks resolved successfully.
-          </p>
+            <p class="text-[10px] text-zinc-400 font-semibold leading-normal">
+              {{ doneCount() }} of {{ totalTasks() }} assigned tasks resolved successfully.
+            </p>
+          }
         </div>
       </section>
 
@@ -117,26 +165,40 @@ interface PlanningItem {
               <span class="text-[10px] text-teal-500 font-bold select-none cursor-pointer">Active List</span>
             </div>
 
-            <div class="divide-y text-xs font-medium" [class]="isDark() ? 'divide-zinc-800' : 'divide-zinc-100'">
-              @for (task of tasks(); track task.id) {
-                <div class="py-3 flex items-center justify-between gap-4">
-                  <div class="flex items-center gap-2.5 overflow-hidden">
-                    <span [class]="'w-5.5 h-5.5 rounded-lg border flex items-center justify-center font-bold text-[8px] shrink-0 ' + getTaskClasses(task.theme)">
-                      {{ task.title.slice(0, 2) }}
-                    </span>
-                    <span class="font-bold text-zinc-800 dark:text-zinc-200 truncate">{{ task.title }}</span>
+            @if (isLoading()) {
+              <div class="space-y-4 animate-pulse">
+                @for (dummy of [1, 2, 3]; track $index) {
+                  <div class="flex items-center justify-between gap-4 py-1">
+                    <div class="flex items-center gap-2.5 w-full">
+                      <div class="w-5.5 h-5.5 rounded-lg bg-zinc-200 dark:bg-zinc-800 shrink-0"></div>
+                      <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2"></div>
+                    </div>
+                    <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-10 shrink-0"></div>
                   </div>
-                  
-                  <div class="flex items-center gap-3 shrink-0">
-                    <span 
-                      [class]="task.status === 'Backlog' ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500' : (task.status === 'Todo' ? 'bg-blue-500/10 text-blue-500' : (task.status === 'In Progress' ? 'bg-amber-500/10 text-amber-500' : 'bg-emerald-500/10 text-emerald-500'))"
-                      class="px-2 py-0.5 rounded text-[8px] font-bold">
-                      {{ task.status }}
-                    </span>
+                }
+              </div>
+            } @else {
+              <div class="divide-y text-xs font-medium" [class]="isDark() ? 'divide-zinc-800' : 'divide-zinc-100'">
+                @for (task of tasks(); track task.id) {
+                  <div class="py-3 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-2.5 overflow-hidden">
+                      <span [class]="'w-5.5 h-5.5 rounded-lg border flex items-center justify-center font-bold text-[8px] shrink-0 ' + getTaskClasses(task.theme)">
+                        {{ task.title.slice(0, 2) }}
+                      </span>
+                      <span class="font-bold text-zinc-800 dark:text-zinc-200 truncate">{{ task.title }}</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 shrink-0">
+                      <span 
+                        [class]="task.status === 'Backlog' ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500' : (task.status === 'Todo' ? 'bg-blue-500/10 text-blue-500' : (task.status === 'In Progress' ? 'bg-amber-500/10 text-amber-500' : 'bg-emerald-500/10 text-emerald-500'))"
+                        class="px-2 py-0.5 rounded text-[8px] font-bold">
+                        {{ task.status }}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              }
-            </div>
+                }
+              </div>
+            }
           </div>
         </div>
 
@@ -156,38 +218,53 @@ interface PlanningItem {
 
             <!-- Planning Checklist items -->
             <div class="space-y-2.5">
-              @for (item of planningList(); track item.task) {
-                <div 
-                  (click)="togglePlanningItem(item)"
-                  [class]="isDark() ? 'hover:bg-zinc-850/50' : 'hover:bg-zinc-50'"
-                  class="flex items-center justify-between p-2.5 rounded-xl border border-zinc-200/50 dark:border-zinc-850/60 cursor-pointer select-none transition-colors duration-150 clickable-scale">
-                  
-                  <div class="flex items-center gap-3">
-                    <!-- Custom Checkbox -->
-                    <div 
-                      [class]="item.completed ? 'bg-teal-500 border-teal-500 text-zinc-950' : (isDark() ? 'border-zinc-700 bg-zinc-800/40' : 'border-zinc-300 bg-zinc-50')"
-                      class="w-4.5 h-4.5 rounded-md border flex items-center justify-center transition-all">
-                      @if (item.completed) {
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                      }
+              @if (isLoading()) {
+                @for (dummy of [1, 2, 3, 4]; track $index) {
+                  <div class="flex items-center justify-between p-2.5 rounded-xl border border-zinc-200/30 dark:border-zinc-850/45 animate-pulse">
+                    <div class="flex items-center gap-3 w-full">
+                      <div class="w-4.5 h-4.5 rounded-md bg-zinc-200 dark:bg-zinc-800 shrink-0"></div>
+                      <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3"></div>
                     </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                      <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-6"></div>
+                      <div class="w-5 h-5 rounded-full bg-zinc-200 dark:bg-zinc-800"></div>
+                    </div>
+                  </div>
+                }
+              } @else {
+                @for (item of planningList(); track item.task) {
+                  <div 
+                    (click)="togglePlanningItem(item)"
+                    [class]="isDark() ? 'hover:bg-zinc-850/50' : 'hover:bg-zinc-50'"
+                    class="flex items-center justify-between p-2.5 rounded-xl border border-zinc-200/50 dark:border-zinc-850/60 cursor-pointer select-none transition-colors duration-150 clickable-scale">
                     
-                    <span [class.line-through]="item.completed" [class.text-zinc-450]="item.completed" class="text-xs font-semibold text-zinc-800 dark:text-zinc-250">
-                      {{ item.task }}
-                    </span>
-                  </div>
+                    <div class="flex items-center gap-3">
+                      <!-- Custom Checkbox -->
+                      <div 
+                        [class]="item.completed ? 'bg-teal-500 border-teal-500 text-zinc-950' : (isDark() ? 'border-zinc-700 bg-zinc-800/40' : 'border-zinc-300 bg-zinc-50')"
+                        class="w-4.5 h-4.5 rounded-md border flex items-center justify-center transition-all">
+                        @if (item.completed) {
+                          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                        }
+                      </div>
+                      
+                      <span [class.line-through]="item.completed" [class.text-zinc-455]="item.completed" class="text-xs font-semibold text-zinc-800 dark:text-zinc-250">
+                        {{ item.task }}
+                      </span>
+                    </div>
 
-                  <div class="flex items-center gap-2">
-                    <span class="text-[9px] text-zinc-400 font-bold">{{ item.day }}</span>
-                    <!-- Dynamic profile gradient background -->
-                    <span [class]="item.day === 'Mon' ? 'avatar-grad-1' : (item.day === 'Wed' ? 'avatar-grad-2' : 'avatar-grad-3')" class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[7px] text-white">
-                      {{ item.assignee }}
-                    </span>
-                  </div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-[9px] text-zinc-400 font-bold">{{ item.day }}</span>
+                      <!-- Dynamic profile gradient background -->
+                      <span [class]="item.day === 'Mon' ? 'avatar-grad-1' : (item.day === 'Wed' ? 'avatar-grad-2' : 'avatar-grad-3')" class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-[7px] text-white">
+                        {{ item.assignee }}
+                      </span>
+                    </div>
 
-                </div>
+                  </div>
+                }
               }
             </div>
           </div>
@@ -199,8 +276,12 @@ interface PlanningItem {
   `
 })
 export class DashboardComponent implements AfterViewInit {
-  public readonly isDark = input<boolean>(false);
-  public readonly tasks = input<Task[]>([]);
+  private readonly state = inject(WorkspaceService);
+  protected readonly isDark = this.state.isDark;
+  protected readonly tasks = this.state.tasks;
+
+  protected readonly isChartLoading = signal(true);
+  protected readonly isLoading = signal(true);
 
   protected getTaskClasses(theme: string): string {
     switch (theme) {
@@ -271,13 +352,19 @@ export class DashboardComponent implements AfterViewInit {
         this.chartInstance.update();
       }
     });
+
+    // Simulated initial screen loading delay
+    setTimeout(() => {
+      this.isLoading.set(false);
+    }, 600);
   }
 
   public ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
         this.initChart();
-      }, 50);
+        this.isChartLoading.set(false);
+      }, 1200); // 1.2s delay for chart loading skeleton
     }
   }
 

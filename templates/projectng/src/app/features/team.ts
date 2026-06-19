@@ -1,5 +1,6 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WorkspaceService } from '../shared/services/workspace.service';
 
 interface TeamProject {
   title: string;
@@ -65,7 +66,43 @@ interface Team {
         </div>
       </section>
 
-      @if (viewMode() === 'grid') {
+      @if (isLoading()) {
+        <!-- Skeleton Grid Layout -->
+        <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          @for (dummy of [1, 2, 3]; track $index) {
+            <div 
+              [class]="isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'" 
+              class="p-6 rounded-2xl border flex flex-col justify-between min-h-[360px] animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20">
+              <div class="space-y-4">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="space-y-2 w-3/4">
+                    <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3"></div>
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+                  </div>
+                  <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-12 shrink-0"></div>
+                </div>
+                <div class="flex items-center gap-2 pt-2">
+                  <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-8"></div>
+                  <div class="w-5 h-5 rounded-full bg-zinc-200 dark:bg-zinc-800"></div>
+                  <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-16"></div>
+                </div>
+                <div class="flex items-center gap-2 pt-1">
+                  <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-12"></div>
+                  <div class="flex -space-x-1.5">
+                    <div class="w-5 h-5 rounded-full bg-zinc-200 dark:bg-zinc-800 border border-white dark:border-zinc-900"></div>
+                    <div class="w-5 h-5 rounded-full bg-zinc-200 dark:bg-zinc-800 border border-white dark:border-zinc-900"></div>
+                    <div class="w-5 h-5 rounded-full bg-zinc-200 dark:bg-zinc-800 border border-white dark:border-zinc-900"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="space-y-2 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+                <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2"></div>
+              </div>
+            </div>
+          }
+        </section>
+      } @else if (viewMode() === 'grid') {
         <!-- Team Grid Cards (Flat layout, subtle dark mode borders) -->
         <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           @for (team of teams(); track team.id) {
@@ -171,7 +208,7 @@ interface Team {
         <section class="space-y-4">
           @for (team of teams(); track team.id) {
             <div 
-              [class]="isDark() ? 'bg-zinc-900 border-zinc-850 text-zinc-200' : 'bg-white border-zinc-200 text-zinc-855'" 
+              [class]="isDark() ? 'bg-zinc-900 border-zinc-850 text-zinc-200' : 'bg-white border-zinc-200 text-zinc-800'" 
               class="p-5 rounded-2xl border flex flex-col xl:flex-row gap-6 justify-between items-start xl:items-center transition-all hover:border-zinc-300 dark:hover:border-zinc-700">
               
               <!-- Left section: Team Info -->
@@ -262,8 +299,14 @@ interface Team {
   `
 })
 export class TeamComponent {
-  public readonly isDark = input<boolean>(false);
+  private readonly state = inject(WorkspaceService);
+  protected readonly isDark = this.state.isDark;
   protected readonly viewMode = signal<'grid' | 'list'>('grid');
+
+  protected readonly isLoading = signal(true);
+  constructor() {
+    setTimeout(() => this.isLoading.set(false), 600);
+  }
 
   // List of active dev teams with projects list
   protected readonly teams = signal<Team[]>([

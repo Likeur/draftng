@@ -1,5 +1,6 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WorkspaceService } from '../shared/services/workspace.service';
 
 interface CalendarDay {
   dayNumber: number;
@@ -18,7 +19,7 @@ interface CalendarDay {
         <div class="flex items-center gap-3">
           <button 
             (click)="prevMonth()" 
-            [class]="isDark() ? 'bg-zinc-900 border-zinc-850 hover:bg-zinc-800 text-zinc-300' : 'bg-white border-zinc-200 hover:bg-zinc-50'"
+            [class]="isDark() ? 'bg-zinc-900 border-zinc-850 hover:bg-zinc-800 text-zinc-350' : 'bg-white border-zinc-200 hover:bg-zinc-50'"
             class="p-1.5 rounded-xl border cursor-pointer clickable-scale shrink-0 select-none">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -31,7 +32,7 @@ interface CalendarDay {
           
           <button 
             (click)="nextMonth()" 
-            [class]="isDark() ? 'bg-zinc-900 border-zinc-850 hover:bg-zinc-800 text-zinc-300' : 'bg-white border-zinc-200 hover:bg-zinc-50'"
+            [class]="isDark() ? 'bg-zinc-900 border-zinc-850 hover:bg-zinc-800 text-zinc-350' : 'bg-white border-zinc-200 hover:bg-zinc-50'"
             class="p-1.5 rounded-xl border cursor-pointer clickable-scale shrink-0 select-none">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -44,13 +45,13 @@ interface CalendarDay {
             <button 
               (click)="calendarView.set('month')" 
               [class]="calendarView() === 'month' ? (isDark() ? 'bg-zinc-800 text-zinc-50 font-bold' : 'bg-white text-zinc-950 font-bold shadow-sm') : 'text-zinc-400 hover:text-zinc-650'"
-              class="px-3 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-all clickable-scale">
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-all clickable-scale">
               Month
             </button>
             <button 
               (click)="calendarView.set('week')" 
               [class]="calendarView() === 'week' ? (isDark() ? 'bg-zinc-800 text-zinc-50 font-bold' : 'bg-white text-zinc-950 font-bold shadow-sm') : 'text-zinc-400 hover:text-zinc-650'"
-              class="px-3 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-all clickable-scale">
+              class="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-all clickable-scale">
               Week
             </button>
           </div>
@@ -79,22 +80,37 @@ interface CalendarDay {
 
         <!-- Days Grid -->
         <div class="grid grid-cols-7 grid-rows-5 divide-x divide-y" [class]="isDark() ? 'divide-zinc-850 border-zinc-850' : 'divide-zinc-200 border-zinc-200'">
-          @for (day of calendarDays; track day.dayNumber) {
-            <div 
-              [class]="day.isCurrentMonth ? '' : (isDark() ? 'bg-zinc-950/20 text-zinc-600' : 'bg-zinc-50/40 text-zinc-400')"
-              class="min-h-[90px] p-3 flex flex-col justify-between hover:bg-zinc-100/10 dark:hover:bg-zinc-800/10 transition-colors">
-              <span class="text-xs font-bold">{{ day.dayNumber }}</span>
-              
-              <!-- Tasks inside cells -->
-              <div class="space-y-1.5 mt-2">
-                @for (task of day.tasks; track task.title) {
-                  <div 
-                    [class]="'px-2 py-0.5 rounded text-[8px] font-bold border truncate select-none cursor-pointer clickable-scale ' + getTaskClasses(task.theme)">
-                    {{ task.title }}
-                  </div>
-                }
+          @if (isLoading()) {
+            @for (dummy of dummyArray; track $index; let idx = $index) {
+              <div class="min-h-[90px] p-3 flex flex-col justify-between animate-pulse">
+                <div class="w-6 h-4 bg-zinc-200 dark:bg-zinc-800 rounded"></div>
+                <div class="space-y-1.5 mt-2">
+                  @if (idx % 3 === 0) {
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-full"></div>
+                  } @else if (idx % 5 === 0) {
+                    <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3"></div>
+                  }
+                </div>
               </div>
-            </div>
+            }
+          } @else {
+            @for (day of calendarDays; track day.dayNumber) {
+              <div 
+                [class]="day.isCurrentMonth ? '' : (isDark() ? 'bg-zinc-950/20 text-zinc-600' : 'bg-zinc-50/40 text-zinc-400')"
+                class="min-h-[90px] p-3 flex flex-col justify-between hover:bg-zinc-100/10 dark:hover:bg-zinc-800/10 transition-colors">
+                <span class="text-xs font-bold">{{ day.dayNumber }}</span>
+                
+                <!-- Tasks inside cells -->
+                <div class="space-y-1.5 mt-2">
+                  @for (task of day.tasks; track task.title) {
+                    <div 
+                      [class]="'px-2 py-0.5 rounded text-[8px] font-bold border truncate select-none cursor-pointer clickable-scale ' + getTaskClasses(task.theme)">
+                      {{ task.title }}
+                    </div>
+                  }
+                </div>
+              </div>
+            }
           }
         </div>
 
@@ -104,7 +120,15 @@ interface CalendarDay {
   `
 })
 export class CalendarComponent {
-  public readonly isDark = input<boolean>(false);
+  private readonly state = inject(WorkspaceService);
+  protected readonly isDark = this.state.isDark;
+
+  protected readonly isLoading = signal(true);
+  protected readonly dummyArray = Array.from({ length: 35 });
+  constructor() {
+    setTimeout(() => this.isLoading.set(false), 600);
+  }
+
   protected readonly calendarView = signal<'month' | 'week'>('month');
 
   protected getTaskClasses(theme: string): string {
