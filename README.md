@@ -9,6 +9,25 @@ The project is structured as follows:
 *   **/home**: The primary showcase and landing website built using **Astro** and **Tailwind CSS v4**. It serves as the catalog and live demo portal for all available templates.
 *   **/templates**: A collection of beautifully crafted frontend templates for various platform types, built using **Angular 22** (and latest modern Angular guidelines) combined with **Tailwind CSS v4**.
 
+## 📦 Available Templates & Projects
+
+Here are the templates currently featured on draftNG:
+
+1. **KleenTrack (Premium)**
+   - **Category**: Finance & Budgeting
+   - **Description**: A premium, high-performance Angular 22+ finance tracking dashboard template. Features interactive budgeting tools, transaction histories, accounts management, invoice generators, and optimized charts.
+   - **Links**: [Live Preview](https://kleen-track.vercel.app/overview) | [Buy Template](https://243studio.mychariow.market/prd_zt5vvy7t)
+
+2. **ProjectNG (Open Source / Free)**
+   - **Category**: Workspace & Management
+   - **Description**: A premium, zoneless Angular 22+ dashboard template styled with Tailwind CSS v4. Features tasks, calendar, team view, inbox, and optimized animations.
+   - **Links**: [Live Preview](https://projectng-three.vercel.app/dashboard) | [Get Source Code](https://github.com/Likeur/draftng/tree/main/templates/projectng)
+
+3. **Jordy AI (Premium)**
+   - **Category**: AI Chatbot & Platform
+   - **Description**: A premium, modern AI chatbot platform template (similar to Gemini or Perplexity). Fully built with Angular 22 and Tailwind CSS v4, featuring integrated AI image generation, video generation, code generation, and a personal library.
+   - **Links**: [Live Preview](https://jordyai.vercel.app/chat) | [Buy Template](https://243studio.mychariow.market/prd_ztd707zu)
+
 ## 🌟 Philosophy
 
 The goal of `draftNG` is to help Angular developers kickstart their projects with pre-designed, premium interfaces that do not compromise on code quality. Every template in this repository adheres to:

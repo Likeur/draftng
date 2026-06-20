@@ -1,0 +1,24 @@
+# draftNG
+
+Minimalist & high-performance Angular 22+ platform templates. A curated suite of premium and open-source platform templates styled with Tailwind CSS v4, featuring zoneless change detection, clean state paradigms, and interactive interfaces.
+
+## Templates Available
+
+- **KleenTrack**: A premium, high-performance Angular 22+ finance tracking dashboard template. Features interactive budgeting tools, transaction histories, accounts management, invoice generators, and optimized charts.
+  - Demo: [https://kleen-track.vercel.app/overview](https://kleen-track.vercel.app/overview)
+  - Buy/Download: [https://243studio.mychariow.market/prd_zt5vvy7t](https://243studio.mychariow.market/prd_zt5vvy7t)
+
+- **ProjectNG**: A premium, zoneless Angular 22+ dashboard template styled with Tailwind CSS v4. Features tasks, calendar, team view, inbox, and optimized animations.
+  - Demo: [https://projectng-three.vercel.app/dashboard](https://projectng-three.vercel.app/dashboard)
+  - GitHub: [https://github.com/Likeur/draftng/tree/main/templates/projectng](https://github.com/Likeur/draftng/tree/main/templates/projectng)
+
+- **Jordy AI**: A premium, modern AI chatbot platform template (similar to Gemini or Perplexity). Fully built with Angular 22 and Tailwind CSS v4, featuring integrated AI image generation, video generation, code generation, and a personal library.
+  - Demo: [https://jordyai.vercel.app/chat](https://jordyai.vercel.app/chat)
+  - Buy/Download: [https://243studio.mychariow.market/prd_ztd707zu](https://243studio.mychariow.market/prd_ztd707zu)
+
+## Core Technical Stack
+
+- **Framework**: Angular 22+
+- **Styling**: Tailwind CSS v4
+- **State Management**: Zoneless change detection, Angular Signals
+- **Creator**: Built by Likeur

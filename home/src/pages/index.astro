@@ -51,7 +51,42 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>draftNG - Clean & Modern Angular 22+ Templates</title>
+		
+		<!-- SEO Meta Tags -->
+		<link rel="canonical" href="https://draftng.com/" />
 		<meta name="description" content="A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4." />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://draftng.com/" />
+		<meta property="og:title" content="draftNG - Clean & Modern Angular 22+ Templates" />
+		<meta property="og:description" content="A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4." />
+		<meta property="og:image" content="https://draftng.com/draftOG.png" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="https://draftng.com/" />
+		<meta property="twitter:title" content="draftNG - Clean & Modern Angular 22+ Templates" />
+		<meta property="twitter:description" content="A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4." />
+		<meta property="twitter:image" content="https://draftng.com/draftOG.png" />
+
+		<!-- Structured Data (JSON-LD) -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "SoftwareApplication",
+				"name": "draftNG",
+				"operatingSystem": "Web",
+				"applicationCategory": "DeveloperApplication",
+				"description": "A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4.",
+				"offers": {
+					"@type": "AggregateOffer",
+					"priceCurrency": "USD",
+					"lowPrice": "0",
+					"offerCount": "3"
+				}
+			}
+		</script>
 	</head>
 	<body class="bg-zinc-950 text-zinc-100 selection:bg-zinc-100 selection:text-zinc-950 font-sans min-h-screen lg:h-screen lg:overflow-hidden flex flex-col lg:flex-row relative">
 
@@ -172,7 +207,7 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 					<div class="w-8 h-8 rounded bg-zinc-100 flex items-center justify-center font-display font-extrabold text-zinc-950 text-base shadow-md">
 						d
 					</div>
-					<span class="font-display font-bold text-3xl tracking-tighter text-zinc-50">draftNG</span>
+					<h1 class="font-display font-bold text-3xl tracking-tighter text-zinc-50">draftNG</h1>
 				</div>
 				
 				<div class="space-y-4">

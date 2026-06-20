@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# AI Agent Context
+Info: https://draftng.com/llms.txt
+
+Sitemap: https://draftng.com/sitemap.xml
