@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DropdownComponent } from '../shared/components/dropdown';
 import { WorkspaceService } from '../shared/services/workspace.service';
@@ -17,7 +16,7 @@ interface TodoTask {
 
 @Component({
   selector: 'app-todos',
-  imports: [CommonModule, FormsModule, DropdownComponent],
+  imports: [FormsModule, DropdownComponent],
   template: `
     <div class="space-y-6 animate-blur-slide font-sans">
       

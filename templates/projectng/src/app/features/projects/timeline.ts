@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { WorkspaceService } from '../../shared/services/workspace.service';
 import { ProjectsComponent } from './projects';
 
@@ -16,10 +15,10 @@ interface Task {
 
 @Component({
   selector: 'app-projects-timeline',
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div [class]="isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'" class="rounded-2xl border p-5 overflow-x-auto w-full font-sans">
-      <div class="min-w-[700px]">
+      <div class="min-w-175">
       
       <!-- Calendar Navigator Bar -->
       <div class="flex items-center justify-between mb-6">
@@ -57,29 +56,29 @@ interface Task {
       </div>
 
       <!-- Gantt Blocks Area -->
-      <div class="grid grid-cols-7 gap-y-4 relative min-h-[300px]">
+      <div class="grid grid-cols-7 gap-y-4 relative min-h-75">
         
         <!-- Vertical timeline line on Column 4 (Thu 18) -->
-        <div class="absolute inset-y-0 left-[50%] -translate-x-1/2 w-[2px] bg-purple-500/60 pointer-events-none z-10" style="grid-column: 4;"></div>
+        <div class="absolute inset-y-0 left-[50%] -translate-x-1/2 w-0.5 bg-purple-500/60 pointer-events-none z-10" style="grid-column: 4;"></div>
 
         <!-- Render Task Blocks -->
         @if (isLoading()) {
           <!-- Shimmering Gantt Blocks -->
-          <div class="rounded-xl border border-zinc-200/30 dark:border-zinc-800/40 p-4 relative flex flex-col justify-between min-h-[110px] animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20" style="grid-column: 1 / 4;">
+          <div class="rounded-xl border border-zinc-200/30 dark:border-zinc-800/40 p-4 relative flex flex-col justify-between min-h-27.5 animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20" style="grid-column: 1 / 4;">
             <div class="space-y-1.5">
               <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2"></div>
               <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-20"></div>
             </div>
             <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-16 mt-3"></div>
           </div>
-          <div class="rounded-xl border border-zinc-200/30 dark:border-zinc-800/40 p-4 relative flex flex-col justify-between min-h-[110px] animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20" style="grid-column: 3 / 7;">
+          <div class="rounded-xl border border-zinc-200/30 dark:border-zinc-800/40 p-4 relative flex flex-col justify-between min-h-27.5 animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20" style="grid-column: 3 / 7;">
             <div class="space-y-1.5">
               <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-2/3"></div>
               <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-24"></div>
             </div>
             <div class="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-16 mt-3"></div>
           </div>
-          <div class="rounded-xl border border-zinc-200/30 dark:border-zinc-800/40 p-4 relative flex flex-col justify-between min-h-[110px] animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20" style="grid-column: 4 / 8;">
+          <div class="rounded-xl border border-zinc-200/30 dark:border-zinc-800/40 p-4 relative flex flex-col justify-between min-h-27.5 animate-pulse bg-zinc-50/20 dark:bg-zinc-950/20" style="grid-column: 4 / 8;">
             <div class="space-y-1.5">
               <div class="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2"></div>
               <div class="h-2.5 bg-zinc-200 dark:bg-zinc-800 rounded w-20"></div>
@@ -91,7 +90,7 @@ interface Task {
             <div 
               [style.grid-column]="task.gridColumn" 
               [class]="isDark() ? 'bg-zinc-900 border-zinc-800 text-zinc-100' : 'bg-white border-zinc-200'"
-              class="rounded-xl border p-4 relative flex flex-col justify-between min-h-[110px] group transition-all hover:border-zinc-300 dark:hover:border-zinc-700"
+              class="rounded-xl border p-4 relative flex flex-col justify-between min-h-27.5 group transition-all hover:border-zinc-300 dark:hover:border-zinc-700"
               [class.border-b-4]="true"
               [class.border-b-amber-500]="task.theme === 'orange'"
               [class.border-b-purple-500]="task.theme === 'purple'"

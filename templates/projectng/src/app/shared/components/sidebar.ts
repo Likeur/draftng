@@ -1,11 +1,13 @@
-import { Component, inject, signal, HostListener, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, ElementRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { WorkspaceService } from '../services/workspace.service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterLink],
+  imports: [RouterLink],
+  host: {
+    '(document:click)': 'onClickOutside($event)'
+  },
   template: `
     <aside 
       [class]="(state.isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-zinc-100 border-zinc-200') + (state.isCollapsed() ? ' -translate-x-full md:translate-x-0 md:w-14 md:p-2' : ' translate-x-0 md:w-52 md:p-4')" 
@@ -325,7 +327,7 @@ import { WorkspaceService } from '../services/workspace.service';
 
             <!-- Group 3: Danger / Sign Out -->
             <div class="py-1">
-              <button (click)="onOption('Log Out')" class="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-medium hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left clickable-scale text-red-500 hover:bg-red-50 dark:hover:bg-red-955/20">
+              <button (click)="onOption('Log Out')" class="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer text-left clickable-scale text-red-500 hover:bg-red-50 dark:hover:bg-red-955/20">
                 <svg class="w-4 h-4 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
                 </svg>
@@ -352,8 +354,8 @@ import { WorkspaceService } from '../services/workspace.service';
             </div>
             @if (!state.isCollapsed()) {
               <div class="text-left animate-fade-in shrink-0">
-                <p class="text-[10px] font-bold leading-tight truncate max-w-[120px]">jacksimba218269</p>
-                <p class="text-[8px] text-zinc-400 font-semibold truncate max-w-[120px]">jacksimba28&#64;gmail.com</p>
+                <p class="text-[10px] font-bold leading-tight truncate max-w-30">jacksimba218269</p>
+                <p class="text-[8px] text-zinc-400 font-semibold truncate max-w-30">jacksimba28&#64;gmail.com</p>
               </div>
             }
           </div>
@@ -372,6 +374,7 @@ import { WorkspaceService } from '../services/workspace.service';
 export class SidebarComponent {
   protected readonly state = inject(WorkspaceService);
   private readonly router = inject(Router);
+  private readonly elementRef = inject(ElementRef);
 
   protected readonly isUserDropdownOpen = signal(false);
 
@@ -380,8 +383,6 @@ export class SidebarComponent {
     { name: 'Design Systems', gradient: 'avatar-grad-2' },
     { name: 'Integrations API', gradient: 'avatar-grad-3' }
   ];
-
-  constructor(private elementRef: ElementRef) {}
 
   protected isActive(path: string): boolean {
     const url = this.state.currentUrl();
@@ -411,7 +412,6 @@ export class SidebarComponent {
     this.isUserDropdownOpen.set(false);
   }
 
-  @HostListener('document:click', ['$event'])
   protected onClickOutside(event: MouseEvent): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isUserDropdownOpen.set(false);

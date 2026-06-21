@@ -1,5 +1,5 @@
 import { Component, computed, signal, PLATFORM_ID, inject, ElementRef, ViewChild, AfterViewInit, effect } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
 import { WorkspaceService } from '../shared/services/workspace.service';
 
@@ -25,7 +25,7 @@ interface PlanningItem {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="space-y-6 animate-blur-slide font-sans">
       

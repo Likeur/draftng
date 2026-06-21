@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { WorkspaceService } from '../shared/services/workspace.service';
 
 interface TeamProject {
@@ -28,7 +27,7 @@ interface Team {
 
 @Component({
   selector: 'app-team',
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="space-y-6 animate-blur-slide font-sans">
       

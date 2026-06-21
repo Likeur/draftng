@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { WorkspaceService } from '../shared/services/workspace.service';
 
 interface CalendarDay {
@@ -10,7 +9,7 @@ interface CalendarDay {
 
 @Component({
   selector: 'app-calendar',
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="space-y-6 animate-blur-slide font-sans">
       

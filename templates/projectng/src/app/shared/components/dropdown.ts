@@ -1,9 +1,11 @@
-import { Component, signal, input, output, HostListener, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, input, output, ElementRef, inject } from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
-  imports: [CommonModule],
+  imports: [],
+  host: {
+    '(document:click)': 'onClickOutside($event)'
+  },
   template: `
     <div class="relative inline-block w-full text-left" id="dropdown-container">
       @if (label()) {
@@ -40,14 +42,14 @@ import { CommonModule } from '@angular/common';
   `
 })
 export class DropdownComponent {
+  private readonly elementRef = inject(ElementRef);
+
   public readonly label = input<string>('');
   public readonly options = input<string[]>([]);
   public readonly selected = input<string>('');
   public readonly selectionChange = output<string>();
 
   protected readonly isOpen = signal(false);
-
-  constructor(private elementRef: ElementRef) {}
 
   protected toggleOpen(): void {
     this.isOpen.update(o => !o);
@@ -58,8 +60,6 @@ export class DropdownComponent {
     this.isOpen.set(false);
   }
 
-  // Close dropdown when clicking outside
-  @HostListener('document:click', ['$event'])
   protected onClickOutside(event: MouseEvent): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isOpen.set(false);

@@ -1,5 +1,4 @@
 import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { WorkspaceService } from '../shared/services/workspace.service';
 
 interface Employee {
@@ -16,7 +15,7 @@ interface Employee {
 
 @Component({
   selector: 'app-employee',
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="space-y-6 animate-blur-slide font-sans">
       

@@ -1,14 +1,14 @@
-import { Component, HostListener, ElementRef, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { WorkspaceService } from '../services/workspace.service';
 
 @Component({
   selector: 'app-topbar',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   host: {
-    'class': 'block sticky top-0 z-30'
+    'class': 'block sticky top-0 z-30',
+    '(document:click)': 'onClickOutside($event)'
   },
   template: `
     <header 
@@ -20,7 +20,7 @@ import { WorkspaceService } from '../services/workspace.service';
         <div class="flex items-center gap-3 w-full animate-blur-slide">
           <div 
             [class]="state.isDark() ? 'bg-zinc-900 border-zinc-850' : 'bg-white border-zinc-200'" 
-            class="flex items-center gap-2 px-3 h-9 rounded-xl border flex-grow">
+            class="flex items-center gap-2 px-3 h-9 rounded-xl border grow">
             <svg class="w-3.5 h-3.5 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -156,6 +156,7 @@ import { WorkspaceService } from '../services/workspace.service';
 export class TopbarComponent {
   protected readonly state = inject(WorkspaceService);
   private readonly router = inject(Router);
+  private readonly elementRef = inject(ElementRef);
 
   protected readonly isNotificationsOpen = signal(false);
   protected readonly isSearchExpanded = signal(false);
@@ -171,8 +172,6 @@ export class TopbarComponent {
     if (url.startsWith('/todos')) return 'Todos';
     return 'Projects';
   });
-
-  constructor(private elementRef: ElementRef) { }
 
   protected toggleNotifications(): void {
     this.isNotificationsOpen.update(n => !n);
@@ -198,7 +197,6 @@ export class TopbarComponent {
     return false;
   }
 
-  @HostListener('document:click', ['$event'])
   protected onClickOutside(event: MouseEvent): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isNotificationsOpen.set(false);

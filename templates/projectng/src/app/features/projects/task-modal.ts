@@ -1,11 +1,10 @@
 import { Component, input, output, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DropdownComponent } from '../../shared/components/dropdown';
 
 @Component({
   selector: 'app-projects-task-modal',
-  imports: [CommonModule, FormsModule, DropdownComponent],
+  imports: [FormsModule, DropdownComponent],
   template: `
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
       <div 

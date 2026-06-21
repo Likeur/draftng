@@ -1,5 +1,4 @@
 import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { TaskModalComponent } from './task-modal';
 import { DropdownComponent } from '../../shared/components/dropdown';
@@ -18,7 +17,7 @@ interface Task {
 
 @Component({
   selector: 'app-projects',
-  imports: [CommonModule, RouterOutlet, RouterLink, TaskModalComponent, DropdownComponent],
+  imports: [RouterOutlet, RouterLink, TaskModalComponent, DropdownComponent],
   template: `
     <div class="space-y-6 animate-blur-slide">
       

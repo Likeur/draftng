@@ -1,5 +1,4 @@
 import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { WorkspaceService } from '../shared/services/workspace.service';
 
 interface InboxItem {
@@ -24,7 +23,7 @@ interface MessageReply {
 
 @Component({
   selector: 'app-inbox',
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="space-y-6 animate-blur-slide font-sans">
       
