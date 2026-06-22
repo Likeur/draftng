@@ -16,7 +16,7 @@ Here are the templates currently featured on draftNG:
 1. **KleenTrack (Premium)**
    - **Category**: Finance & Budgeting
    - **Description**: A premium, high-performance Angular 22+ finance tracking dashboard template. Features interactive budgeting tools, transaction histories, accounts management, invoice generators, and optimized charts.
-   - **Links**: [Live Preview](https://kleen-track.vercel.app/overview) | [Buy Template](https://243studio.mychariow.market/prd_zt5vvy7t)
+   - **Links**: [Live Preview](https://kleen-track.vercel.app/overview) | [Buy Template](https://store.draftng.xyz/prd_zt5vvy7t)
 
 2. **ProjectNG (Open Source / Free)**
    - **Category**: Workspace & Management
@@ -26,7 +26,7 @@ Here are the templates currently featured on draftNG:
 3. **Jordy AI (Premium)**
    - **Category**: AI Chatbot & Platform
    - **Description**: A premium, modern AI chatbot platform template (similar to Gemini or Perplexity). Fully built with Angular 22 and Tailwind CSS v4, featuring integrated AI image generation, video generation, code generation, and a personal library.
-   - **Links**: [Live Preview](https://jordyai.vercel.app/chat) | [Buy Template](https://243studio.mychariow.market/prd_ztd707zu)
+   - **Links**: [Live Preview](https://jordyai.vercel.app/chat) | [Buy Template](https://store.draftng.xyz/prd_ztd707zu)
 
 ## 🌟 Philosophy
 
