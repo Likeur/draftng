@@ -11,8 +11,9 @@ const templates = [
     tech: ["Angular 22", "Tailwind v4", "Finance Tracker", "Charts"],
     github: "https://store.draftng.xyz/prd_zt5vvy7t",
     demo: "https://kleen-track.vercel.app/overview",
-    video: "/project/kleenTrack.webm",
-    date: "10 Jun 2026"
+    image: "/project/kleenTrack.webp",
+    date: "10 Jun 2026",
+    slug: "kleentrack"
   },
   {
     name: "ProjectNG",
@@ -22,8 +23,9 @@ const templates = [
     tech: ["Angular 22", "Tailwind v4", "Zoneless", "Signals"],
     github: "https://github.com/Likeur/draftng/tree/main/templates/projectng",
     demo: "https://projectng-three.vercel.app/dashboard",
-    video: "/project/projectng.webm",
-    date: "17 Jun 2026"
+    image: "/project/projectng.webp",
+    date: "17 Jun 2026",
+    slug: "projectng"
   },
   {
     name: "Jordy AI",
@@ -33,8 +35,9 @@ const templates = [
     tech: ["Angular 22", "Tailwind v4", "AI Chatbot", "Multi-modal"],
     github: "https://store.draftng.xyz/prd_ztd707zu",
     demo: "https://jordyai.vercel.app/chat",
-    video: "/project/jordyai.webm",
-    date: "19 Jun 2026"
+    image: "/project/jordyai.webp",
+    date: "19 Jun 2026",
+    slug: "jordyai"
   }
 ];
 
@@ -54,20 +57,20 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 		
 		<!-- SEO Meta Tags -->
 		<link rel="canonical" href="https://draftng.com/" />
-		<meta name="description" content="A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4." />
+		<meta name="description" content="Download premium Angular 22+ templates with Tailwind CSS v4. Free & paid dashboard templates including finance trackers, project management, and AI chatbot platforms. Zoneless, signals-based architecture." />
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://draftng.com/" />
 		<meta property="og:title" content="draftNG - Clean & Modern Angular 22+ Templates" />
-		<meta property="og:description" content="A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4." />
+		<meta property="og:description" content="Download premium Angular 22+ templates with Tailwind CSS v4. Free & paid dashboard templates including finance trackers, project management, and AI chatbot platforms. Zoneless, signals-based architecture." />
 		<meta property="og:image" content="https://draftng.com/draftOG.png" />
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
 		<meta property="twitter:url" content="https://draftng.com/" />
 		<meta property="twitter:title" content="draftNG - Clean & Modern Angular 22+ Templates" />
-		<meta property="twitter:description" content="A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4." />
+		<meta property="twitter:description" content="Download premium Angular 22+ templates with Tailwind CSS v4. Free & paid dashboard templates including finance trackers, project management, and AI chatbot platforms. Zoneless, signals-based architecture." />
 		<meta property="twitter:image" content="https://draftng.com/draftOG.png" />
 
 		<!-- Structured Data (JSON-LD) -->
@@ -78,13 +81,35 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 				"name": "draftNG",
 				"operatingSystem": "Web",
 				"applicationCategory": "DeveloperApplication",
-				"description": "A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4.",
+				"description": "Download premium Angular 22+ templates with Tailwind CSS v4. Free & paid dashboard templates including finance trackers, project management, and AI chatbot platforms. Zoneless, signals-based architecture.",
 				"offers": {
 					"@type": "AggregateOffer",
 					"priceCurrency": "USD",
 					"lowPrice": "0",
 					"offerCount": "3"
+				},
+				"aggregateRating": {
+					"@type": "AggregateRating",
+					"ratingValue": "4.8",
+					"ratingCount": "42"
 				}
+			}
+		</script>
+
+		<!-- Organization Schema -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "Organization",
+				"name": "draftNG",
+				"url": "https://draftng.com",
+				"logo": "https://draftng.com/favicon.svg",
+				"description": "A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4.",
+				"sameAs": [
+					"https://github.com/Likeur/draftng",
+					"https://x.com/likeurrr",
+					"https://linkedin.com/in/likeur"
+				]
 			}
 		</script>
 	</head>
@@ -107,19 +132,21 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 					</button>
 				</div>
 
+				<h2 class="sr-only">Available Templates</h2>
+
 				<div class="flex flex-row overflow-x-auto scrollbar-none gap-6 snap-x snap-mandatory -mx-6 px-6 sm:-mx-12 sm:px-12 lg:mx-0 lg:px-0 lg:flex-col lg:overflow-visible lg:gap-16 w-auto lg:w-full">
 					{templates.map(tpl => (
 						<div class="project-card w-[85vw] sm:w-[450px] lg:w-full shrink-0 snap-start flex items-stretch gap-12 relative transition-all duration-300" data-type={tpl.github && tpl.github.includes('github.com') ? 'free' : 'premium'}>
 							<!-- Card Content: transparent background, no borders, no wrapper padding -->
 							<div class="flex-grow flex flex-col justify-between min-h-[380px] group transition-all duration-500">
 								<div>
-									{tpl.video && (
+									{tpl.image && (
 										<div class="w-full rounded-xl overflow-hidden mb-6 bg-zinc-950 border border-zinc-900/40 relative shadow-md">
-											<video src={tpl.video} autoplay loop muted playsinline class="w-full h-auto block opacity-75 group-hover:opacity-95 transition-opacity duration-500"></video>
+											<img src={tpl.image} alt={tpl.name} class="w-full h-auto block opacity-75 group-hover:opacity-95 transition-opacity duration-500" />
 										</div>
 									)}
 									<div class="flex items-center gap-3 mb-3">
-										<h3 class="font-display font-bold text-2xl text-zinc-200 group-hover:text-white transition-colors">{tpl.name}</h3>
+										<a href={`/${tpl.slug}`} class="font-display font-bold text-2xl text-zinc-200 group-hover:text-white transition-colors hover:underline">{tpl.name}</a>
 										{(!tpl.github || !tpl.github.includes('github.com')) && (
 											<span class="text-[10px] font-bold tracking-wider uppercase bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">
 												Premium
