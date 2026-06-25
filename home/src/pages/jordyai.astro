@@ -79,7 +79,7 @@ const template = {
 
 			<div class="space-y-8">
 				<div>
-					<h1 class="font-display font-bold text-4xl lg:text-5xl text-zinc-50 mb-4">{template.name}</h1>
+					<h1 class="font-bold text-4xl lg:text-5xl text-zinc-50 mb-4" style="font-family: var(--font-display)">{template.name}</h1>
 					<div class="flex items-center gap-3 mb-4">
 						<span class="text-xs font-bold tracking-wider uppercase bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 px-3 py-1 rounded border border-amber-500/30">
 							{template.price}
@@ -107,7 +107,7 @@ const template = {
 				</div>
 
 				<div class="space-y-4">
-					<h2 class="font-display font-bold text-2xl text-zinc-200">Key Features</h2>
+					<h2 class="font-bold text-2xl text-zinc-200" style="font-family: var(--font-display)">Key Features</h2>
 					<ul class="space-y-3 text-zinc-400">
 						<li class="flex items-start gap-2">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200 mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
@@ -137,7 +137,7 @@ const template = {
 				</div>
 
 				<div class="space-y-4">
-					<h2 class="font-display font-bold text-2xl text-zinc-200">What's Included</h2>
+					<h2 class="font-bold text-2xl text-zinc-200" style="font-family: var(--font-display)">What's Included</h2>
 					<ul class="space-y-2 text-zinc-400">
 						<li class="flex items-center gap-2">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200"><polyline points="20 6 9 17 4 12"/></svg>
@@ -155,7 +155,7 @@ const template = {
 				</div>
 
 				<div class="space-y-4">
-					<h2 class="font-display font-bold text-2xl text-zinc-200">Tech Stack</h2>
+					<h2 class="font-bold text-2xl text-zinc-200" style="font-family: var(--font-display)">Tech Stack</h2>
 					<div class="flex flex-wrap gap-2">
 						{template.tech.map(tech => (
 							<span class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800">{tech}</span>

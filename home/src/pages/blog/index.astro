@@ -1,0 +1,95 @@
+---
+import '../../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Blog - Angular Development Tutorials | draftNG</title>
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-XX4LE51V8Q"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-XX4LE51V8Q');
+		</script>
+		
+		<!-- SEO Meta Tags -->
+		<link rel="canonical" href="https://draftng.xyz/blog" />
+		<meta name="description" content="Angular development tutorials, guides, and best practices. Learn about Angular 22, Signals, Zoneless, Tailwind CSS v4, and modern web development." />
+		<meta name="keywords" content="Angular tutorial, Angular 22, Angular Signals, Tailwind CSS v4, Zoneless Angular, web development guide" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://draftng.xyz/blog" />
+		<meta property="og:title" content="Blog - Angular Development Tutorials | draftNG" />
+		<meta property="og:description" content="Angular development tutorials, guides, and best practices. Learn about Angular 22, Signals, Zoneless, Tailwind CSS v4." />
+		<meta property="og:image" content="https://draftng.xyz/draftOG.png" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="https://draftng.xyz/blog" />
+		<meta property="twitter:title" content="Blog - Angular Development Tutorials | draftNG" />
+		<meta property="twitter:description" content="Angular development tutorials, guides, and best practices. Learn about Angular 22, Signals, Zoneless, Tailwind CSS v4." />
+		<meta property="twitter:image" content="https://draftng.xyz/draftOG.png" />
+	</head>
+	<body class="bg-zinc-950 text-zinc-100 selection:bg-zinc-100 selection:text-zinc-950 font-sans min-h-screen">
+		<div class="max-w-4xl mx-auto px-6 py-12">
+			<a href="/" class="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200 transition-colors mb-8">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+				Back to Templates
+			</a>
+
+			<div class="space-y-12">
+				<div>
+					<h1 class="font-bold text-4xl lg:text-5xl text-zinc-50 mb-4" style="font-family: var(--font-display)">Blog</h1>
+					<p class="text-zinc-400 text-lg">Angular development tutorials, guides, and best practices</p>
+				</div>
+
+				<div class="space-y-8">
+					{posts.map((post) => (
+						<article class="group">
+							<a href={`/blog/${post.id}`} class="block">
+								<div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 transition-colors">
+									<div class="flex items-center gap-2 mb-3">
+										<time datetime={post.data.date?.toISOString() || ''} class="text-zinc-500 text-sm">
+											{post.data.date?.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) || 'Unknown date'}
+										</time>
+										<span class="text-zinc-700">•</span>
+										<span class="text-zinc-500 text-sm">{post.data.author || ''}</span>
+									</div>
+									<h2 class="font-bold text-xl text-zinc-200 group-hover:text-white transition-colors mb-2" style="font-family: var(--font-display)">
+										{post.data.title || ''}
+									</h2>
+									<p class="text-zinc-400 text-sm leading-relaxed mb-4">
+										{post.data.description || ''}
+									</p>
+									<div class="flex flex-wrap gap-2">
+										{(post.data.tags || []).map((tag) => (
+											<span class="text-xs font-semibold px-2 py-1 rounded bg-zinc-800 text-zinc-400">
+												{tag}
+											</span>
+										))}
+									</div>
+								</div>
+							</a>
+						</article>
+					))}
+				</div>
+			</div>
+		</div>
+		<Analytics />
+	</body>
+</html>
