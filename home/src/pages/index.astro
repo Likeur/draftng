@@ -53,6 +53,15 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-XX4LE51V8Q"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-XX4LE51V8Q');
+		</script>
 		<title>draftNG - Clean & Modern Angular 22+ Templates</title>
 		
 		<!-- SEO Meta Tags -->
