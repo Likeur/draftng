@@ -49,8 +49,7 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/png" href="/brand/draftngfavikon.png" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 
@@ -112,7 +111,7 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 				"@type": "Organization",
 				"name": "draftNG",
 				"url": "https://draftng.com",
-				"logo": "https://draftng.com/favicon.svg",
+				"logo": "https://draftng.com/brand/draftnglogo.svg",
 				"description": "A curated collection of open-source, highly polished, and modern Angular templates styled with Tailwind CSS v4.",
 				"sameAs": [
 					"https://github.com/Likeur/draftng",
@@ -143,7 +142,7 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 
 				<h2 class="sr-only">Available Templates</h2>
 
-				<div class="flex flex-row overflow-x-auto scrollbar-none gap-6 snap-x snap-mandatory -mx-6 px-6 sm:-mx-12 sm:px-12 lg:mx-0 lg:px-0 lg:flex-col lg:overflow-visible lg:gap-16 w-auto lg:w-full">
+				<div class="flex flex-row overflow-x-auto scrollbar-none gap-6 snap-x snap-mandatory -mx-6 px-6 scroll-pl-6 sm:-mx-12 sm:px-12 sm:scroll-pl-12 lg:mx-0 lg:px-0 lg:scroll-pl-0 lg:flex-col lg:overflow-visible lg:gap-16 w-auto lg:w-full">
 					{templates.map(tpl => (
 						<div class="project-card w-[85vw] sm:w-[450px] lg:w-full shrink-0 snap-start flex items-stretch gap-12 relative transition-all duration-300" data-type={tpl.github && tpl.github.includes('github.com') ? 'free' : 'premium'}>
 							<!-- Card Content: transparent background, no borders, no wrapper padding -->
@@ -240,9 +239,7 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 
 			<div class="space-y-6">
 				<div class="flex items-center gap-3">
-					<div class="w-8 h-8 rounded bg-zinc-100 flex items-center justify-center font-extrabold text-zinc-950 text-base shadow-md" style="font-family: var(--font-display)">
-						d
-					</div>
+					<img src="/brand/draftnglogo.svg" alt="draftNG logo" class="w-8 h-8" />
 					<h1 class="font-bold text-3xl tracking-tighter text-zinc-50" style="font-family: var(--font-display)">draftNG</h1>
 				</div>
 				
