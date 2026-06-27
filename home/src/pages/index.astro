@@ -1,57 +1,16 @@
 ---
+import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
 
-const templates = [
-  {
-    name: "Foodyng",
-    status: "Active",
-    category: "Restaurant Management",
-    desc: "A premium, comprehensive restaurant management UI dashboard template built with Angular 22 and Tailwind CSS v4. Features real-time order tracking, menu editors, table reservations, and responsive dark-mode analytics.",
-    tech: ["Angular 22", "Tailwind v4", "Restaurant Dashboard", "Analytics"],
-    github: "https://store.draftng.xyz/prd_9mgwfss0",
-    demo: "https://foodyng.vercel.app/dashboard",
-    image: "/project/foodyng.png",
-    date: "28 Jun 2026",
-    slug: "foodyng"
-  },
-  {
-    name: "KleenTrack",
-    status: "Active",
-    category: "Finance & Budgeting",
-    desc: "A premium, high-performance Angular 22+ finance tracking dashboard template. Features interactive budgeting tools, transaction histories, accounts management, invoice generators, and optimized charts.",
-    tech: ["Angular 22", "Tailwind v4", "Finance Tracker", "Charts"],
-    github: "https://store.draftng.xyz/prd_zt5vvy7t",
-    demo: "https://kleen-track.vercel.app/overview",
-    image: "/project/kleenTrack.webp",
-    date: "10 Jun 2026",
-    slug: "kleentrack"
-  },
-  {
-    name: "ProjectNG",
-    status: "Active",
-    category: "Workspace & Management",
-    desc: "A premium, zoneless Angular 22+ dashboard template styled with Tailwind CSS v4. Features tasks, calendar, team view, inbox, and optimized animations.",
-    tech: ["Angular 22", "Tailwind v4", "Zoneless", "Signals"],
-    github: "https://github.com/Likeur/draftng/tree/main/templates/projectng",
-    demo: "https://projectng-three.vercel.app/dashboard",
-    image: "/project/projectng.webp",
-    date: "17 Jun 2026",
-    slug: "projectng"
-  },
-  {
-    name: "Jordy AI",
-    status: "Active",
-    category: "AI Chatbot & Platform",
-    desc: "A premium, modern AI chatbot platform template (similar to Gemini or Perplexity). Fully built with Angular 22 and Tailwind CSS v4, featuring integrated AI image generation, video generation, code generation, and a personal library.",
-    tech: ["Angular 22", "Tailwind v4", "AI Chatbot", "Multi-modal"],
-    github: "https://store.draftng.xyz/prd_ztd707zu",
-    demo: "https://jordyai.vercel.app/chat",
-    image: "/project/jordyai.webp",
-    date: "19 Jun 2026",
-    slug: "jordyai"
-  }
-];
+const allTemplates = await getCollection('templates');
+// Map and sort templates by date descending (newest first)
+const templates = allTemplates
+  .map(t => ({
+    ...t.data,
+    slug: t.id
+  }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 const totalCount = templates.length;
 const freeCount = templates.filter(t => t.github && t.github.includes('github.com')).length;
