@@ -1,0 +1,195 @@
+---
+import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
+
+const template = {
+  name: "Foodyng",
+  status: "Active",
+  category: "Restaurant Management",
+  desc: "A premium, restaurant management UI dashboard template built with Angular 22 and Tailwind CSS v4. Features table bookings, order tracking, menu editors, detailed analytics, and micro-interactions.",
+  fullDesc: "Foodyng is a premium, developer-first restaurant management dashboard template built with Angular 22 and Tailwind CSS v4. Engineered with a beautiful modern aesthetic, fluid animations, and a fully reactive architecture, it provides the ultimate starting point for SaaS applications in the food, beverage, and hospitality industries.",
+  tech: ["Angular 22", "Tailwind v4", "Restaurant Dashboard", "Analytics"],
+  github: "https://store.draftng.xyz/prd_9mgwfss0",
+  demo: "https://foodyng.vercel.app/dashboard",
+  image: "/project/foodyng.png",
+  date: "28 Jun 2026",
+  price: "Premium"
+};
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/brand/draftngfavikon.png" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-XX4LE51V8Q"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-XX4LE51V8Q');
+		</script>
+		<title>Foodyng - Angular Restaurant Management Dashboard | draftNG</title>
+		
+		<!-- SEO Meta Tags -->
+		<link rel="canonical" href="https://draftng.com/foodyng" />
+		<meta name="description" content="Foodyng - Premium Angular 22+ restaurant management dashboard template with real-time order tracking, menu editors, table reservations, and responsive analytics. Built with Tailwind CSS v4." />
+		<meta name="keywords" content="Angular 22, restaurant dashboard, food ordering template, Tailwind CSS v4, Angular template, menu editor, reservation system" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://draftng.com/foodyng" />
+		<meta property="og:title" content="Foodyng - Angular Restaurant Management Dashboard | draftNG" />
+		<meta property="og:description" content="Premium Angular 22+ restaurant management dashboard template with real-time order tracking, menu editors, table reservations, and responsive analytics." />
+		<meta property="og:image" content="https://draftng.com/draftOG.png" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="https://draftng.com/foodyng" />
+		<meta property="twitter:title" content="Foodyng - Angular Restaurant Management Dashboard | draftNG" />
+		<meta property="twitter:description" content="Premium Angular 22+ restaurant management dashboard template with real-time order tracking, menu editors, table reservations, and responsive analytics." />
+		<meta property="twitter:image" content="https://draftng.com/draftOG.png" />
+
+		<!-- Structured Data (JSON-LD) -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "SoftwareApplication",
+				"name": "Foodyng",
+				"operatingSystem": "Web",
+				"applicationCategory": "BusinessApplication",
+				"description": "A premium, comprehensive restaurant management UI dashboard template built with Angular 22 and Tailwind CSS v4. Features real-time order tracking, menu editors, table reservations, and responsive dark-mode analytics.",
+				"offers": {
+					"@type": "Offer",
+					"priceCurrency": "USD",
+					"availability": "https://schema.org/InStock"
+				},
+				"applicationSubCategory": "Restaurant Management Dashboard",
+				"featureList": ["Real-time Order Tracking", "Menu Editor", "Table Reservation Management", "Sales Analytics Charts", "Interactive Table Layout"],
+				"programmingLanguage": ["TypeScript", "Angular"],
+				"author": {
+					"@type": "Organization",
+					"name": "draftNG",
+					"url": "https://draftng.com"
+				}
+			}
+		</script>
+	</head>
+	<body class="bg-zinc-950 text-zinc-100 selection:bg-zinc-100 selection:text-zinc-950 font-sans min-h-screen">
+		<div class="max-w-4xl mx-auto px-6 py-12">
+			<a href="/" class="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200 transition-colors mb-8">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+				Back to Templates
+			</a>
+
+			<div class="space-y-8">
+				<div>
+					<h1 class="font-bold text-4xl lg:text-5xl text-zinc-50 mb-4" style="font-family: var(--font-display)">{template.name}</h1>
+					<div class="flex items-center gap-3 mb-4">
+						<span class="text-xs font-bold tracking-wider uppercase bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-300 px-3 py-1 rounded border border-amber-500/30">
+							{template.price}
+						</span>
+						<span class="text-zinc-400 text-sm">{template.category}</span>
+					</div>
+					<p class="text-zinc-300 text-lg leading-relaxed">{template.fullDesc}</p>
+				</div>
+
+				{template.image && (
+					<div class="w-full rounded-xl overflow-hidden bg-zinc-900 border border-zinc-800 relative shadow-lg">
+						<img src={template.image} alt={template.name} class="w-full h-auto block" />
+					</div>
+				)}
+
+				<div class="flex items-center gap-4 pt-2">
+					<a href={template.github} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-zinc-950 hover:text-black transition-colors bg-zinc-100 hover:bg-white px-6 py-3 rounded-lg shadow-sm font-semibold">
+						Buy Template
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+					</a>
+					<a href={template.demo} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-200 transition-colors px-6 py-3 rounded-lg font-semibold">
+						Live Preview
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+					</a>
+				</div>
+
+				<div class="space-y-4">
+					<h2 class="font-bold text-2xl text-zinc-200" style="font-family: var(--font-display)">Key Features</h2>
+					<ul class="space-y-3 text-zinc-400">
+						<li class="flex items-start gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200 mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+							<span><strong class="text-zinc-200">Table Reservation Management:</strong> Beautiful, interactive drag-and-drop grid layouts to handle bookings, customer lists, and VIP allocations.</span>
+						</li>
+						<li class="flex items-start gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200 mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+							<span><strong class="text-zinc-200">Live Order Tracking:</strong> Reactive status panels showing active orders, prep time countdowns, and runner assignments.</span>
+						</li>
+						<li class="flex items-start gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200 mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+							<span><strong class="text-zinc-200">Menu & Inventory Editor:</strong> High-fidelity panels to configure categories, pricing modifiers, options lists, and inventory limits.</span>
+						</li>
+						<li class="flex items-start gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200 mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+							<span><strong class="text-zinc-200">Revenue Analytics:</strong> Clean charts reporting daily sales volumes, popular dishes, average order value, and weekly targets.</span>
+						</li>
+						<li class="flex items-start gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200 mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+							<span><strong class="text-zinc-200">Micro-Animations & Smooth Motion:</strong> Hover scaling, fluid transitions, and responsive side panels optimized for busy kitchen or floor environments.</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="space-y-4">
+					<h2 class="font-bold text-2xl text-zinc-200" style="font-family: var(--font-display)">Developer & AI Ready</h2>
+					<ul class="space-y-3 text-zinc-400">
+						<li class="flex items-start gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200 mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+							<span><strong class="text-zinc-200">Angular 22 Standalone:</strong> Clean, modular architecture with lazy-loaded components and strict types.</span>
+						</li>
+						<li class="flex items-start gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200 mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+							<span><strong class="text-zinc-200">Angular Signals:</strong> Fine-grained state reactive updates for zero-lag dashboard operation.</span>
+						</li>
+						<li class="flex items-start gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200 mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+							<span><strong class="text-zinc-200">Tailwind CSS v4:</strong> Fully integrated theme configuration utilizing modern custom CSS properties.</span>
+						</li>
+					</ul>
+				</div>
+
+				<div class="space-y-4">
+					<h2 class="font-bold text-2xl text-zinc-200" style="font-family: var(--font-display)">What's Included</h2>
+					<ul class="space-y-2 text-zinc-400">
+						<li class="flex items-center gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200"><polyline points="20 6 9 17 4 12"/></svg>
+							Full source code (Angular 22 / Tailwind CSS v4 / Vitest)
+						</li>
+						<li class="flex items-center gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200"><polyline points="20 6 9 17 4 12"/></svg>
+							Interactive state configurations (OrderService, BookingService, MenuService)
+						</li>
+						<li class="flex items-center gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200"><polyline points="20 6 9 17 4 12"/></svg>
+							Dedicated Developer & AI customization guidelines (GUIDELINES.md)
+						</li>
+						<li class="flex items-center gap-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-200"><polyline points="20 6 9 17 4 12"/></svg>
+							Commercial License template
+						</li>
+					</ul>
+				</div>
+
+				<div class="space-y-4">
+					<h2 class="font-bold text-2xl text-zinc-200" style="font-family: var(--font-display)">Tech Stack</h2>
+					<div class="flex flex-wrap gap-2">
+						{template.tech.map(tech => (
+							<span class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-zinc-900 text-zinc-300 border border-zinc-800">{tech}</span>
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+		<Analytics />
+	</body>
+</html>

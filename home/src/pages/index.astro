@@ -4,6 +4,18 @@ import Analytics from '@vercel/analytics/astro';
 
 const templates = [
   {
+    name: "Foodyng",
+    status: "Active",
+    category: "Restaurant Management",
+    desc: "A premium, comprehensive restaurant management UI dashboard template built with Angular 22 and Tailwind CSS v4. Features real-time order tracking, menu editors, table reservations, and responsive dark-mode analytics.",
+    tech: ["Angular 22", "Tailwind v4", "Restaurant Dashboard", "Analytics"],
+    github: "https://store.draftng.xyz/prd_9mgwfss0",
+    demo: "https://foodyng.vercel.app/dashboard",
+    image: "/project/foodyng.png",
+    date: "28 Jun 2026",
+    slug: "foodyng"
+  },
+  {
     name: "KleenTrack",
     status: "Active",
     category: "Finance & Budgeting",
@@ -94,7 +106,7 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 					"@type": "AggregateOffer",
 					"priceCurrency": "USD",
 					"lowPrice": "0",
-					"offerCount": "3"
+					"offerCount": "4"
 				},
 				"aggregateRating": {
 					"@type": "AggregateRating",
