@@ -1,6 +1,7 @@
-import { Component, inject, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, computed, PLATFORM_ID, signal } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SchoolService } from '../shared/services/school.service';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 interface ClassGroup {
   id: number;
@@ -14,7 +15,7 @@ interface ClassGroup {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule],
+  imports: [CommonModule, NgApexchartsModule],
   template: `
     <div class="space-y-8 animate-blur-slide font-sans select-none">
       
@@ -33,12 +34,12 @@ interface ClassGroup {
         </div>
       </section>
 
-      <!-- KPI Metrics Grid (Vercel-style clean slate grids) -->
+      <!-- KPI Metrics Grid -->
       <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         <!-- Total Students -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900' : 'bg-white border-zinc-200'"
+          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
           class="p-5 rounded-xl border flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Total Students</span>
@@ -59,7 +60,7 @@ interface ClassGroup {
 
         <!-- Active Classes -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900' : 'bg-white border-zinc-200'"
+          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
           class="p-5 rounded-xl border flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Active Classes</span>
@@ -80,7 +81,7 @@ interface ClassGroup {
 
         <!-- Teachers on Shift -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900' : 'bg-white border-zinc-200'"
+          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
           class="p-5 rounded-xl border flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Teachers on Shift</span>
@@ -101,7 +102,7 @@ interface ClassGroup {
 
         <!-- Attendance Rate -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900' : 'bg-white border-zinc-200'"
+          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
           class="p-5 rounded-xl border flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Attendance Rate</span>
@@ -122,6 +123,66 @@ interface ClassGroup {
 
       </section>
 
+      <!-- Analytics Charts Row (Vercel-style clean curves) -->
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Attendance Chart Card -->
+        <div 
+          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
+          class="lg:col-span-2 rounded-xl border p-6 space-y-4">
+          <div>
+            <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Attendance Analytics</h3>
+            <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Average daily attendance rate over the current week</p>
+          </div>
+          <div class="h-52 flex items-center justify-center overflow-hidden">
+            @if (isBrowser()) {
+              <apx-chart
+                class="w-full font-sans"
+                [series]="attendanceChartOptions().series"
+                [chart]="attendanceChartOptions().chart"
+                [colors]="attendanceChartOptions().colors"
+                [stroke]="attendanceChartOptions().stroke"
+                [fill]="attendanceChartOptions().fill"
+                [xaxis]="attendanceChartOptions().xaxis"
+                [yaxis]="attendanceChartOptions().yaxis"
+                [grid]="attendanceChartOptions().grid"
+                [dataLabels]="attendanceChartOptions().dataLabels"
+                [tooltip]="attendanceChartOptions().tooltip"
+              ></apx-chart>
+            } @else {
+              <span class="text-[10px] text-zinc-400 font-normal">Loading chart...</span>
+            }
+          </div>
+        </div>
+
+        <!-- Cohort Share Card -->
+        <div 
+          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
+          class="rounded-xl border p-6 space-y-4">
+          <div>
+            <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Cohort Share</h3>
+            <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Distribution of active students per cohort</p>
+          </div>
+          <div class="h-52 flex items-center justify-center overflow-hidden">
+            @if (isBrowser()) {
+              <apx-chart
+                class="w-full font-sans"
+                [series]="cohortChartOptions().series"
+                [chart]="cohortChartOptions().chart"
+                [labels]="cohortChartOptions().labels"
+                [colors]="cohortChartOptions().colors"
+                [stroke]="cohortChartOptions().stroke"
+                [plotOptions]="cohortChartOptions().plotOptions"
+                [dataLabels]="cohortChartOptions().dataLabels"
+                [legend]="cohortChartOptions().legend"
+                [tooltip]="cohortChartOptions().tooltip"
+              ></apx-chart>
+            } @else {
+              <span class="text-[10px] text-zinc-400 font-normal">Loading share data...</span>
+            }
+          </div>
+        </div>
+      </section>
+
       <!-- Main Layout Columns -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
@@ -130,7 +191,7 @@ interface ClassGroup {
           
           <!-- Class Occupancy -->
           <div 
-            [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900' : 'bg-white border-zinc-200'"
+            [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
             class="rounded-xl border p-6 space-y-4">
             <div class="flex items-center justify-between">
               <div>
@@ -149,7 +210,7 @@ interface ClassGroup {
                   
                   <div class="flex items-start justify-between">
                     <div>
-                      <span class="text-[8px] font-mono bg-zinc-50 dark:bg-zinc-900 text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-1.5 py-0.5 rounded font-medium select-none">{{ cls.code }}</span>
+                      <span class="text-[8px] font-mono bg-zinc-55 dark:bg-zinc-900 text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-1.5 py-0.5 rounded font-medium select-none">{{ cls.code }}</span>
                       <h4 class="font-medium text-sm text-zinc-800 dark:text-zinc-100 mt-2.5 truncate max-w-40">{{ cls.subject }}</h4>
                       <p class="text-[10px] text-zinc-400 font-normal mt-1">{{ cls.teacher }}</p>
                     </div>
@@ -173,7 +234,7 @@ interface ClassGroup {
 
           <!-- Activity Logs Section -->
           <div 
-            [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900' : 'bg-white border-zinc-200'"
+            [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
             class="rounded-xl border p-6 space-y-4">
             <div>
               <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Registrar Activity</h3>
@@ -200,7 +261,7 @@ interface ClassGroup {
           
           <!-- Upcoming Events -->
           <div 
-            [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900' : 'bg-white border-zinc-200'"
+            [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
             class="rounded-xl border p-6 space-y-4">
             <div>
               <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Calendar & Events</h3>
@@ -238,9 +299,9 @@ interface ClassGroup {
             </div>
           </div>
 
-          <!-- Quick Actions Panel (Vercel-style clean action slots) -->
+          <!-- Quick Actions Panel -->
           <div 
-            [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900' : 'bg-white border-zinc-200'"
+            [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
             class="rounded-xl border p-6 space-y-4">
             <div>
               <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Console Shortcuts</h3>
@@ -283,6 +344,8 @@ interface ClassGroup {
 })
 export class DashboardComponent {
   protected readonly state = inject(SchoolService);
+  private readonly platformId = inject(PLATFORM_ID);
+  protected readonly isBrowser = signal(isPlatformBrowser(this.platformId));
 
   // Active Subject Cohorts mock data
   protected readonly classGroups: ClassGroup[] = [
@@ -291,6 +354,159 @@ export class DashboardComponent {
     { id: 203, subject: 'English Literature', code: 'LIT-201', teacher: 'Ms. Clara Oswald', room: 'Humanities Room 12', pax: 19, maxPax: 30 },
     { id: 204, subject: 'Intro to Microeconomics', code: 'ECON-101', teacher: 'Dr. Alistair Finch', room: 'Lecture Hall C', pax: 45, maxPax: 50 }
   ];
+
+  // Attendance Weekly Trend reactive options
+  protected readonly attendanceChartOptions = computed(() => {
+    const isDark = this.state.isDark();
+    const primaryColor = isDark ? '#ffffff' : '#09090b';
+    const gridColor = isDark ? '#1f1f23' : '#f4f4f5';
+    const labelColor = isDark ? '#52525b' : '#a1a1aa';
+
+    return {
+      series: [
+        {
+          name: 'Attendance Rate',
+          data: [97.2, 98.1, 97.8, 98.4, 98.2]
+        }
+      ],
+      chart: {
+        type: 'area' as any,
+        height: 200,
+        parentHeightOffset: 0,
+        toolbar: { show: false },
+        sparkline: { enabled: false },
+        animations: { enabled: true }
+      },
+      colors: [primaryColor],
+      stroke: {
+        curve: 'smooth' as any,
+        width: 1.5
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: isDark ? 0.25 : 0.08,
+          opacityTo: 0,
+          stops: [0, 95, 100]
+        }
+      },
+      xaxis: {
+        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+        axisBorder: { show: false },
+        axisTicks: { show: false },
+        labels: {
+          style: {
+            colors: labelColor,
+            fontFamily: 'Geist Sans, sans-serif',
+            fontSize: '9px'
+          }
+        }
+      },
+      yaxis: {
+        min: 95,
+        max: 100,
+        tickAmount: 5,
+        labels: {
+          style: {
+            colors: labelColor,
+            fontFamily: 'Geist Sans, sans-serif',
+            fontSize: '9px'
+          },
+          formatter: (val: number) => `${val}%`
+        }
+      },
+      grid: {
+        borderColor: gridColor,
+        strokeDashArray: 3,
+        xaxis: { lines: { show: false } },
+        yaxis: { lines: { show: true } },
+        padding: { top: 0, right: 10, bottom: 0, left: 10 }
+      },
+      dataLabels: { enabled: false },
+      tooltip: {
+        theme: isDark ? 'dark' : 'light',
+        style: {
+          fontSize: '10px',
+          fontFamily: 'Geist Sans, sans-serif'
+        },
+        y: {
+          formatter: (val: number) => `${val}%`
+        }
+      }
+    };
+  });
+
+  // Cohort Distribution Share reactive options
+  protected readonly cohortChartOptions = computed(() => {
+    const isDark = this.state.isDark();
+    const labelColor = isDark ? '#71717a' : '#a1a1aa';
+    const fillColors = isDark 
+      ? ['#fafafa', '#a1a1aa', '#52525b', '#27272a']
+      : ['#09090b', '#71717a', '#d4d4d8', '#f4f4f5'];
+
+    return {
+      series: [28, 24, 19, 45],
+      chart: {
+        type: 'donut' as any,
+        height: 180,
+        animations: { enabled: true }
+      },
+      labels: ['AP Calc BC', 'Honors Chem', 'English Lit', 'Microecon'],
+      colors: fillColors,
+      stroke: {
+        show: true,
+        width: 1,
+        colors: [isDark ? '#09090b' : '#ffffff']
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '72%',
+            background: 'transparent',
+            labels: {
+              show: true,
+              name: {
+                show: true,
+                fontSize: '9px',
+                fontFamily: 'Geist Sans, sans-serif',
+                color: labelColor,
+                offsetY: -3
+              },
+              value: {
+                show: true,
+                fontSize: '15px',
+                fontFamily: 'Geist Sans, sans-serif',
+                fontWeight: '500',
+                color: isDark ? '#ffffff' : '#09090b',
+                offsetY: 3,
+                formatter: (val: string) => val
+              },
+              total: {
+                show: true,
+                label: 'Total Students',
+                fontSize: '9px',
+                fontFamily: 'Geist Sans, sans-serif',
+                color: labelColor,
+                formatter: () => '116'
+              }
+            }
+          }
+        }
+      },
+      dataLabels: { enabled: false },
+      legend: {
+        show: false
+      },
+      tooltip: {
+        theme: isDark ? 'dark' : 'light',
+        style: {
+          fontSize: '10px',
+          fontFamily: 'Geist Sans, sans-serif'
+        }
+      }
+    };
+  });
 
   // Filters computed from search query
   protected readonly filteredClasses = computed(() => {
@@ -315,12 +531,7 @@ export class DashboardComponent {
   }
 
   protected getCategoryColor(cat: string): string {
-    switch (cat) {
-      case 'academic': return 'bg-zinc-400 dark:bg-zinc-650';
-      case 'system': return 'bg-zinc-400 dark:bg-zinc-650';
-      case 'administrative': return 'bg-zinc-400 dark:bg-zinc-650';
-      default: return 'bg-zinc-400';
-    }
+    return 'bg-zinc-300 dark:bg-zinc-700';
   }
 
   protected getEventTypeColor(type: string): string {
