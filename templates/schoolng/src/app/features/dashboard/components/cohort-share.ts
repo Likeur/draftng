@@ -39,17 +39,27 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 export class DashboardCohortShareComponent {
   protected readonly state = inject(SchoolService);
   private readonly platformId = inject(PLATFORM_ID);
-  protected readonly isBrowser = signal(isPlatformBrowser(this.platformId));
+  protected readonly isBrowser = signal(false);
 
   constructor() {
+    let isInitial = true;
+
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        this.isBrowser.set(true);
+      }, 500);
+    }
+
     effect(() => {
       this.state.isCollapsed();
+      if (isInitial) {
+        isInitial = false;
+        return;
+      }
       if (isPlatformBrowser(this.platformId)) {
-        [50, 100, 150, 200, 250, 300].forEach(d => {
-          setTimeout(() => {
-            window.dispatchEvent(new Event('resize'));
-          }, d);
-        });
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'));
+        }, 220); // Wait slightly past the 200ms transition
       }
     });
   }

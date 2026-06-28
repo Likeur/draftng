@@ -189,3 +189,10 @@
   font-family: var(--font-sans) !important;
   font-size: 9px !important;
 }
+
+/* Force SVG canvas to scale smoothly with container transitions before redraw */
+.apexcharts-canvas, 
+.apexcharts-canvas svg {
+  width: 100% !important;
+}
+
