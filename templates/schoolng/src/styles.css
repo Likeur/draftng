@@ -29,6 +29,7 @@
     --color-zinc-650: #52525b;
     --color-zinc-800: #27272a;
     --color-zinc-900: #111111;        /* Clean high-contrast dark text */
+    --color-zinc-955: #ffffff;        /* Panel/card backgrounds in light mode */
     --color-zinc-950: #000000;
   }
 
@@ -37,6 +38,7 @@
     --color-zinc-100: #18181b;        /* Zinc-900 panels */
     --color-zinc-200: #27272a;        /* Zinc-800 borders */
     --color-zinc-900: #fafafa;
+    --color-zinc-955: #09090b;        /* Panel/card backgrounds in dark mode */
     --color-zinc-950: #09090b;
   }
 }

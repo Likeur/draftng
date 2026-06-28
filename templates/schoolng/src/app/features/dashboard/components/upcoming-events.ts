@@ -15,7 +15,7 @@ import { SchoolService } from '../../../shared/services/school.service';
       <div class="space-y-2.5">
         @for (evt of state.upcomingEvents(); track evt.id) {
           <div 
-            class="p-3.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale font-sans">
+            class="p-3.5 rounded-xl border bg-white dark:bg-zinc-100/40 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale font-sans">
             
             <div class="flex items-center justify-between gap-2">
               <h4 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 truncate">{{ evt.title }}</h4>

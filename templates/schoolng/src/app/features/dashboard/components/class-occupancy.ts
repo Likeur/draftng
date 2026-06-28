@@ -31,7 +31,7 @@ interface ClassGroup {
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         @for (cls of filteredClasses(); track cls.id) {
           <div 
-            class="p-4 rounded-xl border bg-white dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
+            class="p-4 rounded-xl border bg-white dark:bg-zinc-100/40 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
             
             <div class="flex items-start justify-between">
               <div>
@@ -39,7 +39,7 @@ interface ClassGroup {
                 <span [class]="cls.badgeColor" class="text-[8px] font-mono px-1.5 py-0.5 rounded font-medium select-none border">
                   {{ cls.code }}
                 </span>
-                <h4 class="font-medium text-sm text-zinc-850 dark:text-zinc-100 mt-2 truncate max-w-40">{{ cls.subject }}</h4>
+                <h4 class="font-medium text-sm text-zinc-900 dark:text-zinc-100 mt-2 truncate max-w-40">{{ cls.subject }}</h4>
                 <p class="text-[10px] text-zinc-400 font-normal mt-1">{{ cls.teacher }}</p>
               </div>
             </div>
