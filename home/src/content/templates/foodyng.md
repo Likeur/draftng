@@ -7,7 +7,7 @@ fullDesc: "Foodyng is a high-end, modern, and ultra-high-performance restaurant 
 tech: ["Angular 22+", "Tailwind v4", "Signals", "ApexCharts", "Multi-theme"]
 github: "https://store.draftng.xyz/prd_9mgwfss0"
 demo: "https://foodyng.vercel.app/dashboard"
-image: "/project/foodyng.png"
+image: "/project/foodyng.webp"
 date: "28 Jun 2026"
 price: "Premium"
 ---
