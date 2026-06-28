@@ -10,7 +10,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   template: `
     <div class="rounded-xl border bg-white border-zinc-200 p-5 space-y-3">
       
-      <div class="flex items-start justify-between gap-4">
+      <div class="flex items-start justify-between gap-4 relative z-20">
         <div>
           <h3 class="font-medium text-xs text-zinc-900 tracking-wider capitalize">Attendance Analytics</h3>
           <p class="text-[10px] text-zinc-400 font-normal mt-1">{{ getDescriptionText() }}</p>
