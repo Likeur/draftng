@@ -18,20 +18,20 @@ interface ClassGroup {
   standalone: true,
   imports: [],
   template: `
-    <div class="rounded-xl border bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
+    <div class="rounded-xl border bg-white border-zinc-200 p-5 space-y-3">
       <div class="flex items-center justify-between">
         <div>
-          <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Class Occupancy</h3>
+          <h3 class="font-medium text-xs text-zinc-900 tracking-wider capitalize">Class Occupancy</h3>
           <p class="text-[10px] text-zinc-400 font-normal mt-1">Scheduled lectures for today</p>
         </div>
-        <button class="text-[10px] font-medium px-2.5 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 rounded-lg transition-all clickable-scale">View All</button>
+        <button class="text-[10px] font-medium px-2.5 py-1.5 bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-500 hover:text-zinc-900 rounded-lg transition-all clickable-scale">View All</button>
       </div>
 
       <!-- Subject Cards Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         @for (cls of filteredClasses(); track cls.id) {
           <div 
-            class="p-4 rounded-xl border bg-white dark:bg-zinc-100/40 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
+            class="p-4 rounded-xl border bg-white border-zinc-200/60 hover:border-zinc-300 transition-all duration-200 animate-blur-slide clickable-scale">
             
             <div class="flex items-start justify-between">
               <div>
@@ -39,7 +39,7 @@ interface ClassGroup {
                 <span [class]="cls.badgeColor" class="text-[8px] font-mono px-1.5 py-0.5 rounded font-medium select-none border">
                   {{ cls.code }}
                 </span>
-                <h4 class="font-medium text-sm text-zinc-900 dark:text-zinc-100 mt-2 truncate max-w-40">{{ cls.subject }}</h4>
+                <h4 class="font-medium text-sm text-zinc-900 mt-2 truncate max-w-40">{{ cls.subject }}</h4>
                 <p class="text-[10px] text-zinc-400 font-normal mt-1">{{ cls.teacher }}</p>
               </div>
             </div>
@@ -50,7 +50,7 @@ interface ClassGroup {
                 <span>{{ cls.pax }} / {{ cls.maxPax }} ({{ getPercent(cls.pax, cls.maxPax) }}%)</span>
               </div>
               <!-- Colored progress bar -->
-              <div class="w-full h-1 rounded-full bg-zinc-100 dark:bg-zinc-900 overflow-hidden">
+              <div class="w-full h-1 rounded-full bg-zinc-100 overflow-hidden">
                 <div [class]="cls.color" class="h-full rounded-full" [style.width.%]="getPercent(cls.pax, cls.maxPax)"></div>
               </div>
             </div>
@@ -75,7 +75,7 @@ export class DashboardClassOccupancyComponent {
       pax: 28, 
       maxPax: 30, 
       color: 'bg-emerald-500', 
-      badgeColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 dark:border-emerald-500/10' 
+      badgeColor: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' 
     },
     { 
       id: 202, 
@@ -86,7 +86,7 @@ export class DashboardClassOccupancyComponent {
       pax: 24, 
       maxPax: 25, 
       color: 'bg-blue-500', 
-      badgeColor: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20 dark:border-blue-500/10' 
+      badgeColor: 'bg-blue-500/10 text-blue-600 border-blue-500/20' 
     },
     { 
       id: 203, 
@@ -97,7 +97,7 @@ export class DashboardClassOccupancyComponent {
       pax: 19, 
       maxPax: 30, 
       color: 'bg-indigo-500', 
-      badgeColor: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20 dark:border-indigo-500/10' 
+      badgeColor: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20' 
     },
     { 
       id: 204, 
@@ -108,7 +108,7 @@ export class DashboardClassOccupancyComponent {
       pax: 45, 
       maxPax: 50, 
       color: 'bg-amber-500', 
-      badgeColor: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 dark:border-amber-500/10' 
+      badgeColor: 'bg-amber-500/10 text-amber-600 border-amber-500/20' 
     }
   ];
 

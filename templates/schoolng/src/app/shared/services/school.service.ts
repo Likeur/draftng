@@ -21,8 +21,6 @@ export interface SchoolEvent {
   providedIn: 'root'
 })
 export class SchoolService {
-  public readonly isDark = signal(true);
-  public readonly currentTheme = signal<'dark' | 'light' | 'system'>('dark');
   public readonly searchQuery = signal('');
   public readonly isSidebarCollapsed = signal(false);
   public readonly isCollapsed = this.isSidebarCollapsed;
@@ -60,34 +58,10 @@ export class SchoolService {
     });
 
     if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' | 'system' || 'dark';
-      this.currentTheme.set(savedTheme);
-      this.applyTheme(savedTheme);
-
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (this.currentTheme() === 'system') {
-          this.isDark.set(e.matches);
-        }
-      });
-
       // Default sidebar closed/collapsed on mobile screens
       const isMobile = window.innerWidth < 768;
       this.isSidebarCollapsed.set(isMobile);
     }
-  }
-
-  public selectTheme(theme: 'dark' | 'light' | 'system'): void {
-    this.currentTheme.set(theme);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('theme', theme);
-    }
-    this.applyTheme(theme);
-  }
-
-  public toggleTheme(): void {
-    const current = this.currentTheme();
-    const nextTheme = current === 'dark' ? 'light' : 'dark';
-    this.selectTheme(nextTheme);
   }
 
   public toggleSidebar(): void {
@@ -96,16 +70,5 @@ export class SchoolService {
 
   public setSidebarCollapsed(collapsed: boolean): void {
     this.isSidebarCollapsed.set(collapsed);
-  }
-
-  private applyTheme(theme: 'dark' | 'light' | 'system'): void {
-    if (theme === 'system') {
-      if (typeof window !== 'undefined') {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        this.isDark.set(prefersDark);
-      }
-    } else {
-      this.isDark.set(theme === 'dark');
-    }
   }
 }

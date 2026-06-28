@@ -8,27 +8,27 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   standalone: true,
   imports: [NgApexchartsModule],
   template: `
-    <div class="rounded-xl border bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
+    <div class="rounded-xl border bg-white border-zinc-200 p-5 space-y-3">
       
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Attendance Analytics</h3>
+          <h3 class="font-medium text-xs text-zinc-900 tracking-wider capitalize">Attendance Analytics</h3>
           <p class="text-[10px] text-zinc-400 font-normal mt-1">{{ getDescriptionText() }}</p>
         </div>
         
         <!-- Controls: Segment Selector + 3-dots config button -->
         <div class="flex items-center gap-2 relative" id="chart-controls-container">
           <!-- Segmented timeframe selector -->
-          <div class="flex items-center rounded-lg border border-zinc-200 dark:border-zinc-800 p-0.5 bg-zinc-50 dark:bg-zinc-900/50 select-none">
-            <button (click)="changeTimeframe('daily')" [class]="activeTimeframe() === 'daily' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium' : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Daily</button>
-            <button (click)="changeTimeframe('weekly')" [class]="activeTimeframe() === 'weekly' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium' : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Weekly</button>
-            <button (click)="changeTimeframe('monthly')" [class]="activeTimeframe() === 'monthly' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium' : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Monthly</button>
+          <div class="flex items-center rounded-lg border border-zinc-200 p-0.5 bg-zinc-50 select-none">
+            <button (click)="changeTimeframe('daily')" [class]="activeTimeframe() === 'daily' ? 'bg-white text-zinc-900 shadow-sm font-medium' : 'text-zinc-500 hover:text-zinc-800'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Daily</button>
+            <button (click)="changeTimeframe('weekly')" [class]="activeTimeframe() === 'weekly' ? 'bg-white text-zinc-900 shadow-sm font-medium' : 'text-zinc-500 hover:text-zinc-800'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Weekly</button>
+            <button (click)="changeTimeframe('monthly')" [class]="activeTimeframe() === 'monthly' ? 'bg-white text-zinc-900 shadow-sm font-medium' : 'text-zinc-500 hover:text-zinc-800'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Monthly</button>
           </div>
 
           <!-- More Config 3-Dots Button -->
           <button 
             (click)="toggleChartConfig($event)"
-            class="w-7 h-7 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-250 bg-white dark:bg-zinc-950/60 transition-all cursor-pointer clickable-scale">
+            class="w-7 h-7 flex items-center justify-center rounded-lg border border-zinc-200 text-zinc-500 hover:text-zinc-900 bg-white transition-all cursor-pointer clickable-scale">
             <!-- Lucide: more-horizontal -->
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
           </button>
@@ -36,25 +36,25 @@ import { NgApexchartsModule } from 'ng-apexcharts';
           <!-- Config Options Dropdown Menu -->
           @if (isChartConfigOpen()) {
             <div 
-              class="absolute right-0 top-full mt-1.5 w-44 bg-zinc-955 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5 z-40 shadow-lg animate-fade-in text-zinc-700 dark:text-zinc-300 font-sans">
+              class="absolute right-0 top-full mt-1.5 w-44 bg-white border border-zinc-200 rounded-xl p-1.5 z-40 shadow-lg animate-fade-in text-zinc-700 font-sans">
               
-              <button (click)="toggleGridLines()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left font-medium">
+              <button (click)="toggleGridLines()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 transition-all cursor-pointer text-left font-medium">
                 <span>Grid Lines</span>
                 <span class="text-[9px] font-medium" [class]="showGridLines() ? 'text-emerald-500' : 'text-zinc-400'">
                   {{ showGridLines() ? 'On' : 'Off' }}
                 </span>
               </button>
 
-              <button (click)="toggleCurveType()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left font-medium">
+              <button (click)="toggleCurveType()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 transition-all cursor-pointer text-left font-medium">
                 <span>Smooth Curve</span>
                 <span class="text-[9px] font-medium" [class]="curveType() === 'smooth' ? 'text-emerald-500' : 'text-zinc-400'">
                   {{ curveType() === 'smooth' ? 'Yes' : 'No' }}
                 </span>
               </button>
 
-              <div class="h-px my-1 bg-zinc-100 dark:bg-zinc-900"></div>
+              <div class="h-px my-1 bg-zinc-100"></div>
 
-              <button (click)="toggleGradientFill()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left font-medium">
+              <button (click)="toggleGradientFill()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 transition-all cursor-pointer text-left font-medium">
                 <span>Gradient Fill</span>
                 <span class="text-[9px] font-medium" [class]="showGradient() ? 'text-emerald-500' : 'text-zinc-400'">
                   {{ showGradient() ? 'On' : 'Off' }}
@@ -116,9 +116,8 @@ export class DashboardAttendanceChartComponent {
   };
 
   protected readonly attendanceChartOptions = computed(() => {
-    const isDark = this.state.isDark();
-    const gridColor = isDark ? '#1f1f23' : '#eaeaea';
-    const labelColor = isDark ? '#52525b' : '#a1a1aa';
+    const gridColor = '#eaeaea';
+    const labelColor = '#a1a1aa';
     const tf = this.activeTimeframe();
     const currentDataset = this.datasets[tf];
 
@@ -186,7 +185,7 @@ export class DashboardAttendanceChartComponent {
       },
       dataLabels: { enabled: false },
       tooltip: {
-        theme: isDark ? 'dark' : 'light',
+        theme: 'light',
         style: {
           fontSize: '10px',
           fontFamily: 'Geist Sans, sans-serif'

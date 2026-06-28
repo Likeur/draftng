@@ -6,20 +6,20 @@ import { SchoolService } from '../../../shared/services/school.service';
   standalone: true,
   imports: [],
   template: `
-    <div class="rounded-xl border bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
+    <div class="rounded-xl border bg-white border-zinc-200 p-5 space-y-3">
       <div>
-        <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Registrar Activity</h3>
+        <h3 class="font-medium text-xs text-zinc-900 tracking-wider capitalize">Registrar Activity</h3>
         <p class="text-[10px] text-zinc-400 font-normal mt-1">Live audit log of registrar activity and marks entries</p>
       </div>
 
-      <div class="divide-y divide-zinc-100 dark:divide-zinc-900 font-sans">
+      <div class="divide-y divide-zinc-100 font-sans">
         @for (log of filteredLogs(); track log.id) {
           <div class="py-2.5 flex items-start justify-between gap-4 text-xs font-normal animate-blur-slide">
             <div class="flex items-start gap-3">
               <span [class]="getCategoryColor(log.category)" class="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"></span>
-              <p class="text-zinc-600 dark:text-zinc-300 leading-normal">{{ log.message }}</p>
+              <p class="text-zinc-650 leading-normal">{{ log.message }}</p>
             </div>
-            <span class="text-[9px] text-zinc-455 whitespace-nowrap pt-0.5 font-mono select-none font-normal">{{ log.time }}</span>
+            <span class="text-[9px] text-zinc-400 whitespace-nowrap pt-0.5 font-mono select-none font-normal">{{ log.time }}</span>
           </div>
         }
       </div>

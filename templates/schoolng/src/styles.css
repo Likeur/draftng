@@ -5,11 +5,8 @@
   --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', monospace;
   
-  --color-zinc-850: rgba(63, 63, 70, 0.45); /* More visible dark mode border */
-  --color-zinc-955: var(--zinc-955);
+  --color-zinc-850: rgba(63, 63, 70, 0.45);
 }
-
-@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   html, body {
@@ -30,17 +27,7 @@
     --color-zinc-650: #52525b;
     --color-zinc-800: #27272a;
     --color-zinc-900: #111111;        /* Clean high-contrast dark text */
-    --zinc-955: #ffffff;              /* Panel/card backgrounds in light mode */
     --color-zinc-950: #000000;
-  }
-
-  .dark {
-    --color-zinc-50: #09090b;         /* Deep Vercel dark mode page background */
-    --color-zinc-100: #18181b;        /* Zinc-900 panels */
-    --color-zinc-200: #27272a;        /* Zinc-800 borders */
-    --color-zinc-900: #fafafa;
-    --zinc-955: #09090b;              /* Panel/card backgrounds in dark mode */
-    --color-zinc-950: #09090b;
   }
 }
 
@@ -130,4 +117,3 @@
   mix-blend-mode: overlay;
   pointer-events: none;
 }
-
