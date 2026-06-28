@@ -42,7 +42,8 @@ export class DashboardGpaTrendComponent {
   protected readonly gpaChartOptions = computed(() => {
     const isDark = this.state.isDark();
     const gridColor = isDark ? '#27272a' : '#eaeaea';
-    const labelColor = isDark ? '#71717a' : '#a1a1aa';
+    const labelColor = isDark ? '#a1a1aa' : '#71717a';
+    const legendColor = isDark ? '#fafafa' : '#09090b';
 
     return {
       series: [
@@ -113,7 +114,7 @@ export class DashboardGpaTrendComponent {
         horizontalAlign: 'right' as any,
         fontSize: '9px',
         fontFamily: 'Geist Sans, sans-serif',
-        labels: { colors: labelColor },
+        labels: { colors: legendColor },
         itemMargin: { horizontal: 6, vertical: 0 }
       },
       tooltip: {
