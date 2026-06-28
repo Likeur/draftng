@@ -1,5 +1,4 @@
 import { Component, inject, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SchoolService } from '../../../shared/services/school.service';
 
 interface ClassGroup {
@@ -17,7 +16,7 @@ interface ClassGroup {
 @Component({
   selector: 'app-dashboard-class-occupancy',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
       <div class="flex items-center justify-between">

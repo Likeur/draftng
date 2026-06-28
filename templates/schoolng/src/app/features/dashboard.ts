@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DashboardKpisComponent } from './dashboard/components/kpis';
 import { DashboardAttendanceChartComponent } from './dashboard/components/attendance-chart';
 import { DashboardCohortShareComponent } from './dashboard/components/cohort-share';
@@ -12,7 +11,6 @@ import { DashboardShortcutsComponent } from './dashboard/components/shortcuts';
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    CommonModule,
     DashboardKpisComponent,
     DashboardAttendanceChartComponent,
     DashboardCohortShareComponent,

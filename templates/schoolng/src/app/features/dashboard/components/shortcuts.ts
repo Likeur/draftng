@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SchoolService } from '../../../shared/services/school.service';
 
 @Component({
   selector: 'app-dashboard-shortcuts',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div 
       class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">

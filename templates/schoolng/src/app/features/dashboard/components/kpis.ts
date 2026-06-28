@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SchoolService } from '../../../shared/services/school.service';
 
 @Component({
   selector: 'app-dashboard-kpis',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       

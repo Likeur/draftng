@@ -1,12 +1,12 @@
 import { Component, inject, computed, PLATFORM_ID, signal } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { SchoolService } from '../../../shared/services/school.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-dashboard-cohort-share',
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule],
+  imports: [NgApexchartsModule],
   template: `
     <div class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
       <div>
