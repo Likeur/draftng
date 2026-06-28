@@ -10,7 +10,7 @@ import { SchoolService } from '../../../shared/services/school.service';
       
       <!-- Total Students -->
       <div 
-        class="p-4.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
+        class="p-4.5 rounded-xl border bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
         <div class="flex items-center justify-between">
           <span class="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Total Students</span>
           <div class="text-zinc-400 dark:text-zinc-500">
@@ -30,7 +30,7 @@ import { SchoolService } from '../../../shared/services/school.service';
 
       <!-- Active Classes -->
       <div 
-        class="p-4.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
+        class="p-4.5 rounded-xl border bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
         <div class="flex items-center justify-between">
           <span class="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Active Classes</span>
           <div class="text-zinc-400 dark:text-zinc-500">
@@ -50,7 +50,7 @@ import { SchoolService } from '../../../shared/services/school.service';
 
       <!-- Teachers on Shift -->
       <div 
-        class="p-4.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
+        class="p-4.5 rounded-xl border bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
         <div class="flex items-center justify-between">
           <span class="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Teachers on Shift</span>
           <div class="text-zinc-400 dark:text-zinc-500">
@@ -70,7 +70,7 @@ import { SchoolService } from '../../../shared/services/school.service';
 
       <!-- Attendance Rate -->
       <div 
-        class="p-4.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
+        class="p-4.5 rounded-xl border bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
         <div class="flex items-center justify-between">
           <span class="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Attendance Rate</span>
           <div class="text-zinc-400 dark:text-zinc-500">

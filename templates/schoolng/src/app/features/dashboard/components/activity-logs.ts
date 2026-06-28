@@ -6,7 +6,7 @@ import { SchoolService } from '../../../shared/services/school.service';
   standalone: true,
   imports: [],
   template: `
-    <div class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
+    <div class="rounded-xl border bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
       <div>
         <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Registrar Activity</h3>
         <p class="text-[10px] text-zinc-400 font-normal mt-1">Live audit log of registrar activity and marks entries</p>

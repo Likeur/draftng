@@ -14,7 +14,7 @@ import { SchoolService } from '../services/school.service';
       [class.p-2]="state.isCollapsed()"
       [class.w-52]="!state.isCollapsed()"
       [class.p-4]="!state.isCollapsed()"
-      class="fixed md:sticky left-0 top-0 bottom-0 z-50 md:z-45 h-screen bg-white dark:bg-zinc-955 border-r border-zinc-200 dark:border-zinc-800/60 flex flex-col justify-between shrink-0 transition-all duration-200 font-sans select-none -translate-x-full md:translate-x-0">
+      class="fixed md:sticky left-0 top-0 bottom-0 z-50 md:z-45 h-screen bg-zinc-955 border-r border-zinc-200 dark:border-zinc-800/60 flex flex-col justify-between shrink-0 transition-all duration-200 font-sans select-none -translate-x-full md:translate-x-0">
       
       <div>
         <!-- Top Branding -->
@@ -150,7 +150,7 @@ import { SchoolService } from '../services/school.service';
         <!-- Dropdown Menu -->
         @if (isUserDropdownOpen()) {
           <div 
-            class="absolute bottom-full left-0 mb-2 w-64 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-250 rounded-xl p-1.5 z-50 shadow-md animate-fade-in select-none">
+            class="absolute bottom-full left-0 mb-2 w-64 bg-zinc-955 border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-250 rounded-xl p-1.5 z-50 shadow-md animate-fade-in select-none">
             
             <!-- User Profile Header -->
             <div class="flex items-center gap-2.5 p-2.5 pb-3 border-b border-zinc-100 dark:border-zinc-900">
@@ -195,7 +195,7 @@ import { SchoolService } from '../services/school.service';
 
                 <!-- Flyout Menu container -->
                 <div class="absolute left-full bottom-0 pl-2 w-32 z-55 opacity-0 pointer-events-none group-hover/appearance:opacity-100 group-hover/appearance:pointer-events-auto transition-all duration-150">
-                  <div class="bg-white dark:bg-zinc-955 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5 shadow-lg flex flex-col gap-1 text-zinc-800 dark:text-zinc-200">
+                  <div class="bg-zinc-955 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5 shadow-lg flex flex-col gap-1 text-zinc-800 dark:text-zinc-200">
                     <button (click)="selectTheme('light')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all clickable-scale font-medium">Light</button>
                     <button (click)="selectTheme('dark')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all clickable-scale font-medium">Dark</button>
                     <button (click)="selectTheme('system')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all clickable-scale font-medium">System</button>

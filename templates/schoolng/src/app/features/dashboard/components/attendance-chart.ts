@@ -8,7 +8,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   standalone: true,
   imports: [NgApexchartsModule],
   template: `
-    <div class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
+    <div class="rounded-xl border bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
       
       <div class="flex items-start justify-between gap-4">
         <div>
@@ -36,7 +36,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
           <!-- Config Options Dropdown Menu -->
           @if (isChartConfigOpen()) {
             <div 
-              class="absolute right-0 top-full mt-1.5 w-44 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5 z-40 shadow-lg animate-fade-in text-zinc-700 dark:text-zinc-300 font-sans">
+              class="absolute right-0 top-full mt-1.5 w-44 bg-zinc-955 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5 z-40 shadow-lg animate-fade-in text-zinc-700 dark:text-zinc-300 font-sans">
               
               <button (click)="toggleGridLines()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left font-medium">
                 <span>Grid Lines</span>
