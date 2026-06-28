@@ -1,5 +1,6 @@
-import { Injectable, signal, inject } from '@angular/core';
+import { Injectable, signal, inject, PLATFORM_ID, RendererFactory2 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 export interface ActivityLog {
   id: number;
@@ -21,6 +22,11 @@ export interface SchoolEvent {
   providedIn: 'root'
 })
 export class SchoolService {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
+
+  public readonly isDark = signal(false);
+  public readonly currentTheme = signal<'dark' | 'light' | 'system'>('light');
   public readonly searchQuery = signal('');
   public readonly isSidebarCollapsed = signal(false);
   public readonly isCollapsed = this.isSidebarCollapsed;
@@ -57,11 +63,36 @@ export class SchoolService {
       }
     });
 
-    if (typeof window !== 'undefined') {
+    if (isPlatformBrowser(this.platformId)) {
+      const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' | 'system' || 'light';
+      this.currentTheme.set(savedTheme);
+      this.applyTheme(savedTheme);
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (this.currentTheme() === 'system') {
+          this.isDark.set(e.matches);
+          this.updateDocumentClass(e.matches);
+        }
+      });
+
       // Default sidebar closed/collapsed on mobile screens
       const isMobile = window.innerWidth < 768;
       this.isSidebarCollapsed.set(isMobile);
     }
+  }
+
+  public selectTheme(theme: 'dark' | 'light' | 'system'): void {
+    this.currentTheme.set(theme);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('theme', theme);
+    }
+    this.applyTheme(theme);
+  }
+
+  public toggleTheme(): void {
+    const current = this.currentTheme();
+    const nextTheme = current === 'dark' ? 'light' : 'dark';
+    this.selectTheme(nextTheme);
   }
 
   public toggleSidebar(): void {
@@ -70,5 +101,28 @@ export class SchoolService {
 
   public setSidebarCollapsed(collapsed: boolean): void {
     this.isSidebarCollapsed.set(collapsed);
+  }
+
+  private applyTheme(theme: 'dark' | 'light' | 'system'): void {
+    let dark = false;
+    if (theme === 'system') {
+      if (isPlatformBrowser(this.platformId)) {
+        dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+    } else {
+      dark = theme === 'dark';
+    }
+    this.isDark.set(dark);
+    this.updateDocumentClass(dark);
+  }
+
+  private updateDocumentClass(dark: boolean): void {
+    if (isPlatformBrowser(this.platformId)) {
+      if (dark) {
+        this.document.documentElement.classList.add('dark');
+      } else {
+        this.document.documentElement.classList.remove('dark');
+      }
+    }
   }
 }

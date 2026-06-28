@@ -6,7 +6,10 @@
   --font-mono: 'Geist Mono', monospace;
   
   --color-zinc-850: rgba(63, 63, 70, 0.45);
+  --color-zinc-955: var(--zinc-955);
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   html, body {
@@ -28,6 +31,16 @@
     --color-zinc-800: #27272a;
     --color-zinc-900: #111111;        /* Clean high-contrast dark text */
     --color-zinc-950: #000000;
+    --zinc-955: #ffffff;
+  }
+
+  .dark {
+    --color-zinc-50: #09090b;         /* Deep Vercel dark mode page background */
+    --color-zinc-100: #18181b;        /* Zinc-900 panels */
+    --color-zinc-200: #27272a;        /* Zinc-800 borders */
+    --color-zinc-900: #fafafa;
+    --color-zinc-950: #ffffff;
+    --zinc-955: #09090b;
   }
 }
 
@@ -116,4 +129,7 @@
   background-size: 2px 2px;
   mix-blend-mode: overlay;
   pointer-events: none;
+}
+.dark .profile-mesh-avatar::after {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 0.75px, transparent 0);
 }
