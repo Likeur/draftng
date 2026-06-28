@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { DashboardKpisComponent } from './dashboard/components/kpis';
 import { DashboardAttendanceChartComponent } from './dashboard/components/attendance-chart';
 import { DashboardCohortShareComponent } from './dashboard/components/cohort-share';
+import { DashboardGpaTrendComponent } from './dashboard/components/gpa-trend';
+import { DashboardEnrollmentGrowthComponent } from './dashboard/components/enrollment-growth';
 import { DashboardClassOccupancyComponent } from './dashboard/components/class-occupancy';
 import { DashboardActivityLogsComponent } from './dashboard/components/activity-logs';
 import { DashboardUpcomingEventsComponent } from './dashboard/components/upcoming-events';
@@ -14,6 +16,8 @@ import { DashboardShortcutsComponent } from './dashboard/components/shortcuts';
     DashboardKpisComponent,
     DashboardAttendanceChartComponent,
     DashboardCohortShareComponent,
+    DashboardGpaTrendComponent,
+    DashboardEnrollmentGrowthComponent,
     DashboardClassOccupancyComponent,
     DashboardActivityLogsComponent,
     DashboardUpcomingEventsComponent,
@@ -36,7 +40,7 @@ import { DashboardShortcutsComponent } from './dashboard/components/shortcuts';
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-theme-text-muted shrink-0"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Export</span>
           </button>
-          <button class="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-950 dark:bg-zinc-50 border border-zinc-950 dark:border-zinc-50 text-[11px] font-medium text-zinc-50 dark:text-zinc-950 hover:bg-zinc-800 dark:hover:bg-zinc-200 hover:border-zinc-800 dark:hover:border-zinc-200 transition-all rounded-lg cursor-pointer clickable-scale">
+          <button class="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-950 dark:bg-zinc-50 border border-zinc-950 dark:border-zinc-50 text-[11px] font-medium text-zinc-50 dark:text-zinc-955 hover:bg-zinc-800 dark:hover:bg-zinc-200 hover:border-zinc-800 dark:hover:border-zinc-200 transition-all rounded-lg cursor-pointer clickable-scale">
             <span>Actions</span>
           </button>
         </div>
@@ -45,10 +49,16 @@ import { DashboardShortcutsComponent } from './dashboard/components/shortcuts';
       <!-- KPI Metrics Grid -->
       <app-dashboard-kpis class="block animate-blur-slide stagger-2"></app-dashboard-kpis>
 
-      <!-- Analytics Charts Row -->
+      <!-- Analytics Charts Row 1 -->
       <section class="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <app-dashboard-attendance-chart class="lg:col-span-2 block animate-blur-slide stagger-3"></app-dashboard-attendance-chart>
         <app-dashboard-cohort-share class="block animate-blur-slide stagger-4"></app-dashboard-cohort-share>
+      </section>
+
+      <!-- Analytics Charts Row 2 (GPA Trends & Enrollment Growth) -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <app-dashboard-gpa-trend class="block animate-blur-slide stagger-5"></app-dashboard-gpa-trend>
+        <app-dashboard-enrollment-growth class="block animate-blur-slide stagger-6"></app-dashboard-enrollment-growth>
       </section>
 
       <!-- Main Layout Columns -->
@@ -56,13 +66,13 @@ import { DashboardShortcutsComponent } from './dashboard/components/shortcuts';
         
         <!-- Left Column: Classes and Logs -->
         <div class="lg:col-span-2 space-y-5">
-          <app-dashboard-class-occupancy class="block animate-blur-slide stagger-5"></app-dashboard-class-occupancy>
-          <app-dashboard-activity-logs class="block animate-blur-slide stagger-6"></app-dashboard-activity-logs>
+          <app-dashboard-class-occupancy class="block animate-blur-slide stagger-7"></app-dashboard-class-occupancy>
+          <app-dashboard-activity-logs class="block animate-blur-slide stagger-7"></app-dashboard-activity-logs>
         </div>
 
         <!-- Right Column: Events and Shortcuts -->
         <div class="space-y-5">
-          <app-dashboard-upcoming-events class="block animate-blur-slide stagger-7"></app-dashboard-upcoming-events>
+          <app-dashboard-upcoming-events class="block animate-blur-slide stagger-8"></app-dashboard-upcoming-events>
           <app-dashboard-shortcuts class="block animate-blur-slide stagger-8"></app-dashboard-shortcuts>
         </div>
 
