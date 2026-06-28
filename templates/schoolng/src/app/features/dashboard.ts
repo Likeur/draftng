@@ -11,6 +11,7 @@ interface ClassGroup {
   room: string;
   pax: number;
   maxPax: number;
+  color: string;
 }
 
 @Component({
@@ -22,7 +23,7 @@ interface ClassGroup {
       <!-- Welcome Header -->
       <section class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div>
-          <h2 class="font-medium text-lg tracking-tight text-zinc-900 dark:text-zinc-50 leading-none">Academic Console</h2>
+          <h2 class="font-medium text-lg tracking-tight text-zinc-900 dark:text-zinc-50 leading-none">Academic Dashboard</h2>
           <p class="text-xs text-zinc-400 font-normal mt-1.5">Registrar overview for the Summer Term 2026. All systems operational.</p>
         </div>
         <div class="flex items-center gap-2">
@@ -74,7 +75,7 @@ interface ClassGroup {
               {{ state.activeClasses().value }}
             </h3>
             <span class="text-[9px] font-normal text-zinc-400 mt-2 block">
-              <span class="text-zinc-950 dark:text-zinc-50 font-medium">{{ state.activeClasses().capacity }}</span> room capacity
+              <span class="text-indigo-500 font-medium">{{ state.activeClasses().capacity }}</span> room capacity
             </span>
           </div>
         </div>
@@ -139,6 +140,7 @@ interface ClassGroup {
                 class="w-full font-sans"
                 [series]="attendanceChartOptions().series"
                 [chart]="attendanceChartOptions().chart"
+                [plotOptions]="attendanceChartOptions().plotOptions"
                 [colors]="attendanceChartOptions().colors"
                 [stroke]="attendanceChartOptions().stroke"
                 [fill]="attendanceChartOptions().fill"
@@ -210,7 +212,7 @@ interface ClassGroup {
                   
                   <div class="flex items-start justify-between">
                     <div>
-                      <span class="text-[8px] font-mono bg-zinc-55 dark:bg-zinc-900 text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-1.5 py-0.5 rounded font-medium select-none">{{ cls.code }}</span>
+                      <span class="text-[8px] font-mono bg-zinc-50 dark:bg-zinc-900 text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-1.5 py-0.5 rounded font-medium select-none">{{ cls.code }}</span>
                       <h4 class="font-medium text-sm text-zinc-800 dark:text-zinc-100 mt-2.5 truncate max-w-40">{{ cls.subject }}</h4>
                       <p class="text-[10px] text-zinc-400 font-normal mt-1">{{ cls.teacher }}</p>
                     </div>
@@ -221,9 +223,9 @@ interface ClassGroup {
                       <span>Occupants</span>
                       <span>{{ cls.pax }} / {{ cls.maxPax }} ({{ getPercent(cls.pax, cls.maxPax) }}%)</span>
                     </div>
-                    <!-- Minimal monochrome progress bar -->
+                    <!-- Colored progress bar -->
                     <div class="w-full h-1 rounded-full bg-zinc-100 dark:bg-zinc-900 overflow-hidden">
-                      <div class="h-full bg-zinc-950 dark:bg-zinc-50 rounded-full" [style.width.%]="getPercent(cls.pax, cls.maxPax)"></div>
+                      <div [class]="cls.color" class="h-full rounded-full" [style.width.%]="getPercent(cls.pax, cls.maxPax)"></div>
                     </div>
                   </div>
 
@@ -349,16 +351,16 @@ export class DashboardComponent {
 
   // Active Subject Cohorts mock data
   protected readonly classGroups: ClassGroup[] = [
-    { id: 201, subject: 'AP Calculus BC', code: 'MATH-401', teacher: 'Dr. Elizabeth Vance', room: 'Gymnasium Annex 2A', pax: 28, maxPax: 30 },
-    { id: 202, subject: 'Honors Chemistry', code: 'CHEM-302', teacher: 'Prof. Julian Crane', room: 'Science Hall 3B', pax: 24, maxPax: 25 },
-    { id: 203, subject: 'English Literature', code: 'LIT-201', teacher: 'Ms. Clara Oswald', room: 'Humanities Room 12', pax: 19, maxPax: 30 },
-    { id: 204, subject: 'Intro to Microeconomics', code: 'ECON-101', teacher: 'Dr. Alistair Finch', room: 'Lecture Hall C', pax: 45, maxPax: 50 }
+    { id: 201, subject: 'AP Calculus BC', code: 'MATH-401', teacher: 'Dr. Elizabeth Vance', room: 'Gymnasium Annex 2A', pax: 28, maxPax: 30, color: 'bg-emerald-500' },
+    { id: 202, subject: 'Honors Chemistry', code: 'CHEM-302', teacher: 'Prof. Julian Crane', room: 'Science Hall 3B', pax: 24, maxPax: 25, color: 'bg-blue-500' },
+    { id: 203, subject: 'English Literature', code: 'LIT-201', teacher: 'Ms. Clara Oswald', room: 'Humanities Room 12', pax: 19, maxPax: 30, color: 'bg-indigo-500' },
+    { id: 204, subject: 'Intro to Microeconomics', code: 'ECON-101', teacher: 'Dr. Alistair Finch', room: 'Lecture Hall C', pax: 45, maxPax: 50, color: 'bg-amber-500' }
   ];
 
-  // Attendance Weekly Trend reactive options
+  // Attendance Weekly Trend reactive options (Colored Bar Model)
   protected readonly attendanceChartOptions = computed(() => {
     const isDark = this.state.isDark();
-    const primaryColor = isDark ? '#ffffff' : '#09090b';
+    const primaryColor = isDark ? '#3b82f6' : '#2563eb'; // Sleek glowing brand blue
     const gridColor = isDark ? '#1f1f23' : '#f4f4f5';
     const labelColor = isDark ? '#52525b' : '#a1a1aa';
 
@@ -370,26 +372,25 @@ export class DashboardComponent {
         }
       ],
       chart: {
-        type: 'area' as any,
+        type: 'bar' as any,
         height: 200,
         parentHeightOffset: 0,
         toolbar: { show: false },
-        sparkline: { enabled: false },
         animations: { enabled: true }
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '40%',
+          borderRadius: 4
+        }
       },
       colors: [primaryColor],
       stroke: {
-        curve: 'smooth' as any,
-        width: 1.5
+        show: false
       },
       fill: {
-        type: 'gradient',
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: isDark ? 0.25 : 0.08,
-          opacityTo: 0,
-          stops: [0, 95, 100]
-        }
+        opacity: 0.95
       },
       xaxis: {
         categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
@@ -437,13 +438,11 @@ export class DashboardComponent {
     };
   });
 
-  // Cohort Distribution Share reactive options
+  // Cohort Distribution Share reactive options (Colored rings)
   protected readonly cohortChartOptions = computed(() => {
     const isDark = this.state.isDark();
     const labelColor = isDark ? '#71717a' : '#a1a1aa';
-    const fillColors = isDark 
-      ? ['#fafafa', '#a1a1aa', '#52525b', '#27272a']
-      : ['#09090b', '#71717a', '#d4d4d8', '#f4f4f5'];
+    const fillColors = ['#10b981', '#3b82f6', '#6366f1', '#f59e0b']; // emerald, blue, indigo, amber
 
     return {
       series: [28, 24, 19, 45],
@@ -531,10 +530,19 @@ export class DashboardComponent {
   }
 
   protected getCategoryColor(cat: string): string {
-    return 'bg-zinc-300 dark:bg-zinc-700';
+    switch (cat) {
+      case 'academic': return 'bg-emerald-500';
+      case 'system': return 'bg-amber-500';
+      case 'administrative': return 'bg-indigo-500';
+      default: return 'bg-zinc-400';
+    }
   }
 
   protected getEventTypeColor(type: string): string {
-    return 'bg-zinc-100 dark:bg-zinc-900 text-zinc-550 border border-zinc-200 dark:border-zinc-800';
+    switch (type) {
+      case 'academic': return 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20';
+      case 'sports': return 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20';
+      default: return 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20';
+    }
   }
 }

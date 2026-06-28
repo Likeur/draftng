@@ -25,7 +25,6 @@ import { SchoolService } from '../services/school.service';
           @if (!state.isCollapsed()) {
             <div class="animate-fade-in shrink-0 leading-none">
               <h2 class="font-medium text-sm tracking-tight text-zinc-900 dark:text-zinc-50">schoolNG</h2>
-              <p class="text-[9px] text-zinc-400 font-normal tracking-wide mt-0.5">Console</p>
             </div>
           }
         </div>
@@ -132,8 +131,7 @@ import { SchoolService } from '../services/school.service';
                 [class.gap-3]="!state.isCollapsed()"
                 [class.px-2]="state.isCollapsed()"
                 [class.px-3]="!state.isCollapsed()">
-                <!-- Monochrome clean grey indicators instead of bright gradients -->
-                <span class="w-2 h-2 rounded-full shrink-0 bg-zinc-300 dark:bg-zinc-800 border border-zinc-400/20 dark:border-zinc-700/30"></span>
+                <span [class]="cohort.color" class="w-2 h-2 rounded-full shrink-0 border border-zinc-200/50 dark:border-zinc-800/30"></span>
                 @if (!state.isCollapsed()) {
                   <span class="animate-fade-in truncate font-normal text-zinc-500 dark:text-zinc-400">{{ cohort.name }}</span>
                 }
@@ -260,10 +258,10 @@ export class SidebarComponent {
   protected readonly isUserDropdownOpen = signal(false);
 
   protected readonly cohorts = [
-    { name: 'Grade 9 (Freshmen)' },
-    { name: 'Grade 10 (Sophomores)' },
-    { name: 'Grade 11 (Juniors)' },
-    { name: 'Grade 12 (Seniors)' }
+    { name: 'Grade 9 (Freshmen)', color: 'bg-emerald-500' },
+    { name: 'Grade 10 (Sophomores)', color: 'bg-amber-500' },
+    { name: 'Grade 11 (Juniors)', color: 'bg-indigo-500' },
+    { name: 'Grade 12 (Seniors)', color: 'bg-pink-500' }
   ];
 
   protected isActive(path: string): boolean {
