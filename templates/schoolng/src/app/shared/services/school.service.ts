@@ -75,9 +75,14 @@ export class SchoolService {
         }
       });
 
-      // Default sidebar closed/collapsed on mobile screens
-      const isMobile = window.innerWidth < 768;
-      this.isSidebarCollapsed.set(isMobile);
+      // Load collapsed state from localStorage or determine based on window size
+      const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+      if (savedCollapsed !== null) {
+        this.isSidebarCollapsed.set(savedCollapsed === 'true');
+      } else {
+        const isMobile = window.innerWidth < 768;
+        this.isSidebarCollapsed.set(isMobile);
+      }
     }
   }
 
@@ -96,11 +101,20 @@ export class SchoolService {
   }
 
   public toggleSidebar(): void {
-    this.isSidebarCollapsed.update(c => !c);
+    this.isSidebarCollapsed.update(c => {
+      const next = !c;
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem('sidebarCollapsed', String(next));
+      }
+      return next;
+    });
   }
 
   public setSidebarCollapsed(collapsed: boolean): void {
     this.isSidebarCollapsed.set(collapsed);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('sidebarCollapsed', String(collapsed));
+    }
   }
 
   private applyTheme(theme: 'dark' | 'light' | 'system'): void {

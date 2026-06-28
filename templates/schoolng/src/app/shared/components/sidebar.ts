@@ -14,7 +14,9 @@ import { SchoolService } from '../services/school.service';
       [class.p-2]="state.isCollapsed()"
       [class.w-52]="!state.isCollapsed()"
       [class.p-4]="!state.isCollapsed()"
-      class="fixed md:sticky left-0 top-0 bottom-0 z-50 md:z-45 h-screen bg-theme-panel border-r border-theme-border flex flex-col justify-between shrink-0 transition-all duration-200 font-sans select-none -translate-x-full md:translate-x-0">
+      [class.-translate-x-full]="state.isCollapsed()"
+      [class.translate-x-0]="!state.isCollapsed()"
+      class="fixed md:sticky left-0 top-0 bottom-0 z-50 md:z-45 h-screen bg-theme-panel border-r border-theme-border flex flex-col justify-between shrink-0 transition-all duration-200 font-sans select-none md:translate-x-0">
       
       <div>
         <!-- Top Branding -->
@@ -297,6 +299,10 @@ export class SidebarComponent {
   protected onClickOutside(event: MouseEvent): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isUserDropdownOpen.set(false);
+      // Close/collapse sidebar on mobile clicks outside
+      if (window.innerWidth < 768 && !this.state.isCollapsed()) {
+        this.state.setSidebarCollapsed(true);
+      }
     }
   }
 }
