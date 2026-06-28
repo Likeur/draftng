@@ -1,12 +1,19 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { SidebarComponent } from './shared/components/sidebar';
+import { TopbarComponent } from './shared/components/topbar';
+import { SchoolService } from './shared/services/school.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [
+    RouterOutlet,
+    SidebarComponent,
+    TopbarComponent
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('schoolng');
+  protected readonly state = inject(SchoolService);
 }
