@@ -1,4 +1,4 @@
-import { Component, inject, computed, PLATFORM_ID, signal } from '@angular/core';
+import { Component, inject, computed, PLATFORM_ID, signal, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SchoolService } from '../../../shared/services/school.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -13,7 +13,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         <h3 class="font-medium text-xs text-theme-text-main tracking-wider capitalize">Enrollment Growth</h3>
         <p class="text-[10px] text-theme-text-muted font-normal mt-1">Monthly registration and transfer admissions for 2026</p>
       </div>
-      <div class="relative w-full">
+      <div class="w-full overflow-hidden">
         @if (isBrowser()) {
           <apx-chart
             class="w-full font-sans"
@@ -42,6 +42,19 @@ export class DashboardEnrollmentGrowthComponent {
   protected readonly state = inject(SchoolService);
   private readonly platformId = inject(PLATFORM_ID);
   protected readonly isBrowser = signal(isPlatformBrowser(this.platformId));
+
+  constructor() {
+    effect(() => {
+      this.state.isCollapsed();
+      if (isPlatformBrowser(this.platformId)) {
+        [50, 100, 150, 200, 250, 300].forEach(d => {
+          setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+          }, d);
+        });
+      }
+    });
+  }
 
   protected readonly enrollmentChartOptions = computed(() => {
     const isDark = this.state.isDark();

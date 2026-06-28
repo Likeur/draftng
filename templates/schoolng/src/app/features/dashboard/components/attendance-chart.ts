@@ -1,4 +1,4 @@
-import { Component, inject, computed, PLATFORM_ID, signal } from '@angular/core';
+import { Component, inject, computed, PLATFORM_ID, signal, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SchoolService } from '../../../shared/services/school.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -71,7 +71,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         </div>
       </div>
 
-      <div class="h-48 flex items-center justify-center overflow-hidden">
+      <div class="w-full overflow-hidden">
         @if (isBrowser()) {
           <apx-chart
             class="w-full font-sans"
@@ -87,7 +87,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
             [tooltip]="attendanceChartOptions().tooltip"
           ></apx-chart>
         } @else {
-          <span class="text-[10px] text-theme-text-muted font-normal">Loading chart...</span>
+          <div class="h-48 flex items-center justify-center">
+            <span class="text-[10px] text-theme-text-muted font-normal">Loading chart...</span>
+          </div>
         }
       </div>
     </div>
@@ -97,6 +99,19 @@ export class DashboardAttendanceChartComponent {
   protected readonly state = inject(SchoolService);
   private readonly platformId = inject(PLATFORM_ID);
   protected readonly isBrowser = signal(isPlatformBrowser(this.platformId));
+
+  constructor() {
+    effect(() => {
+      this.state.isCollapsed();
+      if (isPlatformBrowser(this.platformId)) {
+        [50, 100, 150, 200, 250, 300].forEach(d => {
+          setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+          }, d);
+        });
+      }
+    });
+  }
 
   // Timeframe and chart config states
   protected readonly activeTimeframe = signal<'daily' | 'weekly' | 'monthly'>('weekly');
