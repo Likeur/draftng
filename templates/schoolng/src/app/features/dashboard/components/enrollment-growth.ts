@@ -13,7 +13,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         <h3 class="font-medium text-xs text-theme-text-main tracking-wider capitalize">Enrollment Growth</h3>
         <p class="text-[10px] text-theme-text-muted font-normal mt-1">Monthly registration and transfer admissions for 2026</p>
       </div>
-      <div class="h-48 flex items-center justify-center overflow-hidden">
+      <div class="relative w-full">
         @if (isBrowser()) {
           <apx-chart
             class="w-full font-sans"
@@ -30,7 +30,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
             [tooltip]="enrollmentChartOptions().tooltip"
           ></apx-chart>
         } @else {
-          <span class="text-[10px] text-theme-text-muted font-normal">Loading enrollment stats...</span>
+          <div class="h-48 flex items-center justify-center">
+            <span class="text-[10px] text-theme-text-muted font-normal">Loading enrollment stats...</span>
+          </div>
         }
       </div>
     </div>

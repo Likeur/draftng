@@ -13,7 +13,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         <h3 class="font-medium text-xs text-theme-text-main tracking-wider capitalize">GPA Performance Trends</h3>
         <p class="text-[10px] text-theme-text-muted font-normal mt-1">Midterm GPA averages across active grade levels</p>
       </div>
-      <div class="h-48 flex items-center justify-center overflow-hidden">
+      <div class="relative w-full">
         @if (isBrowser()) {
           <apx-chart
             class="w-full font-sans"
@@ -28,7 +28,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
             [tooltip]="gpaChartOptions().tooltip"
           ></apx-chart>
         } @else {
-          <span class="text-[10px] text-theme-text-muted font-normal">Loading GPA trends...</span>
+          <div class="h-48 flex items-center justify-center">
+            <span class="text-[10px] text-theme-text-muted font-normal">Loading GPA trends...</span>
+          </div>
         }
       </div>
     </div>

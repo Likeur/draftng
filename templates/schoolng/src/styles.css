@@ -143,3 +143,49 @@
 .dark .profile-mesh-avatar::after {
   background-image: radial-gradient(rgba(255, 255, 255, 0.15) 0.75px, transparent 0);
 }
+
+/* ApexCharts custom styling overrides for high-end look and readability in both themes */
+.apexcharts-tooltip {
+  background: var(--theme-panel) !important;
+  border: 1px solid var(--theme-border) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  font-family: var(--font-sans) !important;
+  border-radius: 8px !important;
+  transition: opacity 0.15s ease !important;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light, 
+.apexcharts-tooltip.apexcharts-theme-dark {
+  background: var(--theme-panel) !important;
+  border: 1px solid var(--theme-border) !important;
+}
+
+.apexcharts-tooltip-title {
+  background: var(--theme-hover) !important;
+  border-bottom: 1px solid var(--theme-border) !important;
+  color: var(--theme-text-main) !important;
+  font-weight: 500 !important;
+  font-family: var(--font-sans) !important;
+  padding: 6px 10px !important;
+}
+
+.apexcharts-tooltip-series-group {
+  color: var(--theme-text-main) !important;
+  background: transparent !important;
+  padding: 4px 10px !important;
+}
+
+.apexcharts-tooltip-text {
+  color: var(--theme-text-main) !important;
+  font-family: var(--font-sans) !important;
+}
+
+.apexcharts-tooltip-marker {
+  margin-right: 6px !important;
+}
+
+.apexcharts-legend-text {
+  color: var(--theme-text-muted) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 9px !important;
+}
