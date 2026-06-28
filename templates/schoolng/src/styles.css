@@ -111,3 +111,20 @@
 .stagger-6 { animation-delay: 300ms; }
 .stagger-7 { animation-delay: 350ms; }
 .stagger-8 { animation-delay: 400ms; }
+
+/* Mesh Gradient & Halftone Dot Dither Texture */
+.profile-mesh-avatar {
+  background: radial-gradient(circle at 35% 25%, #93c5fd 0%, #2563eb 55%, #1d4ed8 100%);
+  position: relative;
+  overflow: hidden;
+}
+.profile-mesh-avatar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 0.75px, transparent 0);
+  background-size: 2px 2px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+

@@ -18,7 +18,7 @@ interface ClassGroup {
   selector: 'app-dashboard',
   imports: [CommonModule, NgApexchartsModule],
   template: `
-    <div class="space-y-8 animate-blur-slide font-sans select-none">
+    <div class="space-y-6 animate-blur-slide font-sans select-none">
       
       <!-- Welcome Header -->
       <section class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
@@ -26,12 +26,17 @@ interface ClassGroup {
           <h2 class="font-medium text-lg tracking-tight text-zinc-900 dark:text-zinc-50 leading-none">Academic Dashboard</h2>
           <p class="text-xs text-zinc-400 font-normal mt-1.5">Registrar overview for the Summer Term 2026. All systems operational.</p>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="flex h-1.5 w-1.5 relative">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-450 dark:bg-zinc-100 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-zinc-950 dark:bg-zinc-50"></span>
-          </span>
-          <span class="text-[9px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Live Sync Active</span>
+        
+        <!-- Header Actions replacing Live Sync -->
+        <div class="flex items-center gap-2 shrink-0">
+          <button class="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-[11px] font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 rounded-lg transition-all clickable-scale">
+            <!-- Lucide: download -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-450 dark:text-zinc-500 shrink-0"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            <span>Export</span>
+          </button>
+          <button class="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-950 dark:bg-zinc-50 border border-zinc-950 dark:border-zinc-50 text-[11px] font-medium text-white dark:text-zinc-950 hover:bg-zinc-900 dark:hover:bg-zinc-100 rounded-lg transition-all clickable-scale">
+            <span>Actions</span>
+          </button>
         </div>
       </section>
 
@@ -40,19 +45,19 @@ interface ClassGroup {
         
         <!-- Total Students -->
         <div 
-          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
+          class="p-4.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Total Students</span>
-            <div class="text-zinc-400">
+            <span class="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Total Students</span>
+            <div class="text-zinc-400 dark:text-zinc-500">
               <!-- Lucide: users -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
           </div>
-          <div class="mt-4">
+          <div class="mt-3">
             <h3 class="text-2xl font-medium tracking-tight text-zinc-900 dark:text-zinc-50 leading-none">
               {{ state.totalStudents().value }}
             </h3>
-            <span class="text-[9px] font-normal text-zinc-400 mt-2 block">
+            <span class="text-[9px] font-normal text-zinc-400 mt-1.5 block">
               <span class="text-emerald-500 font-medium">{{ state.totalStudents().change }}</span> from last term
             </span>
           </div>
@@ -60,19 +65,19 @@ interface ClassGroup {
 
         <!-- Active Classes -->
         <div 
-          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
+          class="p-4.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Active Classes</span>
-            <div class="text-zinc-400">
+            <span class="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Active Classes</span>
+            <div class="text-zinc-400 dark:text-zinc-500">
               <!-- Lucide: school -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m4 6 8-4 8 4M18 10v7M6 10v7m3-7v7m6-7v7M2 22h20M12 22v-4M8 12h8"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m4 6 8-4 8 4M18 10v7M6 10v7m3-7v7m6-7v7M2 22h20M12 22v-4M8 12h8"/></svg>
             </div>
           </div>
-          <div class="mt-4">
+          <div class="mt-3">
             <h3 class="text-2xl font-medium tracking-tight text-zinc-900 dark:text-zinc-50 leading-none">
               {{ state.activeClasses().value }}
             </h3>
-            <span class="text-[9px] font-normal text-zinc-400 mt-2 block">
+            <span class="text-[9px] font-normal text-zinc-400 mt-1.5 block">
               <span class="text-indigo-500 font-medium">{{ state.activeClasses().capacity }}</span> room capacity
             </span>
           </div>
@@ -80,19 +85,19 @@ interface ClassGroup {
 
         <!-- Teachers on Shift -->
         <div 
-          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
+          class="p-4.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Teachers on Shift</span>
-            <div class="text-zinc-400">
+            <span class="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Teachers on Shift</span>
+            <div class="text-zinc-400 dark:text-zinc-500">
               <!-- Lucide: user-check -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
             </div>
           </div>
-          <div class="mt-4">
+          <div class="mt-3">
             <h3 class="text-2xl font-medium tracking-tight text-zinc-900 dark:text-zinc-50 leading-none">
               {{ state.teachersOnDuty().value }}
             </h3>
-            <span class="text-[9px] font-normal text-zinc-450 mt-2 block">
+            <span class="text-[9px] font-normal text-zinc-450 mt-1.5 block">
               {{ state.teachersOnDuty().roster }}
             </span>
           </div>
@@ -100,19 +105,19 @@ interface ClassGroup {
 
         <!-- Attendance Rate -->
         <div 
-          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
+          class="p-4.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-28 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Attendance Rate</span>
-            <div class="text-zinc-400">
+            <span class="text-[10px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Attendance Rate</span>
+            <div class="text-zinc-400 dark:text-zinc-500">
               <!-- Lucide: activity -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
           </div>
-          <div class="mt-4">
+          <div class="mt-3">
             <h3 class="text-2xl font-medium tracking-tight text-zinc-900 dark:text-zinc-50 leading-none">
               {{ state.attendanceRate().value }}
             </h3>
-            <span class="text-[9px] font-normal text-zinc-455 mt-2 block">
+            <span class="text-[9px] font-normal text-zinc-455 mt-1.5 block">
               {{ state.attendanceRate().status }}
             </span>
           </div>
@@ -121,15 +126,15 @@ interface ClassGroup {
       </section>
 
       <!-- Analytics Charts Row -->
-      <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <!-- Attendance Chart Card -->
         <div 
-          class="lg:col-span-2 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
+          class="lg:col-span-2 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
           <div>
             <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Attendance Analytics</h3>
-            <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Average daily attendance rate over the current week</p>
+            <p class="text-[10px] text-zinc-400 font-normal mt-1">Average daily attendance rate over the current week</p>
           </div>
-          <div class="h-52 flex items-center justify-center overflow-hidden">
+          <div class="h-48 flex items-center justify-center overflow-hidden">
             @if (isBrowser()) {
               <apx-chart
                 class="w-full font-sans"
@@ -152,12 +157,12 @@ interface ClassGroup {
 
         <!-- Cohort Share Card -->
         <div 
-          class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
+          class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
           <div>
             <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Cohort Share</h3>
-            <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Distribution of active students per cohort</p>
+            <p class="text-[10px] text-zinc-400 font-normal mt-1">Distribution of active students per cohort</p>
           </div>
-          <div class="h-52 flex items-center justify-center overflow-hidden">
+          <div class="h-48 flex items-center justify-center overflow-hidden">
             @if (isBrowser()) {
               <apx-chart
                 class="w-full font-sans"
@@ -179,38 +184,38 @@ interface ClassGroup {
       </section>
 
       <!-- Main Layout Columns -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
         
         <!-- Left Column: Classes and Logs -->
-        <div class="lg:col-span-2 space-y-6">
+        <div class="lg:col-span-2 space-y-5">
           
           <!-- Class Occupancy -->
           <div 
-            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
+            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Class Occupancy</h3>
-                <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Scheduled lectures for today</p>
+                <p class="text-[10px] text-zinc-400 font-normal mt-1">Scheduled lectures for today</p>
               </div>
-              <button class="text-[10px] font-medium px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 rounded-lg transition-all clickable-scale">View All</button>
+              <button class="text-[10px] font-medium px-2.5 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 rounded-lg transition-all clickable-scale">View All</button>
             </div>
 
             <!-- Subject Cards Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               @for (cls of filteredClasses(); track cls.id) {
                 <div 
-                  class="p-4.5 rounded-xl border bg-white dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
+                  class="p-4 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
                   
                   <div class="flex items-start justify-between">
                     <div>
-                      <span class="text-[8px] font-mono bg-zinc-50 dark:bg-zinc-900 text-zinc-400 border border-zinc-200 dark:border-zinc-800/80 px-1.5 py-0.5 rounded font-medium select-none">{{ cls.code }}</span>
-                      <h4 class="font-medium text-sm text-zinc-800 dark:text-zinc-100 mt-2.5 truncate max-w-40">{{ cls.subject }}</h4>
+                      <span class="text-[8px] font-mono bg-zinc-100 dark:bg-zinc-900 text-zinc-400 border border-zinc-200/60 dark:border-zinc-800 px-1.5 py-0.5 rounded font-medium select-none">{{ cls.code }}</span>
+                      <h4 class="font-medium text-sm text-zinc-850 dark:text-zinc-100 mt-2 truncate max-w-40">{{ cls.subject }}</h4>
                       <p class="text-[10px] text-zinc-400 font-normal mt-1">{{ cls.teacher }}</p>
                     </div>
                   </div>
 
-                  <div>
-                    <div class="flex items-center justify-between text-[9px] text-zinc-400 font-normal mb-1.5">
+                  <div class="mt-3.5">
+                    <div class="flex items-center justify-between text-[9px] text-zinc-400 font-normal mb-1">
                       <span>Occupants</span>
                       <span>{{ cls.pax }} / {{ cls.maxPax }} ({{ getPercent(cls.pax, cls.maxPax) }}%)</span>
                     </div>
@@ -227,20 +232,20 @@ interface ClassGroup {
 
           <!-- Activity Logs Section -->
           <div 
-            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
+            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
             <div>
               <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Registrar Activity</h3>
-              <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Live audit log of registrar activity and marks entries</p>
+              <p class="text-[10px] text-zinc-400 font-normal mt-1">Live audit log of registrar activity and marks entries</p>
             </div>
 
             <div class="divide-y divide-zinc-100 dark:divide-zinc-900">
               @for (log of filteredLogs(); track log.id) {
-                <div class="py-3 flex items-start justify-between gap-4 text-xs font-normal animate-blur-slide">
+                <div class="py-2.5 flex items-start justify-between gap-4 text-xs font-normal animate-blur-slide">
                   <div class="flex items-start gap-3">
                     <span [class]="getCategoryColor(log.category)" class="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"></span>
-                    <p class="text-zinc-650 dark:text-zinc-300 leading-normal">{{ log.message }}</p>
+                    <p class="text-zinc-600 dark:text-zinc-300 leading-normal">{{ log.message }}</p>
                   </div>
-                  <span class="text-[9px] text-zinc-400 whitespace-nowrap pt-0.5 font-mono select-none font-normal">{{ log.time }}</span>
+                  <span class="text-[9px] text-zinc-450 whitespace-nowrap pt-0.5 font-mono select-none font-normal">{{ log.time }}</span>
                 </div>
               }
             </div>
@@ -249,20 +254,20 @@ interface ClassGroup {
         </div>
 
         <!-- Right Column: Events & Actions -->
-        <div class="space-y-6">
+        <div class="space-y-5">
           
           <!-- Upcoming Events -->
           <div 
-            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
+            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
             <div>
               <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Calendar & Events</h3>
-              <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Upcoming official assemblies and deadlines</p>
+              <p class="text-[10px] text-zinc-400 font-normal mt-1">Upcoming official assemblies and deadlines</p>
             </div>
 
-            <div class="space-y-3">
+            <div class="space-y-2.5">
               @for (evt of state.upcomingEvents(); track evt.id) {
                 <div 
-                  class="p-4 rounded-xl border bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
+                  class="p-3.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
                   
                   <div class="flex items-center justify-between gap-2">
                     <h4 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 truncate">{{ evt.title }}</h4>
@@ -271,15 +276,15 @@ interface ClassGroup {
                     </span>
                   </div>
 
-                  <div class="flex flex-col gap-1.5 text-[10px] text-zinc-400 font-normal">
+                  <div class="flex flex-col gap-1.5 text-[10px] text-zinc-400 font-normal mt-2">
                     <div class="flex items-center gap-2">
                       <!-- Lucide: calendar -->
-                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 dark:text-zinc-500 shrink-0"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
                       <span>{{ evt.date }} &#64; {{ evt.time }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                       <!-- Lucide: map-pin -->
-                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 dark:text-zinc-500 shrink-0"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                       <span>{{ evt.location }}</span>
                     </div>
                   </div>
@@ -291,34 +296,34 @@ interface ClassGroup {
 
           <!-- Quick Actions Panel -->
           <div 
-            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
+            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
             <div>
               <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Console Shortcuts</h3>
-              <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Registrar shortcuts for swift entries</p>
+              <p class="text-[10px] text-zinc-400 font-normal mt-1">Registrar shortcuts for swift entries</p>
             </div>
 
             <div class="grid grid-cols-2 gap-2 text-[11px] font-medium">
-              <button class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
+              <button class="p-3 border rounded-xl flex flex-col gap-2 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
                 <!-- Lucide: user-plus -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 dark:text-zinc-500 shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
                 <span>Add Student</span>
               </button>
               
-              <button class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
+              <button class="p-3 border rounded-xl flex flex-col gap-2 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
                 <!-- Lucide: clipboard-check -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 shrink-0"><rect width="8" height="4" x="9" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 dark:text-zinc-500 shrink-0"><rect width="8" height="4" x="9" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
                 <span>Absences</span>
               </button>
 
-              <button class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
+              <button class="p-3 border rounded-xl flex flex-col gap-2 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
                 <!-- Lucide: megaphone -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 shrink-0"><path d="m3 11 18-5v12L3 13v-2Z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 dark:text-zinc-500 shrink-0"><path d="m3 11 18-5v12L3 13v-2Z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
                 <span>Post Notice</span>
               </button>
 
-              <button class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
+              <button class="p-3 border rounded-xl flex flex-col gap-2 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
                 <!-- Lucide: calendar-plus -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 shrink-0"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18M16 14h-8M12 11v6"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 dark:text-zinc-500 shrink-0"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18M16 14h-8M12 11v6"/></svg>
                 <span>Add Event</span>
               </button>
             </div>
@@ -344,10 +349,11 @@ export class DashboardComponent {
     { id: 204, subject: 'Intro to Microeconomics', code: 'ECON-101', teacher: 'Dr. Alistair Finch', room: 'Lecture Hall C', pax: 45, maxPax: 50, color: 'bg-amber-500' }
   ];
 
-  // Attendance Weekly Trend reactive options (Smooth Green Curve Area Chart - sparkline style)
+  // Attendance Weekly Trend reactive options (Visible Emerald Green Curve Area Chart)
   protected readonly attendanceChartOptions = computed(() => {
     const isDark = this.state.isDark();
-    const gridColor = isDark ? '#1f1f23' : '#f4f4f5';
+    const gridColor = isDark ? '#1f1f23' : '#eaeaea';
+    const labelColor = isDark ? '#52525b' : '#a1a1aa';
 
     return {
       series: [
@@ -363,38 +369,53 @@ export class DashboardComponent {
         toolbar: { show: false },
         animations: { enabled: true }
       },
-      colors: ['#10b981'], // Clean emerald green stroke matching the image
+      colors: ['#10b981'], // Glowing Emerald
       stroke: {
         curve: 'smooth' as any,
-        width: 2.5 // Solid distinct line
+        width: 3 // Bold, highly visible stroke
       },
       fill: {
         type: 'gradient',
         gradient: {
           shadeIntensity: 1,
-          opacityFrom: 0.16,
-          opacityTo: 0.01,
-          stops: [0, 95, 100]
+          opacityFrom: 0.35, // High visibility area gradient
+          opacityTo: 0.03,
+          stops: [0, 90, 100]
         }
       },
       xaxis: {
         categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
         axisBorder: { show: false },
-        axisTicks: { show: false },
-        labels: { show: false } // Hide X labels entirely
+        axisTicks: { show: true, color: gridColor },
+        labels: {
+          show: true,
+          style: {
+            colors: labelColor,
+            fontFamily: 'Geist Sans, sans-serif',
+            fontSize: '9px'
+          }
+        }
       },
       yaxis: {
         min: 96,
         max: 100,
-        tickAmount: 2, // Sets exactly one middle grid line at 98%
-        labels: { show: false } // Hide Y labels entirely
+        tickAmount: 2, // Marks at 96%, 98%, 100%
+        labels: {
+          show: true,
+          style: {
+            colors: labelColor,
+            fontFamily: 'Geist Sans, sans-serif',
+            fontSize: '9px'
+          },
+          formatter: (val: number) => `${val}%`
+        }
       },
       grid: {
         borderColor: gridColor,
-        strokeDashArray: 4, // Dashed line styling matching the image
+        strokeDashArray: 4,
         xaxis: { lines: { show: false } },
         yaxis: { lines: { show: true } },
-        padding: { top: 0, right: 0, bottom: 0, left: 0 }
+        padding: { top: 0, right: 10, bottom: 0, left: 10 }
       },
       dataLabels: { enabled: false },
       tooltip: {
