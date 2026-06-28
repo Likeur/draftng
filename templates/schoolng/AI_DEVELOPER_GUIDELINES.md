@@ -23,11 +23,14 @@ The layout is handled using a standard router-outlet architecture:
 ## 2. Design System & Aesthetics
 
 ### Visual Identity
-*   **Theme Foundation:** The interface is dark-mode first for a premium, sleek software experience (styled like Linear or Vercel).
-*   **Borders:** Use `--color-zinc-850` (or `border-zinc-850`) for a subtle, high-contrast dark-mode border instead of generic dark grey.
-*   **Colors & Gradients:**
-    *   **Light Mode Background:** Claude warm light paper page background (`--color-zinc-50: #fbfaf7`).
-    *   **Gradients:** Avatar/Subject card gradients are custom CSS linear gradients mapped in `styles.css`.
+*   **Theme Foundation:** The interface is dark-mode first for a premium, sleek software experience (styled like Vercel).
+*   **Semantic Tokens:** Avoid hardcoded utility color classes (like `bg-white dark:bg-zinc-950`). Use semantic custom properties defined in [styles.css](file:///Users/simba/Documents/Digitalproduct/draftNG/templates/schoolng/src/styles.css):
+    *   `bg-theme-bg`: Page backgrounds (`#fafafa` in light mode, `#09090b` in dark mode).
+    *   `bg-theme-panel`: Card and panel backgrounds (`#ffffff` in light mode, `#18181b` in dark mode).
+    *   `border-theme-border`: Card and component borders (`#eaeaea` in light mode, `#27272a` in dark mode).
+    *   `text-theme-text-main`: Primary content text (`#09090b` in light mode, `#fafafa` in dark mode).
+    *   `text-theme-text-muted`: Secondary labels and descriptions (`#71717a` in light mode, `#a1a1aa` in dark mode).
+*   **Borders:** All component borders should be subtle, thin, and map to `border-theme-border` for maximum design cohesion.
 *   **Typography:** Default font is Geist/Geist Mono for clean sans-serif/monospace layouts.
 
 ### Motion & Micro-interactions
@@ -124,20 +127,73 @@ To update colors, modify `src/styles.css` inside `@theme` or `@layer base`:
 *   Modify `:root` variables to configure Light Mode.
 *   Modify `.dark` variables to configure Dark Mode.
 
-Example - Changing accent theme:
+Example - Semantic mapping:
 ```css
-@theme {
-  --color-primary-500: #3b82f6; /* Configure primary focus colors */
+:root {
+  --theme-bg: #fafafa;
+  --theme-panel: #ffffff;
+  --theme-border: #eaeaea;
+  --theme-text-main: #09090b;
+  --theme-text-muted: #71717a;
+}
+.dark {
+  --theme-bg: #09090b;
+  --theme-panel: #18181b;
+  --theme-border: #27272a;
+  --theme-text-main: #fafafa;
+  --theme-text-muted: #a1a1aa;
 }
 ```
 
 ### Applying Themes Dynamically
-Theme switching is managed entirely inside `SchoolService`. The HTML class `dark` is appended to the root container dynamically based on `state.isDark()` signal:
-`[class]="state.isDark() ? 'bg-zinc-950 text-zinc-50 dark' : 'bg-zinc-50/65 text-zinc-900'"`
+Theme switching is managed entirely inside `SchoolService`. The HTML class `dark` is appended directly to the root `<html>` element (`document.documentElement.classList`) to ensure body-appended components (like ApexCharts tooltips or dropdown menus) correctly inherit dark mode context.
 
 ---
 
-## 6. Prompt Templates for AI Agents
+## 6. ApexCharts Integration Guidelines
+
+When implementing or extending charts using `ng-apexcharts` on the dashboard:
+
+### Preventing Hydration & Animation Glitches
+*   **Delayed Rendering:** ApexCharts requires browser globals and should never render during SSR. Initialize `isBrowser` to `false` and set it to `true` inside a `500ms` `setTimeout` delay in the constructor. This ensures the card's slide-in entry animation (`animate-blur-slide`) completes cleanly before the chart is compiled and inserted, preventing layout jumps.
+    ```typescript
+    protected readonly isBrowser = signal(false);
+    
+    constructor() {
+      if (isPlatformBrowser(this.platformId)) {
+        setTimeout(() => this.isBrowser.set(true), 500);
+      }
+    }
+    ```
+
+### Smooth Sidebar Transition Resizing
+*   **CSS Scaling Overrides:** Ensure `.apexcharts-canvas, .apexcharts-canvas svg` have `width: 100% !important` defined globally in `styles.css`. This lets the SVG layout scale smoothly with the CSS transitions of the grid cards during sidebar collapses/expands.
+*   **End-of-Transition Redraw:** Add an Angular Signals `effect()` in the constructor that listens to `state.isCollapsed()`. Skip the initial run (to avoid disrupting page load), and dispatch a single window `resize` event at a `220ms` delay (immediately following the sidebar transition completion) to force a crisp redraw.
+    ```typescript
+    constructor() {
+      let isInitial = true;
+      effect(() => {
+        this.state.isCollapsed();
+        if (isInitial) {
+          isInitial = false;
+          return;
+        }
+        if (isPlatformBrowser(this.platformId)) {
+          setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+          }, 220);
+        }
+      });
+    }
+    ```
+
+### Height and Layout Alignment
+*   **Card Height Synchronization:** Always set `h-full flex flex-col justify-between` on the main card container `div` of chart components. This ensures all cards in a grid row align perfectly in height, regardless of their content or action button volumes.
+*   **Chart Centering:** Always wrap `<apx-chart>` in a `w-full overflow-hidden flex-1 flex items-center justify-center` wrapper `div` to expand and center the chart canvas vertically inside the aligned cards.
+
+---
+
+## 7. Prompt Templates for AI Agents
 
 Copy and paste the following prompt when instructing an AI to edit this workspace:
 
@@ -151,6 +207,10 @@ Copy and paste the following prompt when instructing an AI to edit this workspac
 >    - Register the lazy-loaded route in `app.routes.ts`.
 >    - Add the navigation button with a matching `routerLink` inside `sidebar.ts` and set its active state style check via `isActive('/path')`.
 > 5. For sub-views (like Grades and Timelines), use nested child routes configured under the parent route path in `app.routes.ts`. Renders inside `<router-outlet>` of the parent component. Child components can access the parent filtered parameters by injecting the parent component class.
-> 6. Keep styling consistent: Use `bg-zinc-900 border-zinc-850 text-zinc-50` for dark panels, and `bg-white border-zinc-200 text-zinc-900` for light panels.
+> 6. Keep styling consistent: Use semantic tokens (`bg-theme-panel`, `border-theme-border`, `text-theme-text-main`) to support seamless light/dark mode transitions rather than hardcoding static zinc classes.
 > 7. Incorporate animations: card containers should use `.animate-blur-slide` and `.stagger-*` animation classes for smooth staggered page entry.
-> 8. All buttons should have `.clickable-scale` for interactive click scaling.
+> 8. Make charts responsive and stable:
+>    - Use delayed initialization (500ms delay for `isBrowser = true`) to prevent hydration layout glitches during entry animations.
+>    - Listen to `state.isCollapsed` and trigger window resize events at `220ms` to update ApexCharts dimensions after the sidebar finishes collapsing.
+>    - Apply `h-full flex flex-col justify-between` on chart card containers to align grid heights.
+> 9. All buttons should have `.clickable-scale` for interactive click scaling.
