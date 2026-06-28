@@ -8,12 +8,12 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   standalone: true,
   imports: [NgApexchartsModule],
   template: `
-    <div class="rounded-xl border bg-theme-panel border-theme-border p-5 space-y-3">
+    <div class="rounded-xl border bg-theme-panel border-theme-border p-5 h-full flex flex-col justify-between">
       <div>
         <h3 class="font-medium text-xs text-theme-text-main tracking-wider capitalize">Cohort Share</h3>
         <p class="text-[10px] text-theme-text-muted font-normal mt-1">Distribution of active students per cohort</p>
       </div>
-      <div class="w-full overflow-hidden">
+      <div class="w-full overflow-hidden flex-1 flex items-center justify-center">
         @if (isBrowser()) {
           <apx-chart
             class="w-full font-sans"
