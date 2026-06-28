@@ -89,32 +89,39 @@ import { SchoolService } from '../services/school.service';
                 <span class="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-zinc-950 border border-zinc-200"></span>
               </button>
 
-              @if (isNotificationsOpen()) {
-                <div 
-                  class="absolute right-0 mt-2 w-80 bg-white border border-zinc-200 text-zinc-800 rounded-xl overflow-hidden py-1 z-50 shadow-lg animate-fade-in">
-                  <div class="px-4 py-2.5 border-b border-zinc-100 font-display font-medium text-xs text-zinc-500 flex justify-between items-center">
-                    <span>Notifications</span>
-                    <span class="text-[9px] bg-zinc-50 text-zinc-500 px-1.5 py-0.5 rounded font-medium border border-zinc-200/50">2 Alerts</span>
+              <!-- Notifications Dropdown Panel -->
+              <div 
+                [class.opacity-100]="isNotificationsOpen()"
+                [class.pointer-events-auto]="isNotificationsOpen()"
+                [class.scale-100]="isNotificationsOpen()"
+                [class.translate-y-0]="isNotificationsOpen()"
+                [class.opacity-0]="!isNotificationsOpen()"
+                [class.pointer-events-none]="!isNotificationsOpen()"
+                [class.scale-95]="!isNotificationsOpen()"
+                [class.translate-y-[-8px]]="!isNotificationsOpen()"
+                class="absolute right-0 mt-2 w-80 bg-white border border-zinc-200 text-zinc-800 rounded-xl overflow-hidden py-1 z-50 shadow-lg transition-all duration-200 ease-out origin-top-right transform">
+                <div class="px-4 py-2.5 border-b border-zinc-100 font-display font-medium text-xs text-zinc-500 flex justify-between items-center">
+                  <span>Notifications</span>
+                  <span class="text-[9px] bg-zinc-50 text-zinc-500 px-1.5 py-0.5 rounded font-medium border border-zinc-200/50">2 Alerts</span>
+                </div>
+                
+                <div class="divide-y divide-zinc-100 text-xs font-normal">
+                  <div class="px-4 py-3 hover:bg-zinc-50 transition-colors cursor-default">
+                    <p class="leading-normal"><span class="font-medium text-zinc-900">Notice:</span> Emergency weather evacuation drill scheduled for Wednesday morning.</p>
+                    <p class="text-[9px] text-zinc-400 mt-1">1 hour ago</p>
                   </div>
-                  
-                  <div class="divide-y divide-zinc-100 text-xs font-normal">
-                    <div class="px-4 py-3 hover:bg-zinc-50 transition-colors cursor-default">
-                      <p class="leading-normal"><span class="font-medium text-zinc-900">Notice:</span> Emergency weather evacuation drill scheduled for Wednesday morning.</p>
-                      <p class="text-[9px] text-zinc-400 mt-1">1 hour ago</p>
-                    </div>
-                    <div class="px-4 py-3 hover:bg-zinc-50 transition-colors cursor-default">
-                      <p class="leading-normal"><span class="font-medium text-zinc-900">Dr. Vance</span> updated roster for <span class="font-medium text-zinc-900">AP Calculus BC</span>.</p>
-                      <p class="text-[9px] text-zinc-400 mt-1">2 hours ago</p>
-                    </div>
-                  </div>
-
-                  <div class="p-2 border-t border-zinc-100 text-center">
-                    <button (click)="markAllRead()" class="w-full py-1 text-[10px] font-medium text-zinc-500 hover:text-zinc-800 transition-colors cursor-pointer select-none clickable-scale">
-                      Close Alerts Panel
-                    </button>
+                  <div class="px-4 py-3 hover:bg-zinc-50 transition-colors cursor-default">
+                    <p class="leading-normal"><span class="font-medium text-zinc-900">Dr. Vance</span> updated roster for <span class="font-medium text-zinc-900">AP Calculus BC</span>.</p>
+                    <p class="text-[9px] text-zinc-400 mt-1">2 hours ago</p>
                   </div>
                 </div>
-              }
+
+                <div class="p-2 border-t border-zinc-100 text-center">
+                  <button (click)="markAllRead()" class="w-full py-1 text-[10px] font-medium text-zinc-500 hover:text-zinc-800 transition-colors cursor-pointer select-none clickable-scale">
+                    Close Alerts Panel
+                  </button>
+                </div>
+              </div>
             </div>
 
           </div>

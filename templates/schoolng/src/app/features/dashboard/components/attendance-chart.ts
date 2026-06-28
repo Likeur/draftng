@@ -34,34 +34,40 @@ import { NgApexchartsModule } from 'ng-apexcharts';
           </button>
 
           <!-- Config Options Dropdown Menu -->
-          @if (isChartConfigOpen()) {
-            <div 
-              class="absolute right-0 top-full mt-1.5 w-44 bg-white border border-zinc-200 rounded-xl p-1.5 z-40 shadow-lg animate-fade-in text-zinc-700 font-sans">
-              
-              <button (click)="toggleGridLines()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 transition-all cursor-pointer text-left font-medium">
-                <span>Grid Lines</span>
-                <span class="text-[9px] font-medium" [class]="showGridLines() ? 'text-emerald-500' : 'text-zinc-400'">
-                  {{ showGridLines() ? 'On' : 'Off' }}
-                </span>
-              </button>
+          <div 
+            [class.opacity-100]="isChartConfigOpen()"
+            [class.pointer-events-auto]="isChartConfigOpen()"
+            [class.scale-100]="isChartConfigOpen()"
+            [class.translate-y-0]="isChartConfigOpen()"
+            [class.opacity-0]="!isChartConfigOpen()"
+            [class.pointer-events-none]="!isChartConfigOpen()"
+            [class.scale-95]="!isChartConfigOpen()"
+            [class.translate-y-[-4px]]="!isChartConfigOpen()"
+            class="absolute right-0 top-full mt-1.5 w-44 bg-white border border-zinc-200 rounded-xl p-1.5 z-40 shadow-lg transition-all duration-200 ease-out origin-top-right transform text-zinc-700 font-sans">
+            
+            <button (click)="toggleGridLines()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 transition-all cursor-pointer text-left font-medium">
+              <span>Grid Lines</span>
+              <span class="text-[9px] font-medium" [class]="showGridLines() ? 'text-emerald-500' : 'text-zinc-400'">
+                {{ showGridLines() ? 'On' : 'Off' }}
+              </span>
+            </button>
 
-              <button (click)="toggleCurveType()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 transition-all cursor-pointer text-left font-medium">
-                <span>Smooth Curve</span>
-                <span class="text-[9px] font-medium" [class]="curveType() === 'smooth' ? 'text-emerald-500' : 'text-zinc-400'">
-                  {{ curveType() === 'smooth' ? 'Yes' : 'No' }}
-                </span>
-              </button>
+            <button (click)="toggleCurveType()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 transition-all cursor-pointer text-left font-medium">
+              <span>Smooth Curve</span>
+              <span class="text-[9px] font-medium" [class]="curveType() === 'smooth' ? 'text-emerald-500' : 'text-zinc-400'">
+                {{ curveType() === 'smooth' ? 'Yes' : 'No' }}
+              </span>
+            </button>
 
-              <div class="h-px my-1 bg-zinc-100"></div>
+            <div class="h-px my-1 bg-zinc-100"></div>
 
-              <button (click)="toggleGradientFill()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 transition-all cursor-pointer text-left font-medium">
-                <span>Gradient Fill</span>
-                <span class="text-[9px] font-medium" [class]="showGradient() ? 'text-emerald-500' : 'text-zinc-400'">
-                  {{ showGradient() ? 'On' : 'Off' }}
-                </span>
-              </button>
-            </div>
-          }
+            <button (click)="toggleGradientFill()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 transition-all cursor-pointer text-left font-medium">
+              <span>Gradient Fill</span>
+              <span class="text-[9px] font-medium" [class]="showGradient() ? 'text-emerald-500' : 'text-zinc-400'">
+                {{ showGradient() ? 'On' : 'Off' }}
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 

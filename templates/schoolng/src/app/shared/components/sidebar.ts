@@ -148,45 +148,51 @@ import { SchoolService } from '../services/school.service';
       <!-- User Options Bottom Section -->
       <div class="relative" id="user-menu-container">
         <!-- Dropdown Menu -->
-        @if (isUserDropdownOpen()) {
-          <div 
-            class="absolute bottom-full left-0 mb-2 w-64 bg-white border border-zinc-200 text-zinc-800 rounded-xl p-1.5 z-50 shadow-md animate-fade-in select-none">
-            
-            <!-- User Profile Header -->
-            <div class="flex items-center gap-2.5 p-2.5 pb-3 border-b border-zinc-100">
-              <div class="profile-mesh-avatar w-8 h-8 rounded-full border border-zinc-200/50 shrink-0"></div>
-              <div class="text-left overflow-hidden">
-                <p class="text-xs font-medium leading-tight text-zinc-900 truncate">admin_schoolng</p>
-                <p class="text-[9px] text-zinc-400 truncate mt-0.5">registrar&#64;schoolng.edu</p>
-              </div>
+        <div 
+          [class.opacity-100]="isUserDropdownOpen()"
+          [class.pointer-events-auto]="isUserDropdownOpen()"
+          [class.scale-100]="isUserDropdownOpen()"
+          [class.translate-y-0]="isUserDropdownOpen()"
+          [class.opacity-0]="!isUserDropdownOpen()"
+          [class.pointer-events-none]="!isUserDropdownOpen()"
+          [class.scale-95]="!isUserDropdownOpen()"
+          [class.translate-y-2]="!isUserDropdownOpen()"
+          class="absolute bottom-full left-0 mb-2 w-64 bg-white border border-zinc-200 text-zinc-800 rounded-xl p-1.5 z-50 shadow-md transition-all duration-200 ease-out origin-bottom-left transform select-none">
+          
+          <!-- User Profile Header -->
+          <div class="flex items-center gap-2.5 p-2.5 pb-3 border-b border-zinc-100">
+            <div class="profile-mesh-avatar w-8 h-8 rounded-full border border-zinc-200/50 shrink-0"></div>
+            <div class="text-left overflow-hidden">
+              <p class="text-xs font-medium leading-tight text-zinc-900 truncate">admin_schoolng</p>
+              <p class="text-[9px] text-zinc-400 truncate mt-0.5">registrar&#64;schoolng.edu</p>
             </div>
-
-            <!-- Options Group -->
-            <div class="py-1">
-              <!-- Settings Link -->
-              <button routerLink="/settings" (click)="isUserDropdownOpen.set(false)" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs text-zinc-500 hover:text-zinc-900 transition-all cursor-pointer text-left clickable-scale">
-                <div class="flex items-center gap-2.5">
-                  <!-- Lucide: settings -->
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-                  <span>Global Settings</span>
-                </div>
-                <span class="text-[9px] text-zinc-400 font-mono tracking-wider">⇧⌘,</span>
-              </button>
-            </div>
-
-            <!-- Divider -->
-            <div class="h-px my-1 bg-zinc-100"></div>
-
-            <div class="py-1">
-              <button (click)="onOption('Log Out')" class="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-normal transition-all cursor-pointer text-left clickable-scale text-red-500 hover:bg-red-50">
-                <!-- Lucide: log-out -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-400 shrink-0"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg>
-                <span>Log Out</span>
-              </button>
-            </div>
-
           </div>
-        }
+
+          <!-- Options Group -->
+          <div class="py-1">
+            <!-- Settings Link -->
+            <button routerLink="/settings" (click)="isUserDropdownOpen.set(false)" class="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs text-zinc-500 hover:text-zinc-900 transition-all cursor-pointer text-left clickable-scale">
+              <div class="flex items-center gap-2.5">
+                <!-- Lucide: settings -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span>Global Settings</span>
+              </div>
+              <span class="text-[9px] text-zinc-400 font-mono tracking-wider">⇧⌘,</span>
+            </button>
+          </div>
+
+          <!-- Divider -->
+          <div class="h-px my-1 bg-zinc-100"></div>
+
+          <div class="py-1">
+            <button (click)="onOption('Log Out')" class="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-normal transition-all cursor-pointer text-left clickable-scale text-red-500 hover:bg-red-50">
+              <!-- Lucide: log-out -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-400 shrink-0"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg>
+              <span>Log Out</span>
+            </button>
+          </div>
+
+        </div>
 
         <!-- Toggle Button -->
         <button 
