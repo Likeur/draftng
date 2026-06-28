@@ -1,59 +1,89 @@
-# Schoolng
+# Schoolng - Premium Academic Dashboard Template
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.4.
+**Schoolng** is a premium, high-performance academic administrator and registrar dashboard template built using the latest modern web standards: **Angular 22+** (Signals-first architecture) and **Tailwind CSS v4**.
 
-## Development server
+Inspired by clean, minimalist visual aesthetics (like Vercel and Linear), it provides an immersive, responsive workspace tailored for managing classrooms, academic registries, and administrative operations.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
+## 🚀 Key Features
+
+*   **Responsive Collapsible Sidebar & Navigation**: Features a dynamic sidebar layout with viewport responsiveness, sliding out of view on mobile, and automatic click-outside-to-close listeners.
+*   **Dual Theme Engine**: High-contrast Dark Mode and White Light Mode with state persistence in `localStorage`.
+*   **Semantic Color Token System**: Custom properties (`bg-theme-bg`, `bg-theme-panel`, `border-theme-border`, `text-theme-text-main`, `text-theme-text-muted`) prevent selector overrides and make dark/light transitions seamless.
+*   **Staggered Entrance Animations**: Cards and charts fade and slide in progressively using `.animate-blur-slide` and staggered delay transitions.
+*   **ApexCharts Integration**: Clean analytics widgets for student attendance, cohort distributions, GPA trends, and enrollment growth:
+    *   **Smooth Sidebar Scaling**: The charts scale seamlessly alongside the collapsible sidebar using global CSS overrides (`width: 100% !important`) and a reactive redraw effect.
+    *   **Hydration Compatible**: Delayed rendering (500ms startup delay) prevents SSR layout shifts during entrance animations.
+    *   **Custom Dark Mode Tooltips**: Global overrides ensure tooltip menus match the active color theme and typography.
+*   **Micro-interactions**: Subtle interactive scales on buttons and clickable items via `.clickable-scale`.
+
+---
+
+## 🛠️ Tech Stack & Configuration
+
+*   **Core**: Angular 22+ (Standalone Components, Signals, new Control Flows).
+*   **Styling**: Tailwind CSS v4 (configured via `@import` and `@theme` in `styles.css`).
+*   **State Management**: Centralized single-point of truth `SchoolService` (`/src/app/shared/services/school.service.ts`).
+*   **Charts**: `ng-apexcharts` (with reactive computed options).
+*   **Icons**: Lucide SVG paths.
+*   **Typography**: Geist & Geist Mono fonts.
+
+---
+
+## 📁 Directory Structure
+
+```text
+src/
+├── app/
+│   ├── app.html              # Main application shell wrapper
+│   ├── app.routes.ts         # Lazy-loaded feature routing configurations
+│   ├── app.ts                # App bootstrapper
+│   ├── features/
+│   │   └── dashboard.ts      # Core academic overview dashboard layout
+│   │       └── dashboard/    # Sub-widgets (KPIs, Activity Logs, Upcoming Events)
+│   │           └── components/ # Custom ApexCharts (gpa-trend, enrollment-growth, etc.)
+│   └── shared/
+│       ├── components/       # Main topbar and navigation sidebar components
+│       └── services/         # SchoolService containing reactive signals
+└── styles.css                # Semantic styling system, custom scrollbars, animations, and tooltips
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 💻 Getting Started
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Development Server
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Install dependencies and start the local development server:
 
 ```bash
-ng generate --help
+npm install
+npm start
 ```
 
-## Building
+Navigate to `http://localhost:4200/`. The page will automatically reload as you modify source files.
 
-To build the project run:
+### Building for Production
+
+Compile and bundle the project assets for deployment:
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This compiles your project and stores static build artifacts in the `dist/` directory, optimized for loading speeds and performance.
 
-## Running unit tests
+### Run Unit Tests
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Execute test suites using Vitest:
 
 ```bash
-ng test
+npm test
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 🤖 AI Developer Guidelines
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+If you are extending this template using an **AI coding assistant** (like Cursor, Gemini, or Claude), refer to the [AI_DEVELOPER_GUIDELINES.md](file:///Users/simba/Documents/Digitalproduct/draftNG/templates/schoolng/AI_DEVELOPER_GUIDELINES.md) file at the root of the project. It provides strict step-by-step procedures, prompts, and layout templates for component additions and theme adjustments.
