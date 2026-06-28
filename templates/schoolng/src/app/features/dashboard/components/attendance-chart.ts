@@ -8,27 +8,27 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   standalone: true,
   imports: [NgApexchartsModule],
   template: `
-    <div class="rounded-xl border bg-white dark:bg-zinc-100 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
+    <div class="rounded-xl border bg-theme-panel border-theme-border p-5 space-y-3">
       
       <div class="flex items-start justify-between gap-4 relative z-20">
         <div>
-          <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Attendance Analytics</h3>
-          <p class="text-[10px] text-zinc-400 dark:text-zinc-500 font-normal mt-1">{{ getDescriptionText() }}</p>
+          <h3 class="font-medium text-xs text-theme-text-main tracking-wider capitalize">Attendance Analytics</h3>
+          <p class="text-[10px] text-theme-text-muted font-normal mt-1">{{ getDescriptionText() }}</p>
         </div>
         
         <!-- Controls: Segment Selector + 3-dots config button -->
         <div class="flex items-center gap-2 relative" id="chart-controls-container">
           <!-- Segmented timeframe selector -->
-          <div class="flex items-center rounded-lg border border-zinc-200 dark:border-zinc-800 p-0.5 bg-zinc-50 dark:bg-zinc-900/50 select-none">
-            <button (click)="changeTimeframe('daily')" [class]="activeTimeframe() === 'daily' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-250'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Daily</button>
-            <button (click)="changeTimeframe('weekly')" [class]="activeTimeframe() === 'weekly' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-250'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Weekly</button>
-            <button (click)="changeTimeframe('monthly')" [class]="activeTimeframe() === 'monthly' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-250'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Monthly</button>
+          <div class="flex items-center rounded-lg border border-theme-border p-0.5 bg-theme-bg select-none">
+            <button (click)="changeTimeframe('daily')" [class]="activeTimeframe() === 'daily' ? 'bg-theme-panel text-theme-text-main shadow-sm font-medium' : 'text-theme-text-muted hover:text-theme-text-main'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Daily</button>
+            <button (click)="changeTimeframe('weekly')" [class]="activeTimeframe() === 'weekly' ? 'bg-theme-panel text-theme-text-main shadow-sm font-medium' : 'text-theme-text-muted hover:text-theme-text-main'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Weekly</button>
+            <button (click)="changeTimeframe('monthly')" [class]="activeTimeframe() === 'monthly' ? 'bg-theme-panel text-theme-text-main shadow-sm font-medium' : 'text-theme-text-muted hover:text-theme-text-main'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Monthly</button>
           </div>
 
           <!-- More Config 3-Dots Button -->
           <button 
             (click)="toggleChartConfig($event)"
-            class="w-7 h-7 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-250 bg-white dark:bg-zinc-950 transition-all cursor-pointer clickable-scale">
+            class="w-7 h-7 flex items-center justify-center rounded-lg border border-theme-border text-theme-text-muted hover:text-theme-text-main bg-theme-panel transition-all cursor-pointer clickable-scale">
             <!-- Lucide: more-horizontal -->
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
           </button>
@@ -43,27 +43,27 @@ import { NgApexchartsModule } from 'ng-apexcharts';
             [class.pointer-events-none]="!isChartConfigOpen()"
             [class.scale-95]="!isChartConfigOpen()"
             [class.translate-y-[-4px]]="!isChartConfigOpen()"
-            class="absolute right-0 top-full mt-1.5 w-44 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5 z-40 shadow-lg transition-all duration-200 ease-out origin-top-right transform text-zinc-700 dark:text-zinc-300 font-sans">
+            class="absolute right-0 top-full mt-1.5 w-44 bg-theme-panel border border-theme-border rounded-xl p-1.5 z-40 shadow-lg transition-all duration-200 ease-out origin-top-right transform text-theme-text-muted font-sans">
             
-            <button (click)="toggleGridLines()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left font-medium">
+            <button (click)="toggleGridLines()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-theme-hover hover:text-theme-text-main transition-all cursor-pointer text-left font-medium">
               <span>Grid Lines</span>
-              <span class="text-[9px] font-medium" [class]="showGridLines() ? 'text-emerald-500' : 'text-zinc-400'">
+              <span class="text-[9px] font-medium" [class]="showGridLines() ? 'text-emerald-500' : 'text-theme-text-muted'">
                 {{ showGridLines() ? 'On' : 'Off' }}
               </span>
             </button>
 
-            <button (click)="toggleCurveType()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left font-medium">
+            <button (click)="toggleCurveType()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-theme-hover hover:text-theme-text-main transition-all cursor-pointer text-left font-medium">
               <span>Smooth Curve</span>
-              <span class="text-[9px] font-medium" [class]="curveType() === 'smooth' ? 'text-emerald-500' : 'text-zinc-400'">
+              <span class="text-[9px] font-medium" [class]="curveType() === 'smooth' ? 'text-emerald-500' : 'text-theme-text-muted'">
                 {{ curveType() === 'smooth' ? 'Yes' : 'No' }}
               </span>
             </button>
 
-            <div class="h-px my-1 bg-zinc-100 dark:bg-zinc-900"></div>
+            <div class="h-px my-1 bg-theme-border"></div>
 
-            <button (click)="toggleGradientFill()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left font-medium">
+            <button (click)="toggleGradientFill()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-theme-hover hover:text-theme-text-main transition-all cursor-pointer text-left font-medium">
               <span>Gradient Fill</span>
-              <span class="text-[9px] font-medium" [class]="showGradient() ? 'text-emerald-500' : 'text-zinc-400'">
+              <span class="text-[9px] font-medium" [class]="showGradient() ? 'text-emerald-500' : 'text-theme-text-muted'">
                 {{ showGradient() ? 'On' : 'Off' }}
               </span>
             </button>
@@ -87,7 +87,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
             [tooltip]="attendanceChartOptions().tooltip"
           ></apx-chart>
         } @else {
-          <span class="text-[10px] text-zinc-400 dark:text-zinc-500 font-normal">Loading chart...</span>
+          <span class="text-[10px] text-theme-text-muted font-normal">Loading chart...</span>
         }
       </div>
     </div>

@@ -8,10 +8,10 @@ import { NgApexchartsModule } from 'ng-apexcharts';
   standalone: true,
   imports: [NgApexchartsModule],
   template: `
-    <div class="rounded-xl border bg-white dark:bg-zinc-100 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
+    <div class="rounded-xl border bg-theme-panel border-theme-border p-5 space-y-3">
       <div>
-        <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Cohort Share</h3>
-        <p class="text-[10px] text-zinc-400 dark:text-zinc-500 font-normal mt-1">Distribution of active students per cohort</p>
+        <h3 class="font-medium text-xs text-theme-text-main tracking-wider capitalize">Cohort Share</h3>
+        <p class="text-[10px] text-theme-text-muted font-normal mt-1">Distribution of active students per cohort</p>
       </div>
       <div class="h-48 flex items-center justify-center overflow-hidden">
         @if (isBrowser()) {
@@ -28,7 +28,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
             [tooltip]="cohortChartOptions().tooltip"
           ></apx-chart>
         } @else {
-          <span class="text-[10px] text-zinc-400 dark:text-zinc-500 font-normal">Loading share data...</span>
+          <span class="text-[10px] text-theme-text-muted font-normal">Loading share data...</span>
         }
       </div>
     </div>

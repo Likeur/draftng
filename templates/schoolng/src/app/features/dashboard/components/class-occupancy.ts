@@ -18,20 +18,20 @@ interface ClassGroup {
   standalone: true,
   imports: [],
   template: `
-    <div class="rounded-xl border bg-white dark:bg-zinc-100 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
+    <div class="rounded-xl border bg-theme-panel border-theme-border p-5 space-y-3">
       <div class="flex items-center justify-between">
         <div>
-          <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Class Occupancy</h3>
-          <p class="text-[10px] text-zinc-400 dark:text-zinc-500 font-normal mt-1">Scheduled lectures for today</p>
+          <h3 class="font-medium text-xs text-theme-text-main tracking-wider capitalize">Class Occupancy</h3>
+          <p class="text-[10px] text-theme-text-muted font-normal mt-1">Scheduled lectures for today</p>
         </div>
-        <button class="text-[10px] font-medium px-2.5 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-250 rounded-lg transition-all clickable-scale">View All</button>
+        <button class="text-[10px] font-medium px-2.5 py-1.5 bg-theme-panel border border-theme-border hover:bg-theme-hover text-theme-text-muted hover:text-theme-text-main rounded-lg transition-all clickable-scale">View All</button>
       </div>
 
       <!-- Subject Cards Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         @for (cls of filteredClasses(); track cls.id) {
           <div 
-            class="p-4 rounded-xl border bg-white dark:bg-zinc-900/40 border-zinc-200/60 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
+            class="p-4 rounded-xl border bg-theme-nested border-theme-border/60 hover:border-theme-border transition-all duration-200 animate-blur-slide clickable-scale">
             
             <div class="flex items-start justify-between">
               <div>
@@ -39,18 +39,18 @@ interface ClassGroup {
                 <span [class]="cls.badgeColor" class="text-[8px] font-mono px-1.5 py-0.5 rounded font-medium select-none border">
                   {{ cls.code }}
                 </span>
-                <h4 class="font-medium text-sm text-zinc-900 dark:text-zinc-50 mt-2 truncate max-w-40">{{ cls.subject }}</h4>
-                <p class="text-[10px] text-zinc-400 dark:text-zinc-500 font-normal mt-1">{{ cls.teacher }}</p>
+                <h4 class="font-medium text-sm text-theme-text-main mt-2 truncate max-w-40">{{ cls.subject }}</h4>
+                <p class="text-[10px] text-theme-text-muted font-normal mt-1">{{ cls.teacher }}</p>
               </div>
             </div>
 
             <div class="mt-3.5">
-              <div class="flex items-center justify-between text-[9px] text-zinc-400 dark:text-zinc-500 font-normal mb-1 font-sans">
+              <div class="flex items-center justify-between text-[9px] text-theme-text-muted font-normal mb-1 font-sans">
                 <span>Occupants</span>
                 <span>{{ cls.pax }} / {{ cls.maxPax }} ({{ getPercent(cls.pax, cls.maxPax) }}%)</span>
               </div>
               <!-- Colored progress bar -->
-              <div class="w-full h-1 rounded-full bg-zinc-100 dark:bg-zinc-800/50 overflow-hidden">
+              <div class="w-full h-1 rounded-full bg-theme-hover overflow-hidden">
                 <div [class]="cls.color" class="h-full rounded-full" [style.width.%]="getPercent(cls.pax, cls.maxPax)"></div>
               </div>
             </div>

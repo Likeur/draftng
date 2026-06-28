@@ -6,7 +6,16 @@
   --font-mono: 'Geist Mono', monospace;
   
   --color-zinc-850: rgba(63, 63, 70, 0.45);
-  --color-zinc-955: var(--zinc-955);
+  
+  /* Semantic Theme Variables mapped to CSS custom variables */
+  --color-theme-bg: var(--theme-bg);
+  --color-theme-panel: var(--theme-panel);
+  --color-theme-nested: var(--theme-nested);
+  --color-theme-border: var(--theme-border);
+  --color-theme-hover: var(--theme-hover);
+  
+  --color-theme-text-main: var(--theme-text-main);
+  --color-theme-text-muted: var(--theme-text-muted);
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -21,26 +30,27 @@
   }
   
   :root {
-    --color-zinc-50: #ffffff;         /* Crisp pure white page background */
-    --color-zinc-100: #fafafa;        /* Clean light grey panels */
-    --color-zinc-200: #eaeaea;        /* Extremely subtle light mode border */
-    --color-zinc-300: #d4d4d8;
-    --color-zinc-400: #a1a1aa;
-    --color-zinc-500: #71717a;
-    --color-zinc-650: #52525b;
-    --color-zinc-800: #27272a;
-    --color-zinc-900: #111111;        /* Clean high-contrast dark text */
-    --color-zinc-950: #000000;
-    --zinc-955: #ffffff;
+    /* Standard light theme variables */
+    --theme-bg: #fafafa;              /* Clean very light grey page background */
+    --theme-panel: #ffffff;           /* Crisp pure white panel background */
+    --theme-nested: #ffffff;          /* Nested card background */
+    --theme-border: #eaeaea;          /* Subtle light grey border */
+    --theme-hover: #f4f4f5;           /* Light grey hover background */
+    
+    --theme-text-main: #09090b;       /* Crisp near-black main text */
+    --theme-text-muted: #71717a;      /* Grey muted labels */
   }
 
   .dark {
-    --color-zinc-50: #09090b;         /* Deep Vercel dark mode page background */
-    --color-zinc-100: #18181b;        /* Zinc-900 panels */
-    --color-zinc-200: #27272a;        /* Zinc-800 borders */
-    --color-zinc-900: #fafafa;
-    --color-zinc-950: #ffffff;
-    --zinc-955: #09090b;
+    /* High contrast dark theme variables */
+    --theme-bg: #09090b;              /* Deep Vercel black page background */
+    --theme-panel: #18181b;           /* Zinc-900 panel background */
+    --theme-nested: #1f1f23;          /* Slightly lighter zinc card background */
+    --theme-border: #27272a;          /* Subtle dark grey border */
+    --theme-hover: #27272a;           /* Zinc-800 hover background */
+    
+    --theme-text-main: #fafafa;       /* Crisp near-white main text */
+    --theme-text-muted: #a1a1aa;      /* Light grey muted labels */
   }
 }
 
