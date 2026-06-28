@@ -31,7 +31,7 @@ interface ClassGroup {
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-450 dark:bg-zinc-100 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-zinc-950 dark:bg-zinc-50"></span>
           </span>
-          <span class="text-[9px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider uppercase">Live Sync Active</span>
+          <span class="text-[9px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Live Sync Active</span>
         </div>
       </section>
 
@@ -40,9 +40,9 @@ interface ClassGroup {
         
         <!-- Total Students -->
         <div 
-          class="p-5 rounded-xl border bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-all duration-250 clickable-scale">
+          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Total Students</span>
+            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Total Students</span>
             <div class="text-zinc-400">
               <!-- Lucide: users -->
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -60,9 +60,9 @@ interface ClassGroup {
 
         <!-- Active Classes -->
         <div 
-          class="p-5 rounded-xl border bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-all duration-250 clickable-scale">
+          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Active Classes</span>
+            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Active Classes</span>
             <div class="text-zinc-400">
               <!-- Lucide: school -->
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m4 6 8-4 8 4M18 10v7M6 10v7m3-7v7m6-7v7M2 22h20M12 22v-4M8 12h8"/></svg>
@@ -80,9 +80,9 @@ interface ClassGroup {
 
         <!-- Teachers on Shift -->
         <div 
-          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-all duration-250 clickable-scale">
+          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Teachers on Shift</span>
+            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Teachers on Shift</span>
             <div class="text-zinc-400">
               <!-- Lucide: user-check -->
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
@@ -100,9 +100,9 @@ interface ClassGroup {
 
         <!-- Attendance Rate -->
         <div 
-          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-all duration-250 clickable-scale">
+          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Attendance Rate</span>
+            <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 tracking-wider capitalize">Attendance Rate</span>
             <div class="text-zinc-400">
               <!-- Lucide: activity -->
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
@@ -120,13 +120,13 @@ interface ClassGroup {
 
       </section>
 
-      <!-- Analytics Charts Row (Vercel-style clean curves) -->
+      <!-- Analytics Charts Row -->
       <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Attendance Chart Card -->
         <div 
           class="lg:col-span-2 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
           <div>
-            <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Attendance Analytics</h3>
+            <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Attendance Analytics</h3>
             <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Average daily attendance rate over the current week</p>
           </div>
           <div class="h-52 flex items-center justify-center overflow-hidden">
@@ -135,7 +135,6 @@ interface ClassGroup {
                 class="w-full font-sans"
                 [series]="attendanceChartOptions().series"
                 [chart]="attendanceChartOptions().chart"
-                [plotOptions]="attendanceChartOptions().plotOptions"
                 [colors]="attendanceChartOptions().colors"
                 [stroke]="attendanceChartOptions().stroke"
                 [fill]="attendanceChartOptions().fill"
@@ -155,7 +154,7 @@ interface ClassGroup {
         <div 
           class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
           <div>
-            <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Cohort Share</h3>
+            <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Cohort Share</h3>
             <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Distribution of active students per cohort</p>
           </div>
           <div class="h-52 flex items-center justify-center overflow-hidden">
@@ -190,7 +189,7 @@ interface ClassGroup {
             class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Class Occupancy</h3>
+                <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Class Occupancy</h3>
                 <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Scheduled lectures for today</p>
               </div>
               <button class="text-[10px] font-medium px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 rounded-lg transition-all clickable-scale">View All</button>
@@ -230,7 +229,7 @@ interface ClassGroup {
           <div 
             class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
             <div>
-              <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Registrar Activity</h3>
+              <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Registrar Activity</h3>
               <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Live audit log of registrar activity and marks entries</p>
             </div>
 
@@ -256,7 +255,7 @@ interface ClassGroup {
           <div 
             class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
             <div>
-              <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Calendar & Events</h3>
+              <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Calendar & Events</h3>
               <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Upcoming official assemblies and deadlines</p>
             </div>
 
@@ -267,7 +266,7 @@ interface ClassGroup {
                   
                   <div class="flex items-center justify-between gap-2">
                     <h4 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 truncate">{{ evt.title }}</h4>
-                    <span [class]="getEventTypeColor(evt.type)" class="text-[8px] font-normal px-1.5 py-0.5 rounded tracking-wider uppercase font-mono shrink-0">
+                    <span [class]="getEventTypeColor(evt.type)" class="text-[8px] font-normal px-1.5 py-0.5 rounded tracking-wider capitalize font-mono shrink-0">
                       {{ evt.type }}
                     </span>
                   </div>
@@ -294,7 +293,7 @@ interface ClassGroup {
           <div 
             class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
             <div>
-              <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Console Shortcuts</h3>
+              <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Console Shortcuts</h3>
               <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Registrar shortcuts for swift entries</p>
             </div>
 
@@ -345,12 +344,10 @@ export class DashboardComponent {
     { id: 204, subject: 'Intro to Microeconomics', code: 'ECON-101', teacher: 'Dr. Alistair Finch', room: 'Lecture Hall C', pax: 45, maxPax: 50, color: 'bg-amber-500' }
   ];
 
-  // Attendance Weekly Trend reactive options (Colored Bar Model)
+  // Attendance Weekly Trend reactive options (Smooth Green Curve Area Chart - sparkline style)
   protected readonly attendanceChartOptions = computed(() => {
     const isDark = this.state.isDark();
-    const primaryColor = isDark ? '#3b82f6' : '#2563eb'; // Sleek glowing brand blue
     const gridColor = isDark ? '#1f1f23' : '#f4f4f5';
-    const labelColor = isDark ? '#52525b' : '#a1a1aa';
 
     return {
       series: [
@@ -360,57 +357,44 @@ export class DashboardComponent {
         }
       ],
       chart: {
-        type: 'bar' as any,
+        type: 'area' as any,
         height: 200,
         parentHeightOffset: 0,
         toolbar: { show: false },
         animations: { enabled: true }
       },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '40%',
-          borderRadius: 4
-        }
-      },
-      colors: [primaryColor],
+      colors: ['#10b981'], // Clean emerald green stroke matching the image
       stroke: {
-        show: false
+        curve: 'smooth' as any,
+        width: 2.5 // Solid distinct line
       },
       fill: {
-        opacity: 0.95
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.16,
+          opacityTo: 0.01,
+          stops: [0, 95, 100]
+        }
       },
       xaxis: {
         categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
         axisBorder: { show: false },
         axisTicks: { show: false },
-        labels: {
-          style: {
-            colors: labelColor,
-            fontFamily: 'Geist Sans, sans-serif',
-            fontSize: '9px'
-          }
-        }
+        labels: { show: false } // Hide X labels entirely
       },
       yaxis: {
-        min: 95,
+        min: 96,
         max: 100,
-        tickAmount: 5,
-        labels: {
-          style: {
-            colors: labelColor,
-            fontFamily: 'Geist Sans, sans-serif',
-            fontSize: '9px'
-          },
-          formatter: (val: number) => `${val}%`
-        }
+        tickAmount: 2, // Sets exactly one middle grid line at 98%
+        labels: { show: false } // Hide Y labels entirely
       },
       grid: {
         borderColor: gridColor,
-        strokeDashArray: 3,
+        strokeDashArray: 4, // Dashed line styling matching the image
         xaxis: { lines: { show: false } },
         yaxis: { lines: { show: true } },
-        padding: { top: 0, right: 10, bottom: 0, left: 10 }
+        padding: { top: 0, right: 0, bottom: 0, left: 0 }
       },
       dataLabels: { enabled: false },
       tooltip: {

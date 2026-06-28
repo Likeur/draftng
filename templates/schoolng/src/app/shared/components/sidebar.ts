@@ -34,7 +34,7 @@ import { SchoolService } from '../services/school.service';
         
         <!-- Navigation Section -->
         <div class="mb-6">
-          <p class="text-[9px] font-medium text-zinc-400 dark:text-zinc-500 mb-3 px-3 overflow-hidden text-ellipsis whitespace-nowrap uppercase tracking-wider">
+          <p class="text-[9px] font-medium text-zinc-400 dark:text-zinc-500 mb-3 px-3 overflow-hidden text-ellipsis whitespace-nowrap capitalize tracking-wider">
             {{ state.isCollapsed() ? '•••' : 'Main Menu' }}
           </p>
           <nav class="space-y-1">
@@ -124,7 +124,7 @@ import { SchoolService } from '../services/school.service';
 
         <!-- Grade Groups / Cohorts List -->
         <div>
-          <p class="text-[9px] font-medium text-zinc-400 dark:text-zinc-500 mb-3 px-3 overflow-hidden text-ellipsis whitespace-nowrap uppercase tracking-wider">
+          <p class="text-[9px] font-medium text-zinc-400 dark:text-zinc-500 mb-3 px-3 overflow-hidden text-ellipsis whitespace-nowrap capitalize tracking-wider">
             {{ state.isCollapsed() ? '•••' : 'Active Cohorts' }}
           </p>
           <div class="space-y-1 px-1">
@@ -229,7 +229,7 @@ import { SchoolService } from '../services/school.service';
           [class.p-1]="state.isCollapsed()"
           [class.p-2]="!state.isCollapsed()">
           <div class="flex items-center overflow-hidden shrink-0" [class.gap-2]="!state.isCollapsed()">
-            <div class="w-7 h-7 rounded-full overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 shrink-0 relative flex items-center justify-center text-[10px] font-medium uppercase">
+            <div class="w-7 h-7 rounded-full overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 shrink-0 relative flex items-center justify-center text-[10px] font-medium">
               AD
             </div>
             @if (!state.isCollapsed()) {
