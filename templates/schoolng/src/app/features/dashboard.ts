@@ -40,8 +40,7 @@ interface ClassGroup {
         
         <!-- Total Students -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-          class="p-5 rounded-xl border flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
+          class="p-5 rounded-xl border bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-all duration-250 clickable-scale">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Total Students</span>
             <div class="text-zinc-400">
@@ -61,8 +60,7 @@ interface ClassGroup {
 
         <!-- Active Classes -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-          class="p-5 rounded-xl border flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
+          class="p-5 rounded-xl border bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-all duration-250 clickable-scale">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Active Classes</span>
             <div class="text-zinc-400">
@@ -82,8 +80,7 @@ interface ClassGroup {
 
         <!-- Teachers on Shift -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-          class="p-5 rounded-xl border flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
+          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-all duration-250 clickable-scale">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Teachers on Shift</span>
             <div class="text-zinc-400">
@@ -103,8 +100,7 @@ interface ClassGroup {
 
         <!-- Attendance Rate -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-          class="p-5 rounded-xl border flex flex-col justify-between min-h-32 transition-colors duration-250 clickable-scale">
+          class="p-5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 flex flex-col justify-between min-h-32 transition-all duration-250 clickable-scale">
           <div class="flex items-center justify-between">
             <span class="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Attendance Rate</span>
             <div class="text-zinc-400">
@@ -128,8 +124,7 @@ interface ClassGroup {
       <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Attendance Chart Card -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-          class="lg:col-span-2 rounded-xl border p-6 space-y-4">
+          class="lg:col-span-2 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
           <div>
             <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Attendance Analytics</h3>
             <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Average daily attendance rate over the current week</p>
@@ -158,8 +153,7 @@ interface ClassGroup {
 
         <!-- Cohort Share Card -->
         <div 
-          [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-          class="rounded-xl border p-6 space-y-4">
+          class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
           <div>
             <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Cohort Share</h3>
             <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Distribution of active students per cohort</p>
@@ -193,26 +187,24 @@ interface ClassGroup {
           
           <!-- Class Occupancy -->
           <div 
-            [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-            class="rounded-xl border p-6 space-y-4">
+            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Class Occupancy</h3>
                 <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Scheduled lectures for today</p>
               </div>
-              <button [class]="state.isDark() ? 'hover:bg-zinc-900 text-zinc-400 hover:text-zinc-200 border-zinc-800' : 'hover:bg-zinc-50 text-zinc-500 hover:text-zinc-900 border-zinc-200'" class="text-[10px] font-medium px-3 py-1.5 rounded-lg border transition-all clickable-scale">View All</button>
+              <button class="text-[10px] font-medium px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 rounded-lg transition-all clickable-scale">View All</button>
             </div>
 
             <!-- Subject Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               @for (cls of filteredClasses(); track cls.id) {
                 <div 
-                  [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900 hover:border-zinc-850' : 'bg-white border-zinc-200 hover:border-zinc-300'"
-                  class="p-4.5 rounded-xl border flex flex-col justify-between gap-4 transition-all duration-200 animate-blur-slide clickable-scale">
+                  class="p-4.5 rounded-xl border bg-white dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
                   
                   <div class="flex items-start justify-between">
                     <div>
-                      <span class="text-[8px] font-mono bg-zinc-50 dark:bg-zinc-900 text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-1.5 py-0.5 rounded font-medium select-none">{{ cls.code }}</span>
+                      <span class="text-[8px] font-mono bg-zinc-50 dark:bg-zinc-900 text-zinc-400 border border-zinc-200 dark:border-zinc-800/80 px-1.5 py-0.5 rounded font-medium select-none">{{ cls.code }}</span>
                       <h4 class="font-medium text-sm text-zinc-800 dark:text-zinc-100 mt-2.5 truncate max-w-40">{{ cls.subject }}</h4>
                       <p class="text-[10px] text-zinc-400 font-normal mt-1">{{ cls.teacher }}</p>
                     </div>
@@ -236,14 +228,13 @@ interface ClassGroup {
 
           <!-- Activity Logs Section -->
           <div 
-            [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-            class="rounded-xl border p-6 space-y-4">
+            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
             <div>
               <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Registrar Activity</h3>
               <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Live audit log of registrar activity and marks entries</p>
             </div>
 
-            <div class="divide-y divide-zinc-200/50 dark:divide-zinc-900">
+            <div class="divide-y divide-zinc-100 dark:divide-zinc-900">
               @for (log of filteredLogs(); track log.id) {
                 <div class="py-3 flex items-start justify-between gap-4 text-xs font-normal animate-blur-slide">
                   <div class="flex items-start gap-3">
@@ -263,8 +254,7 @@ interface ClassGroup {
           
           <!-- Upcoming Events -->
           <div 
-            [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-            class="rounded-xl border p-6 space-y-4">
+            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
             <div>
               <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Calendar & Events</h3>
               <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Upcoming official assemblies and deadlines</p>
@@ -273,8 +263,7 @@ interface ClassGroup {
             <div class="space-y-3">
               @for (evt of state.upcomingEvents(); track evt.id) {
                 <div 
-                  [class]="state.isDark() ? 'bg-zinc-950 border-zinc-900 hover:border-zinc-850' : 'bg-white border-zinc-200 hover:border-zinc-300'"
-                  class="p-4 rounded-xl border space-y-2.5 transition-all duration-200 animate-blur-slide clickable-scale">
+                  class="p-4 rounded-xl border bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
                   
                   <div class="flex items-center justify-between gap-2">
                     <h4 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 truncate">{{ evt.title }}</h4>
@@ -303,33 +292,32 @@ interface ClassGroup {
 
           <!-- Quick Actions Panel -->
           <div 
-            [class]="state.isDark() ? 'bg-zinc-955 border-zinc-900' : 'bg-white border-zinc-200'"
-            class="rounded-xl border p-6 space-y-4">
+            class="rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-6 space-y-4">
             <div>
               <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 uppercase tracking-wider">Console Shortcuts</h3>
               <p class="text-[10px] text-zinc-400 font-normal mt-1.5">Registrar shortcuts for swift entries</p>
             </div>
 
             <div class="grid grid-cols-2 gap-2 text-[11px] font-medium">
-              <button [class]="state.isDark() ? 'bg-zinc-900 hover:bg-zinc-900/60 border-zinc-850 text-zinc-300' : 'bg-zinc-50 hover:bg-zinc-100/40 border-zinc-200 text-zinc-700'" class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center clickable-scale">
+              <button class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
                 <!-- Lucide: user-plus -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
                 <span>Add Student</span>
               </button>
               
-              <button [class]="state.isDark() ? 'bg-zinc-900 hover:bg-zinc-900/60 border-zinc-850 text-zinc-300' : 'bg-zinc-50 hover:bg-zinc-100/40 border-zinc-200 text-zinc-700'" class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center clickable-scale">
+              <button class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
                 <!-- Lucide: clipboard-check -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 shrink-0"><rect width="8" height="4" x="9" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
                 <span>Absences</span>
               </button>
 
-              <button [class]="state.isDark() ? 'bg-zinc-900 hover:bg-zinc-900/60 border-zinc-850 text-zinc-300' : 'bg-zinc-50 hover:bg-zinc-100/40 border-zinc-200 text-zinc-700'" class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center clickable-scale">
+              <button class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
                 <!-- Lucide: megaphone -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 shrink-0"><path d="m3 11 18-5v12L3 13v-2Z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
                 <span>Post Notice</span>
               </button>
 
-              <button [class]="state.isDark() ? 'bg-zinc-900 hover:bg-zinc-900/60 border-zinc-850 text-zinc-300' : 'bg-zinc-50 hover:bg-zinc-100/40 border-zinc-200 text-zinc-700'" class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center clickable-scale">
+              <button class="p-3 border rounded-xl flex flex-col gap-2.5 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
                 <!-- Lucide: calendar-plus -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 shrink-0"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18M16 14h-8M12 11v6"/></svg>
                 <span>Add Event</span>

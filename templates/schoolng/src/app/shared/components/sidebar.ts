@@ -10,8 +10,11 @@ import { SchoolService } from '../services/school.service';
   },
   template: `
     <aside 
-      [class]="(state.isDark() ? 'bg-zinc-950 border-zinc-900' : 'bg-white border-zinc-200') + (state.isCollapsed() ? ' -translate-x-full md:translate-x-0 md:w-14 md:p-2' : ' translate-x-0 md:w-52 md:p-4')" 
-      class="fixed md:sticky left-0 top-0 bottom-0 z-50 md:z-45 h-screen border-r flex flex-col justify-between shrink-0 transition-all duration-200 w-52 p-4 font-sans select-none">
+      [class.w-14]="state.isCollapsed()"
+      [class.p-2]="state.isCollapsed()"
+      [class.w-52]="!state.isCollapsed()"
+      [class.p-4]="!state.isCollapsed()"
+      class="fixed md:sticky left-0 top-0 bottom-0 z-50 md:z-45 h-screen bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800/60 flex flex-col justify-between shrink-0 transition-all duration-200 font-sans select-none -translate-x-full md:translate-x-0">
       
       <div>
         <!-- Top Branding -->
@@ -39,7 +42,7 @@ import { SchoolService } from '../services/school.service';
             <!-- Dashboard -->
             <button 
               routerLink="/dashboard"
-              [class]="isActive('/dashboard') ? (state.isDark() ? 'bg-zinc-900 text-zinc-50 font-medium' : 'bg-zinc-100 text-zinc-950 font-medium') : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'" 
+              [class]="isActive('/dashboard') ? 'bg-zinc-100 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50 font-medium' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900/50'" 
               class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale"
               [class.justify-center]="state.isCollapsed()"
               [class.gap-3]="!state.isCollapsed()"
@@ -55,7 +58,7 @@ import { SchoolService } from '../services/school.service';
             <!-- Classes -->
             <button 
               routerLink="/classes"
-              [class]="isActive('/classes') ? (state.isDark() ? 'bg-zinc-900 text-zinc-50 font-medium' : 'bg-zinc-100 text-zinc-955 font-medium') : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'" 
+              [class]="isActive('/classes') ? 'bg-zinc-100 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50 font-medium' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900/50'" 
               class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale"
               [class.justify-center]="state.isCollapsed()"
               [class.gap-3]="!state.isCollapsed()"
@@ -71,7 +74,7 @@ import { SchoolService } from '../services/school.service';
             <!-- Students -->
             <button 
               routerLink="/students"
-              [class]="isActive('/students') ? (state.isDark() ? 'bg-zinc-900 text-zinc-50 font-medium' : 'bg-zinc-100 text-zinc-955 font-medium') : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'" 
+              [class]="isActive('/students') ? 'bg-zinc-100 dark:bg-zinc-900 text-zinc-955 dark:text-zinc-50 font-medium' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900/50'" 
               class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale"
               [class.justify-center]="state.isCollapsed()"
               [class.gap-3]="!state.isCollapsed()"
@@ -87,7 +90,7 @@ import { SchoolService } from '../services/school.service';
             <!-- Teachers -->
             <button 
               routerLink="/teachers"
-              [class]="isActive('/teachers') ? (state.isDark() ? 'bg-zinc-900 text-zinc-50 font-medium' : 'bg-zinc-100 text-zinc-955 font-medium') : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'" 
+              [class]="isActive('/teachers') ? 'bg-zinc-100 dark:bg-zinc-900 text-zinc-955 dark:text-zinc-50 font-medium' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900/50'" 
               class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale"
               [class.justify-center]="state.isCollapsed()"
               [class.gap-3]="!state.isCollapsed()"
@@ -103,7 +106,7 @@ import { SchoolService } from '../services/school.service';
             <!-- Settings -->
             <button 
               routerLink="/settings"
-              [class]="isActive('/settings') ? (state.isDark() ? 'bg-zinc-900 text-zinc-50 font-medium' : 'bg-zinc-100 text-zinc-955 font-medium') : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'" 
+              [class]="isActive('/settings') ? 'bg-zinc-100 dark:bg-zinc-900 text-zinc-955 dark:text-zinc-50 font-medium' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900/50'" 
               class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale"
               [class.justify-center]="state.isCollapsed()"
               [class.gap-3]="!state.isCollapsed()"
@@ -126,7 +129,7 @@ import { SchoolService } from '../services/school.service';
           </p>
           <div class="space-y-1 px-1">
             @for (cohort of cohorts; track cohort.name) {
-              <button class="w-full flex items-center py-1.5 rounded-lg text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300 transition-all text-left overflow-hidden clickable-scale"
+              <button class="w-full flex items-center py-1.5 rounded-lg text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900/40 transition-all text-left overflow-hidden clickable-scale"
                 [class.justify-center]="state.isCollapsed()"
                 [class.gap-3]="!state.isCollapsed()"
                 [class.px-2]="state.isCollapsed()"
@@ -147,12 +150,11 @@ import { SchoolService } from '../services/school.service';
         <!-- Dropdown Menu -->
         @if (isUserDropdownOpen()) {
           <div 
-            [class]="state.isDark() ? 'bg-zinc-900 border-zinc-800 text-zinc-200' : 'bg-white border-zinc-200 text-zinc-800'"
-            class="absolute bottom-full left-0 mb-2 w-64 border rounded-xl p-1.5 z-50 shadow-md animate-fade-in select-none">
+            class="absolute bottom-full left-0 mb-2 w-64 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-250 rounded-xl p-1.5 z-50 shadow-md animate-fade-in select-none">
             
             <!-- User Profile Header -->
-            <div class="flex items-center gap-2.5 p-2.5 pb-3 border-b" [class]="state.isDark() ? 'border-zinc-800' : 'border-zinc-100'">
-              <div class="w-8 h-8 rounded-full overflow-hidden bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shrink-0 flex items-center justify-center text-zinc-800 dark:text-zinc-200 text-xs font-medium">
+            <div class="flex items-center gap-2.5 p-2.5 pb-3 border-b border-zinc-100 dark:border-zinc-900">
+              <div class="w-8 h-8 rounded-full overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shrink-0 flex items-center justify-center text-zinc-800 dark:text-zinc-200 text-xs font-medium">
                 AD
               </div>
               <div class="text-left overflow-hidden">
@@ -175,7 +177,7 @@ import { SchoolService } from '../services/school.service';
             </div>
 
             <!-- Divider -->
-            <div class="h-px my-1" [class]="state.isDark() ? 'bg-zinc-800' : 'bg-zinc-100'"></div>
+            <div class="h-px my-1 bg-zinc-100 dark:bg-zinc-900"></div>
 
             <!-- Appearance options -->
             <div class="py-1">
@@ -195,17 +197,17 @@ import { SchoolService } from '../services/school.service';
 
                 <!-- Flyout Menu container -->
                 <div class="absolute left-full bottom-0 pl-2 w-32 z-55 opacity-0 pointer-events-none group-hover/appearance:opacity-100 group-hover/appearance:pointer-events-auto transition-all duration-150">
-                  <div [class]="state.isDark() ? 'bg-zinc-900 border-zinc-800 text-zinc-200' : 'bg-white border-zinc-200 text-zinc-800'" class="border rounded-xl p-1.5 shadow-lg flex flex-col gap-1">
-                    <button (click)="selectTheme('light')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all clickable-scale">Light</button>
-                    <button (click)="selectTheme('dark')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all clickable-scale">Dark</button>
-                    <button (click)="selectTheme('system')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all clickable-scale">System</button>
+                  <div class="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5 shadow-lg flex flex-col gap-1 text-zinc-800 dark:text-zinc-200">
+                    <button (click)="selectTheme('light')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all clickable-scale font-medium">Light</button>
+                    <button (click)="selectTheme('dark')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all clickable-scale font-medium">Dark</button>
+                    <button (click)="selectTheme('system')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all clickable-scale font-medium">System</button>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Divider -->
-            <div class="h-px my-1" [class]="state.isDark() ? 'bg-zinc-800' : 'bg-zinc-100'"></div>
+            <div class="h-px my-1 bg-zinc-100 dark:bg-zinc-900"></div>
 
             <div class="py-1">
               <button (click)="onOption('Log Out')" class="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-normal transition-all cursor-pointer text-left clickable-scale text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20">
@@ -221,19 +223,18 @@ import { SchoolService } from '../services/school.service';
         <!-- Toggle Button -->
         <button 
           (click)="toggleUserDropdown()"
-          [class]="state.isDark() ? 'hover:bg-zinc-900 hover:border-zinc-800 text-zinc-200' : 'hover:bg-zinc-50 hover:border-zinc-200 text-zinc-800'"
-          class="w-full flex items-center p-2 rounded-xl border border-transparent transition-all cursor-pointer select-none clickable-scale"
+          class="w-full flex items-center p-2 bg-transparent hover:bg-zinc-50 dark:hover:bg-zinc-900 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-850 rounded-xl transition-all cursor-pointer select-none clickable-scale"
           [class.justify-center]="state.isCollapsed()"
           [class.justify-between]="!state.isCollapsed()"
           [class.p-1]="state.isCollapsed()"
           [class.p-2]="!state.isCollapsed()">
           <div class="flex items-center overflow-hidden shrink-0" [class.gap-2]="!state.isCollapsed()">
-            <div class="w-7 h-7 rounded-full overflow-hidden border border-zinc-250 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 shrink-0 relative flex items-center justify-center text-[10px] font-medium uppercase">
+            <div class="w-7 h-7 rounded-full overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 shrink-0 relative flex items-center justify-center text-[10px] font-medium uppercase">
               AD
             </div>
             @if (!state.isCollapsed()) {
               <div class="text-left animate-fade-in shrink-0">
-                <p class="text-[10px] font-medium leading-tight truncate max-w-30">admin_schoolng</p>
+                <p class="text-[10px] font-medium leading-tight text-zinc-900 dark:text-zinc-50 truncate max-w-30">admin_schoolng</p>
                 <p class="text-[8px] text-zinc-400 font-normal truncate max-w-30">registrar&#64;schoolng.edu</p>
               </div>
             }

@@ -20,18 +20,23 @@
   }
   
   :root {
-    --color-zinc-50: #fbfaf7;         /* Claude warm light paper page background */
-    --color-zinc-100: #f4f0ea;        /* Claude warm light panel background */
-    --color-zinc-200: #e9e4da;        /* Claude warm light border */
-    --color-zinc-900: #191919;        /* Claude warm light text dark color */
-    --color-zinc-950: #191919;        /* Claude warm light headers */
+    --color-zinc-50: #ffffff;         /* Crisp pure white page background */
+    --color-zinc-100: #fafafa;        /* Clean light grey panels */
+    --color-zinc-200: #eaeaea;        /* Extremely subtle light mode border */
+    --color-zinc-300: #d4d4d8;
+    --color-zinc-400: #a1a1aa;
+    --color-zinc-500: #71717a;
+    --color-zinc-650: #52525b;
+    --color-zinc-800: #27272a;
+    --color-zinc-900: #111111;        /* Clean high-contrast dark text */
+    --color-zinc-950: #000000;
   }
 
   .dark {
-    --color-zinc-50: #fafafa;
-    --color-zinc-100: #f4f4f5;
-    --color-zinc-200: #e4e4e7;
-    --color-zinc-900: #18181b;
+    --color-zinc-50: #09090b;         /* Deep Vercel dark mode page background */
+    --color-zinc-100: #18181b;        /* Zinc-900 panels */
+    --color-zinc-200: #27272a;        /* Zinc-800 borders */
+    --color-zinc-900: #fafafa;
     --color-zinc-950: #09090b;
   }
 }
