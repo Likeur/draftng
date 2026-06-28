@@ -1,4 +1,4 @@
-import { Component, inject, computed, PLATFORM_ID, signal } from '@angular/core';
+import { Component, inject, computed, PLATFORM_ID, signal, ElementRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { SchoolService } from '../shared/services/school.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -17,6 +17,9 @@ interface ClassGroup {
 @Component({
   selector: 'app-dashboard',
   imports: [CommonModule, NgApexchartsModule],
+  host: {
+    '(document:click)': 'onClickOutside($event)'
+  },
   template: `
     <div class="space-y-6 animate-blur-slide font-sans select-none">
       
@@ -29,7 +32,7 @@ interface ClassGroup {
         
         <!-- Header Actions replacing Live Sync -->
         <div class="flex items-center gap-2 shrink-0">
-          <button class="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-[11px] font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 rounded-lg transition-all clickable-scale">
+          <button class="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-zinc-955 border border-zinc-200 dark:border-zinc-800 text-[11px] font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200 rounded-lg transition-all clickable-scale">
             <!-- Lucide: download -->
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-450 dark:text-zinc-500 shrink-0"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Export</span>
@@ -130,10 +133,62 @@ interface ClassGroup {
         <!-- Attendance Chart Card -->
         <div 
           class="lg:col-span-2 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/80 p-5 space-y-3">
-          <div>
-            <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Attendance Analytics</h3>
-            <p class="text-[10px] text-zinc-400 font-normal mt-1">Average daily attendance rate over the current week</p>
+          
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h3 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 tracking-wider capitalize">Attendance Analytics</h3>
+              <p class="text-[10px] text-zinc-400 font-normal mt-1">{{ getDescriptionText() }}</p>
+            </div>
+            
+            <!-- Controls: Segment Selector + 3-dots config button -->
+            <div class="flex items-center gap-2 relative" id="chart-controls-container">
+              <!-- Segmented timeframe selector -->
+              <div class="flex items-center rounded-lg border border-zinc-200 dark:border-zinc-800 p-0.5 bg-zinc-50 dark:bg-zinc-900/50 select-none">
+                <button (click)="changeTimeframe('daily')" [class]="activeTimeframe() === 'daily' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium' : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Daily</button>
+                <button (click)="changeTimeframe('weekly')" [class]="activeTimeframe() === 'weekly' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium' : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Weekly</button>
+                <button (click)="changeTimeframe('monthly')" [class]="activeTimeframe() === 'monthly' ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 shadow-sm font-medium' : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300'" class="px-2.5 py-1 text-[10px] rounded-md transition-all cursor-pointer">Monthly</button>
+              </div>
+
+              <!-- More Config 3-Dots Button -->
+              <button 
+                (click)="toggleChartConfig($event)"
+                class="w-7 h-7 flex items-center justify-center rounded-lg border border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-250 bg-white dark:bg-zinc-950/60 transition-all cursor-pointer clickable-scale">
+                <!-- Lucide: more-horizontal -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              </button>
+
+              <!-- Config Options Dropdown Menu -->
+              @if (isChartConfigOpen()) {
+                <div 
+                  class="absolute right-0 top-full mt-1.5 w-44 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-1.5 z-40 shadow-lg animate-fade-in text-zinc-700 dark:text-zinc-300 font-sans">
+                  
+                  <button (click)="toggleGridLines()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left">
+                    <span>Grid Lines</span>
+                    <span class="text-[9px] font-medium" [class]="showGridLines() ? 'text-emerald-500' : 'text-zinc-400'">
+                      {{ showGridLines() ? 'On' : 'Off' }}
+                    </span>
+                  </button>
+
+                  <button (click)="toggleCurveType()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left">
+                    <span>Smooth Curve</span>
+                    <span class="text-[9px] font-medium" [class]="curveType() === 'smooth' ? 'text-emerald-500' : 'text-zinc-400'">
+                      {{ curveType() === 'smooth' ? 'Yes' : 'No' }}
+                    </span>
+                  </button>
+
+                  <div class="h-px my-1 bg-zinc-100 dark:bg-zinc-900"></div>
+
+                  <button (click)="toggleGradientFill()" class="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-normal hover:bg-zinc-100/60 dark:hover:bg-zinc-800/60 transition-all cursor-pointer text-left">
+                    <span>Gradient Fill</span>
+                    <span class="text-[9px] font-medium" [class]="showGradient() ? 'text-emerald-500' : 'text-zinc-400'">
+                      {{ showGradient() ? 'On' : 'Off' }}
+                    </span>
+                  </button>
+                </div>
+              }
+            </div>
           </div>
+
           <div class="h-48 flex items-center justify-center overflow-hidden">
             @if (isBrowser()) {
               <apx-chart
@@ -215,7 +270,7 @@ interface ClassGroup {
                   </div>
 
                   <div class="mt-3.5">
-                    <div class="flex items-center justify-between text-[9px] text-zinc-400 font-normal mb-1">
+                    <div class="flex items-center justify-between text-[9px] text-zinc-400 font-normal mb-1 font-sans">
                       <span>Occupants</span>
                       <span>{{ cls.pax }} / {{ cls.maxPax }} ({{ getPercent(cls.pax, cls.maxPax) }}%)</span>
                     </div>
@@ -238,14 +293,14 @@ interface ClassGroup {
               <p class="text-[10px] text-zinc-400 font-normal mt-1">Live audit log of registrar activity and marks entries</p>
             </div>
 
-            <div class="divide-y divide-zinc-100 dark:divide-zinc-900">
+            <div class="divide-y divide-zinc-100 dark:divide-zinc-900 font-sans">
               @for (log of filteredLogs(); track log.id) {
                 <div class="py-2.5 flex items-start justify-between gap-4 text-xs font-normal animate-blur-slide">
                   <div class="flex items-start gap-3">
                     <span [class]="getCategoryColor(log.category)" class="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0"></span>
                     <p class="text-zinc-600 dark:text-zinc-300 leading-normal">{{ log.message }}</p>
                   </div>
-                  <span class="text-[9px] text-zinc-450 whitespace-nowrap pt-0.5 font-mono select-none font-normal">{{ log.time }}</span>
+                  <span class="text-[9px] text-zinc-455 whitespace-nowrap pt-0.5 font-mono select-none font-normal">{{ log.time }}</span>
                 </div>
               }
             </div>
@@ -267,7 +322,7 @@ interface ClassGroup {
             <div class="space-y-2.5">
               @for (evt of state.upcomingEvents(); track evt.id) {
                 <div 
-                  class="p-3.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale">
+                  class="p-3.5 rounded-xl border bg-white dark:bg-zinc-955 border-zinc-200 dark:border-zinc-800/60 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 animate-blur-slide clickable-scale font-sans">
                   
                   <div class="flex items-center justify-between gap-2">
                     <h4 class="font-medium text-xs text-zinc-900 dark:text-zinc-50 truncate">{{ evt.title }}</h4>
@@ -302,7 +357,7 @@ interface ClassGroup {
               <p class="text-[10px] text-zinc-400 font-normal mt-1">Registrar shortcuts for swift entries</p>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 text-[11px] font-medium">
+            <div class="grid grid-cols-2 gap-2 text-[11px] font-medium font-sans">
               <button class="p-3 border rounded-xl flex flex-col gap-2 items-center text-center bg-white dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors clickable-scale">
                 <!-- Lucide: user-plus -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400 dark:text-zinc-500 shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
@@ -339,7 +394,31 @@ interface ClassGroup {
 export class DashboardComponent {
   protected readonly state = inject(SchoolService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly elementRef = inject(ElementRef);
   protected readonly isBrowser = signal(isPlatformBrowser(this.platformId));
+
+  // Timeframe and chart config states
+  protected readonly activeTimeframe = signal<'daily' | 'weekly' | 'monthly'>('weekly');
+  protected readonly isChartConfigOpen = signal(false);
+  protected readonly showGridLines = signal(true);
+  protected readonly curveType = signal<'smooth' | 'straight'>('smooth');
+  protected readonly showGradient = signal(true);
+
+  // Timeframe datasets
+  private readonly datasets = {
+    daily: {
+      data: [98.5, 99.2, 97.4, 98.9, 99.5],
+      categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+    },
+    weekly: {
+      data: [97.2, 98.1, 97.8, 98.4, 98.2],
+      categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+    },
+    monthly: {
+      data: [96.8, 97.5, 98.1, 97.9, 98.3],
+      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun']
+    }
+  };
 
   // Active Subject Cohorts mock data
   protected readonly classGroups: ClassGroup[] = [
@@ -354,12 +433,14 @@ export class DashboardComponent {
     const isDark = this.state.isDark();
     const gridColor = isDark ? '#1f1f23' : '#eaeaea';
     const labelColor = isDark ? '#52525b' : '#a1a1aa';
+    const tf = this.activeTimeframe();
+    const currentDataset = this.datasets[tf];
 
     return {
       series: [
         {
           name: 'Attendance Rate',
-          data: [97.2, 98.1, 97.8, 98.4, 98.2]
+          data: currentDataset.data
         }
       ],
       chart: {
@@ -371,20 +452,20 @@ export class DashboardComponent {
       },
       colors: ['#10b981'], // Glowing Emerald
       stroke: {
-        curve: 'smooth' as any,
+        curve: this.curveType() as any,
         width: 3 // Bold, highly visible stroke
       },
       fill: {
-        type: 'gradient',
+        type: this.showGradient() ? 'gradient' : 'solid',
         gradient: {
           shadeIntensity: 1,
-          opacityFrom: 0.35, // High visibility area gradient
-          opacityTo: 0.03,
+          opacityFrom: this.showGradient() ? 0.35 : 0.03, // High visibility area gradient
+          opacityTo: 0.01,
           stops: [0, 90, 100]
         }
       },
       xaxis: {
-        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+        categories: currentDataset.categories,
         axisBorder: { show: false },
         axisTicks: { show: true, color: gridColor },
         labels: {
@@ -397,9 +478,9 @@ export class DashboardComponent {
         }
       },
       yaxis: {
-        min: 96,
+        min: 95,
         max: 100,
-        tickAmount: 2, // Marks at 96%, 98%, 100%
+        tickAmount: 2, // Marks at 95%, 97.5%, 100%
         labels: {
           show: true,
           style: {
@@ -414,7 +495,7 @@ export class DashboardComponent {
         borderColor: gridColor,
         strokeDashArray: 4,
         xaxis: { lines: { show: false } },
-        yaxis: { lines: { show: true } },
+        yaxis: { lines: { show: this.showGridLines() } },
         padding: { top: 0, right: 10, bottom: 0, left: 10 }
       },
       dataLabels: { enabled: false },
@@ -500,6 +581,34 @@ export class DashboardComponent {
     };
   });
 
+  protected getDescriptionText(): string {
+    const tf = this.activeTimeframe();
+    if (tf === 'daily') return 'Average daily attendance rate for the current cycle';
+    if (tf === 'weekly') return 'Average weekly attendance rate over the current week';
+    return 'Average monthly attendance rate over the last five months';
+  }
+
+  protected changeTimeframe(tf: 'daily' | 'weekly' | 'monthly'): void {
+    this.activeTimeframe.set(tf);
+  }
+
+  protected toggleChartConfig(event: MouseEvent): void {
+    event.stopPropagation();
+    this.isChartConfigOpen.update(o => !o);
+  }
+
+  protected toggleGridLines(): void {
+    this.showGridLines.update(g => !g);
+  }
+
+  protected toggleCurveType(): void {
+    this.curveType.update(c => c === 'smooth' ? 'straight' : 'smooth');
+  }
+
+  protected toggleGradientFill(): void {
+    this.showGradient.update(g => !g);
+  }
+
   // Filters computed from search query
   protected readonly filteredClasses = computed(() => {
     const query = this.state.searchQuery().toLowerCase();
@@ -536,6 +645,13 @@ export class DashboardComponent {
       case 'academic': return 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20';
       case 'sports': return 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20';
       default: return 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20';
+    }
+  }
+
+  protected onClickOutside(event: MouseEvent): void {
+    const container = document.getElementById('chart-controls-container');
+    if (container && !container.contains(event.target as Node)) {
+      this.isChartConfigOpen.set(false);
     }
   }
 }
