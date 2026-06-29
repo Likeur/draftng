@@ -1,6 +1,7 @@
 ---
 import '../../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -125,6 +126,7 @@ const formatDate = (date: Date | undefined) => {
 			</article>
 		</div>
 		<Analytics />
+		<SpeedInsights />
 	</body>
 </html>
 

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 export async function getStaticPaths() {
   const templates = await getCollection('templates');
@@ -156,5 +157,6 @@ const jsonLd = {
 			</div>
 		</div>
 		<Analytics />
+		<SpeedInsights />
 	</body>
 </html>

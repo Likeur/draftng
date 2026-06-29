@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 const allTemplates = await getCollection('templates');
 // Map and sort templates by date descending (newest first)
@@ -380,5 +381,6 @@ const premiumCount = templates.filter(t => !t.github || !t.github.includes('gith
 		</script>
 
 		<Analytics />
+		<SpeedInsights />
 	</body>
 </html>
