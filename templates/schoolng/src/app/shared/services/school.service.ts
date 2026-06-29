@@ -28,7 +28,7 @@ export class SchoolService {
   public readonly isDark = signal(false);
   public readonly currentTheme = signal<'dark' | 'light' | 'system'>('light');
   public readonly searchQuery = signal('');
-  public readonly isSidebarCollapsed = signal(false);
+  public readonly isSidebarCollapsed = signal(true);
   public readonly isCollapsed = this.isSidebarCollapsed;
   public readonly currentUrl = signal<string>('');
 
@@ -75,14 +75,32 @@ export class SchoolService {
         }
       });
 
-      // Load collapsed state from localStorage or determine based on window size
-      const savedCollapsed = localStorage.getItem('sidebarCollapsed');
-      if (savedCollapsed !== null) {
-        this.isSidebarCollapsed.set(savedCollapsed === 'true');
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        this.isSidebarCollapsed.set(true);
       } else {
-        const isMobile = window.innerWidth < 768;
-        this.isSidebarCollapsed.set(isMobile);
+        const savedCollapsed = localStorage.getItem('sidebarCollapsed');
+        if (savedCollapsed !== null) {
+          this.isSidebarCollapsed.set(savedCollapsed === 'true');
+        } else {
+          this.isSidebarCollapsed.set(false);
+        }
       }
+
+      let lastWidth = window.innerWidth;
+      window.addEventListener('resize', () => {
+        const currentWidth = window.innerWidth;
+        if (currentWidth < 768 && lastWidth >= 768) {
+          this.isSidebarCollapsed.set(true);
+        }
+        lastWidth = currentWidth;
+      });
+
+      router.events.subscribe(event => {
+        if (event instanceof NavigationEnd && window.innerWidth < 768) {
+          this.isSidebarCollapsed.set(true);
+        }
+      });
     }
   }
 

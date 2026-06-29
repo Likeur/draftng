@@ -1,6 +1,6 @@
 # AI-Driven Customization & Extension Guidelines
 
-This guide is designed for **AI coding assistants** and developers using AI to customize, extend, and manage the `schoolng` workspace template. It contains design specifications, architecture paradigms, writing tone, and step-by-step procedures for extending functionality.
+This guide is designed for **AI coding assistants** and developers using AI to customize, extend, and manage the `clinicng` workspace template. It contains design specifications, architecture paradigms, writing tone, and step-by-step procedures for extending functionality.
 
 ---
 
@@ -10,22 +10,22 @@ This guide is designed for **AI coding assistants** and developers using AI to c
 *   **Framework:** Angular 22+ (Signals-first architecture, zoneless change detection).
 *   **Routing:** Standard Angular Router (`RouterModule`/`RouterOutlet`) using lazy-loaded standalone component routes.
 *   **Styling:** Tailwind CSS v4 (configured inside `src/styles.css` via `@import "tailwindcss"` and `@theme`).
-*   **State Management:** A shared, single-instance `SchoolService` (`src/app/shared/services/school.service.ts`) stores all reactive Signals (student/teacher registries, active class/term, search queries, theme state, sidebar collapse states).
-*   **Charts:** `ng-apexcharts` for interactive data visualizations (Area, Donut, RadialBar, etc.).
-*   **SSR:** Server-side rendering configured with Angular SSR. Charts guard rendering with `@if (isBrowser())`.
+*   **State Management:** A shared, single-instance `ClinicService` (`src/app/shared/services/clinic.service.ts`) stores all reactive Signals (patients, appointments, activity logs, theme state, sidebar collapse states, search queries).
+*   **Charts:** `ng-apexcharts` for interactive data visualizations (Area, Bar, Donut, RadialBar).
+*   **SSR:** Server-side rendering configured with `RenderMode.Client` to avoid ApexCharts hydration issues.
 
 ### Navigation Flow (Critical for AI Agents)
 The layout is handled using a standard router-outlet architecture:
 1.  **Rendering Switch:** The root shell in `app.html` renders the active view dynamically inside `<router-outlet></router-outlet>`.
 2.  **Navigation Links:** The `SidebarComponent` uses `routerLink` to route between page views. Buttons check active routing state dynamically using a helper: `isActive('/path')`.
-3.  **Nested Routing:** Sub-views (such as Class Schedule, Roster, or Grades) are configured as child routes under `/classes` in `app.routes.ts` and render inside a nested `<router-outlet>` inside `ClassesComponent`.
+3.  **Mobile Behavior:** On viewports `< 768px`, the sidebar is always collapsed by default. It auto-closes on navigation (`NavigationEnd`) and when clicking outside (`onClickOutside`). The resize listener only collapses when transitioning from desktop (≥768px) to mobile (<768px), preventing false triggers.
 
 ---
 
 ## 2. Design System & Aesthetics
 
 ### Visual Identity
-*   **Theme Foundation:** Clean, premium interface with both light and dark modes (styled like Vercel/Linear).
+*   **Theme Foundation:** Clean medical-themed interface with both light and dark modes. Light mode is the default.
 *   **Semantic Tokens:** Avoid hardcoded utility color classes (like `bg-white dark:bg-zinc-950`). Use semantic custom properties defined in `src/styles.css`:
     *   `bg-theme-bg`: Page backgrounds (`#fafafa` light / `#09090b` dark).
     *   `bg-theme-panel`: Card and panel backgrounds (`#ffffff` light / `#18181b` dark).
@@ -38,6 +38,14 @@ The layout is handled using a standard router-outlet architecture:
 *   **Borders:** All component borders should be subtle, thin, and map to `border-theme-border` for maximum design cohesion.
 *   **Typography:** Default font is Geist/Geist Mono for clean sans-serif/monospace layouts.
 
+### Color Coding Conventions
+*   **Appointment Types:** Blue (Consultation), Amber (Follow-up), Rose (Emergency), Violet (Lab Test).
+*   **Patient Status:** Emerald (Active), Rose (Critical), Zinc (Inactive).
+*   **Appointment Status:** Emerald (Scheduled), Blue (In Progress), Green (Completed), Red (Cancelled).
+
+### Avatar System
+Use the predefined gradient classes `avatar-grad-1` through `avatar-grad-5` for patient/staff avatars. Display initials inside circular containers.
+
 ### Motion & Micro-interactions
 *   **Entrance Animations:** Use `.animate-blur-slide` combined with staggered delays (`.stagger-1` through `.stagger-8`) for card/grid entrances. Cards within the same grid row should share the same stagger class to animate together and avoid visual glitches.
 *   **Click Feedbacks:** Buttons and interactive cards must include the class `.clickable-scale` for micro-interaction scaling on press.
@@ -46,43 +54,43 @@ The layout is handled using a standard router-outlet architecture:
 
 ## 3. Language & Tone Guidelines
 
-Maintain the existing tone: **clean, professional, and education-focused**.
-*   **No Placeholders:** Avoid dummy text like "Lorem Ipsum". Use realistic academic examples (e.g. *"AP Calculus BC"*, *"Dr. Elizabeth Vance"*, *"Midterm Grade Input"*, *"Biology Lab B"*).
+Maintain the existing tone: **clean, professional, and medical-focused**.
+*   **No Placeholders:** Avoid dummy text like "Lorem Ipsum". Use realistic medical examples (e.g. *"Dr. Sarah Chen"*, *"Cardiology Consultation"*, *"Patient #1042"*, *"Blood panel batch #B-2847"*).
 *   **Microcopy:** Keep labels concise and descriptive. Heading descriptions should explain what the page is for in under 15 words.
 
 ---
 
 ## 4. How to Add a New Page (Step-by-Step for AI)
 
-To add a new view called **"Analytics"** mapped to `/analytics`:
+To add a new view called **"Reports"** mapped to `/reports`:
 
 ### Step 1: Create the Feature Component
-Create the file `src/app/features/analytics.ts`:
+Create the file `src/app/features/reports.ts`:
 ```typescript
 import { Component, inject } from '@angular/core';
-import { SchoolService } from '../shared/services/school.service';
+import { ClinicService } from '../shared/services/clinic.service';
 
 @Component({
-  selector: 'app-analytics',
+  selector: 'app-reports',
   imports: [],
   template: `
     <div class="space-y-6">
       <div class="animate-blur-slide stagger-1">
-        <h2 class="text-lg font-semibold text-theme-text-main">School Analytics</h2>
-        <p class="text-xs text-theme-text-muted mt-0.5">Track grade averages, class occupancy, and attendance trends.</p>
+        <h2 class="text-lg font-semibold text-theme-text-main">Reports</h2>
+        <p class="text-xs text-theme-text-muted mt-0.5">Generate and review clinical reports.</p>
       </div>
 
       <div class="animate-blur-slide stagger-2 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="bg-theme-panel border border-theme-border rounded-xl p-5">
-          <h3 class="text-xs font-semibold text-theme-text-main mb-2">GPA Distribution</h3>
-          <p class="text-[10px] text-theme-text-muted">Visualization data goes here.</p>
+          <h3 class="text-xs font-semibold text-theme-text-main mb-2">Monthly Summary</h3>
+          <p class="text-[10px] text-theme-text-muted">Overview of patient visits and revenue.</p>
         </div>
       </div>
     </div>
   `
 })
-export class AnalyticsComponent {
-  protected readonly state = inject(SchoolService);
+export class ReportsComponent {
+  protected readonly state = inject(ClinicService);
 }
 ```
 
@@ -90,8 +98,8 @@ export class AnalyticsComponent {
 Add a route object inside the `routes` array:
 ```typescript
 {
-  path: 'analytics',
-  loadComponent: () => import('./features/analytics').then(m => m.AnalyticsComponent)
+  path: 'reports',
+  loadComponent: () => import('./features/reports').then(m => m.ReportsComponent)
 },
 ```
 
@@ -99,17 +107,17 @@ Add a route object inside the `routes` array:
 Add a new navigation button inside the `<nav>` element:
 ```html
 <button
-  routerLink="/analytics"
-  [class]="isActive('/analytics') ? 'bg-theme-hover text-theme-text-main font-medium' : 'text-theme-text-muted hover:text-theme-text-main hover:bg-theme-hover'"
+  routerLink="/reports"
+  [class]="isActive('/reports') ? 'bg-theme-hover text-theme-text-main font-medium' : 'text-theme-text-muted hover:text-theme-text-main hover:bg-theme-hover'"
   class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale"
   [class.justify-center]="state.isCollapsed()"
   [class.gap-3]="!state.isCollapsed()"
   [class.px-2]="state.isCollapsed()"
   [class.px-3]="!state.isCollapsed()">
-  <!-- Lucide: bar-chart-3 -->
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 16h.01"/><path d="M11 12h.01"/><path d="M15 8h.01"/><path d="M19 4h.01"/></svg>
+  <!-- Lucide: file-text -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13H8"/><path d="M16 17H8"/><path d="M16 13h-2"/></svg>
   @if (!state.isCollapsed()) {
-    <span class="animate-fade-in whitespace-nowrap">Analytics</span>
+    <span class="animate-fade-in whitespace-nowrap">Reports</span>
   }
 </button>
 ```
@@ -146,30 +154,30 @@ Example - Semantic mapping:
 ```
 
 ### Applying Themes Dynamically
-Theme switching is managed entirely inside `SchoolService`. The HTML class `dark` is appended directly to the root `<html>` element (`document.documentElement.classList`) to ensure body-appended components (like ApexCharts tooltips or dropdown menus) correctly inherit dark mode context.
+Theme switching is managed entirely inside `ClinicService`. The HTML class `dark` is appended directly to the root `<html>` element (`document.documentElement.classList`) to ensure body-appended components (like ApexCharts tooltips or dropdown menus) correctly inherit dark mode context.
 
 ---
 
 ## 6. ApexCharts Integration Guidelines
 
-When implementing or extending charts using `ng-apexcharts` on the dashboard:
+The dashboard uses 4 interactive ApexCharts: **Area** (Patient Visits), **Bar** (Revenue), **Donut** (Department Load), and **RadialBar** (Satisfaction Score).
 
 ### Preventing Hydration & Animation Glitches
-*   **Delayed Rendering:** ApexCharts requires browser globals and should never render during SSR. Initialize `isBrowser` to `false` and set it to `true` inside a `500ms` `setTimeout` delay in the constructor:
+*   **Delayed Rendering:** ApexCharts requires browser globals and should never render during SSR. Initialize `isBrowser` to `false` and set it to `true` inside a `300ms` `setTimeout` delay in the constructor:
     ```typescript
     protected readonly isBrowser = signal(false);
 
     constructor() {
       if (isPlatformBrowser(this.platformId)) {
-        setTimeout(() => this.isBrowser.set(true), 500);
+        setTimeout(() => this.isBrowser.set(true), 300);
       }
     }
     ```
 *   **Guard in Template:** Always wrap `<apx-chart>` in `@if (isBrowser()) { ... }` with a loading placeholder in the `@else` block.
 
 ### Smooth Sidebar Transition Resizing
-*   **CSS Scaling Overrides:** Ensure `.apexcharts-canvas, .apexcharts-canvas svg` have `width: 100% !important` defined globally in `styles.css`. This lets the SVG layout scale smoothly during sidebar transitions.
-*   **End-of-Transition Redraw:** Add an Angular Signals `effect()` that listens to `state.isCollapsed()`. Skip the initial run, then dispatch a window `resize` event at `220ms` delay to force a crisp redraw:
+*   **CSS Scaling Overrides:** The global rule `.apexcharts-canvas, .apexcharts-canvas svg { width: 100% !important; }` in `styles.css` lets the SVG layout scale smoothly during sidebar transitions.
+*   **End-of-Transition Redraw:** Add an Angular Signals `effect()` that listens to `state.isCollapsed()`. Skip the initial run, then dispatch a window `resize` event at `220ms` delay to force a crisp redraw after the sidebar finishes animating:
     ```typescript
     constructor() {
       let isInitial = true;
@@ -183,9 +191,8 @@ When implementing or extending charts using `ng-apexcharts` on the dashboard:
     }
     ```
 
-### Height and Layout Alignment
-*   **Card Height Synchronization:** Always set `h-full flex flex-col justify-between` on the main card container `div` of chart components. This ensures all cards in a grid row align perfectly in height.
-*   **Chart Centering:** Always wrap `<apx-chart>` in a `w-full overflow-hidden flex-1 flex items-center justify-center` wrapper `div` to expand and center the chart canvas vertically.
+### Layout Stability
+*   **Min-Height:** Chart card containers should have a fixed `min-h-[290px]` or `min-h-[300px]` to prevent layout shift when charts load.
 *   **Same Stagger:** Cards within the same grid row must share the same `.stagger-*` class to animate together.
 
 ---
@@ -195,8 +202,8 @@ When implementing or extending charts using `ng-apexcharts` on the dashboard:
 ### Sidebar Behavior
 *   Default state is `signal(true)` (collapsed) — sidebar starts closed on SSR and mobile.
 *   On desktop (≥768px), respects `localStorage` saved preference.
-*   Resize listener only triggers collapse on **desktop → mobile transition** (tracking `lastWidth`), not on every resize while on mobile. This prevents the sidebar from closing immediately after being opened on mobile.
-*   Auto-closes on `NavigationEnd` events when on mobile (`window.innerWidth < 768`).
+*   Resize listener only triggers collapse on **desktop → mobile transition** (not on every resize while mobile).
+*   Auto-closes on `NavigationEnd` events when on mobile.
 *   Click-outside closes both the sidebar and user dropdown on mobile.
 
 ### Table Responsiveness
@@ -205,7 +212,7 @@ When implementing or extending charts using `ng-apexcharts` on the dashboard:
 *   Truncate long text with `truncate` and `min-w-0` on the parent.
 
 ### Button Placement
-*   CTA buttons should be `w-full sm:w-auto` to span full width on mobile.
+*   CTA buttons (Add Patient, New Appointment) should be `w-full sm:w-auto` to span full width on mobile.
 *   Button groups with toggles should use `w-full sm:w-auto` on the container and `flex-1 sm:flex-none` on the CTA.
 
 ---
@@ -218,17 +225,16 @@ Copy and paste the following prompt when instructing an AI to edit this workspac
 > You are working in a modern standalone Angular project configured with Tailwind CSS v4.
 > 1. Use Standalone Angular components, signals, and modern control flows (`@if`, `@for`).
 > 2. The routing uses Angular Router (`app.routes.ts`) with lazy-loaded components.
-> 3. Global reactive signals (theme, students, classes, search, sidebar state) are stored in `SchoolService`. Inject this service in components to avoid prop drilling.
+> 3. Global reactive signals (theme, patients, appointments, sidebar state, search) are stored in `ClinicService`. Inject this service in components to avoid prop drilling.
 > 4. To add a new view:
->    - Create the standalone component in `src/app/features/` with inline templates and inject `SchoolService`.
+>    - Create the standalone component in `src/app/features/` with inline templates and inject `ClinicService`.
 >    - Register the lazy-loaded route in `app.routes.ts`.
 >    - Add the navigation button with a matching `routerLink` inside `sidebar.ts` and set its active state style check via `isActive('/path')`.
-> 5. For sub-views (like Grades and Timelines), use nested child routes configured under the parent route path in `app.routes.ts`. Renders inside `<router-outlet>` of the parent component.
-> 6. Keep styling consistent: Use semantic tokens (`bg-theme-panel`, `border-theme-border`, `text-theme-text-main`, `bg-theme-hover`) to support seamless light/dark mode transitions rather than hardcoding static color classes.
-> 7. Incorporate animations: card containers should use `.animate-blur-slide` and `.stagger-*` animation classes for smooth staggered page entry. Cards in the same row must share the same stagger class.
-> 8. Make charts responsive and stable:
->    - Use delayed initialization (500ms delay for `isBrowser = true`) to prevent hydration layout glitches during entry animations.
+> 5. Keep styling consistent: Use semantic tokens (`bg-theme-panel`, `border-theme-border`, `text-theme-text-main`, `bg-theme-hover`) to support seamless light/dark mode transitions rather than hardcoding static color classes.
+> 6. Incorporate animations: card containers should use `.animate-blur-slide` and `.stagger-*` animation classes for smooth staggered page entry. Cards in the same row must share the same stagger class.
+> 7. Make charts responsive and stable:
+>    - Use delayed initialization (300ms delay for `isBrowser = true`) to prevent hydration layout glitches during entry animations.
 >    - Listen to `state.isCollapsed` and trigger window resize events at `220ms` to update ApexCharts dimensions after the sidebar finishes collapsing.
->    - Apply `h-full flex flex-col justify-between` on chart card containers to align grid heights.
-> 9. All buttons should have `.clickable-scale` for interactive click scaling.
-> 10. For mobile: hide less-important table columns with `hidden sm:table-cell`, use `w-full sm:w-auto` for CTA buttons, and ensure the sidebar auto-closes on navigation.
+>    - Apply `min-h-[290px]` on chart card containers to prevent layout shift.
+> 8. All buttons should have `.clickable-scale` for interactive click scaling.
+> 9. For mobile: hide less-important table columns with `hidden sm:table-cell`, use `w-full sm:w-auto` for CTA buttons, and ensure the sidebar auto-closes on navigation.
