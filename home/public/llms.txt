@@ -4,15 +4,23 @@ Minimalist & high-performance Angular 22+ platform templates. A curated suite of
 
 ## Templates Available
 
-- **KleenTrack**: A premium, high-performance Angular 22+ finance tracking dashboard template. Features interactive budgeting tools, transaction histories, accounts management, invoice generators, and optimized charts.
+- **Clinicng** (Free / Open Source): A free, open-source medical clinic dashboard template built with Angular 22+ and Tailwind CSS v4. Features 4 interactive ApexCharts, dual-view appointment scheduling (cards + weekly calendar), patient registry with filters, and responsive dark/light themes.
+  - Demo: [https://clinicng.vercel.app/dashboard](https://clinicng.vercel.app/dashboard)
+  - GitHub: [https://github.com/Likeur/draftng/tree/main/templates/clinicng](https://github.com/Likeur/draftng/tree/main/templates/clinicng)
+
+- **Schoolng** (Free / Open Source): A premium academic administrator dashboard template built with Angular 22+ and Tailwind CSS v4. Features student/teacher registries, class schedules, GPA trends, attendance charts, and enrollment growth visualizations.
+  - Demo: [https://schoolng.vercel.app/dashboard](https://schoolng.vercel.app/dashboard)
+  - GitHub: [https://github.com/Likeur/draftng/tree/main/templates/schoolng](https://github.com/Likeur/draftng/tree/main/templates/schoolng)
+
+- **KleenTrack** (Premium): A premium, high-performance Angular 22+ finance tracking dashboard template. Features interactive budgeting tools, transaction histories, accounts management, invoice generators, and optimized charts.
   - Demo: [https://kleen-track.vercel.app/overview](https://kleen-track.vercel.app/overview)
   - Buy/Download: [https://243studio.mychariow.market/prd_zt5vvy7t](https://243studio.mychariow.market/prd_zt5vvy7t)
 
-- **ProjectNG**: A premium, zoneless Angular 22+ dashboard template styled with Tailwind CSS v4. Features tasks, calendar, team view, inbox, and optimized animations.
+- **ProjectNG** (Free / Open Source): A premium, zoneless Angular 22+ dashboard template styled with Tailwind CSS v4. Features tasks, calendar, team view, inbox, and optimized animations.
   - Demo: [https://projectng-three.vercel.app/dashboard](https://projectng-three.vercel.app/dashboard)
   - GitHub: [https://github.com/Likeur/draftng/tree/main/templates/projectng](https://github.com/Likeur/draftng/tree/main/templates/projectng)
 
-- **Jordy AI**: A premium, modern AI chatbot platform template (similar to Gemini or Perplexity). Fully built with Angular 22 and Tailwind CSS v4, featuring integrated AI image generation, video generation, code generation, and a personal library.
+- **Jordy AI** (Premium): A premium, modern AI chatbot platform template (similar to Gemini or Perplexity). Fully built with Angular 22 and Tailwind CSS v4, featuring integrated AI image generation, video generation, code generation, and a personal library.
   - Demo: [https://jordyai.vercel.app/chat](https://jordyai.vercel.app/chat)
   - Buy/Download: [https://243studio.mychariow.market/prd_ztd707zu](https://243studio.mychariow.market/prd_ztd707zu)
 

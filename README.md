@@ -13,17 +13,27 @@ The project is structured as follows:
 
 Here are the templates currently featured on draftNG:
 
-1. **KleenTrack (Premium)**
+1. **Clinicng (Open Source / Free)** ⭐ NEW
+   - **Category**: Medical & Healthcare
+   - **Description**: A free, open-source medical clinic dashboard template built with Angular 22+ and Tailwind CSS v4. Features interactive ApexCharts, dual-view appointment scheduling (cards + calendar), patient registry, and responsive dark/light themes.
+   - **Links**: [Live Preview](https://clinicng.vercel.app/dashboard) | [Get Source Code](https://github.com/Likeur/draftng/tree/main/templates/clinicng)
+
+2. **Schoolng (Open Source / Free)**
+   - **Category**: Academics & School
+   - **Description**: A premium academic administrator dashboard template built with Angular 22+ and Tailwind CSS v4. Features student/teacher registries, class schedules, GPA trends, attendance charts, and enrollment growth visualizations.
+   - **Links**: [Live Preview](https://schoolng.vercel.app/dashboard) | [Get Source Code](https://github.com/Likeur/draftng/tree/main/templates/schoolng)
+
+3. **KleenTrack (Premium)**
    - **Category**: Finance & Budgeting
    - **Description**: A premium, high-performance Angular 22+ finance tracking dashboard template. Features interactive budgeting tools, transaction histories, accounts management, invoice generators, and optimized charts.
    - **Links**: [Live Preview](https://kleen-track.vercel.app/overview) | [Buy Template](https://store.draftng.xyz/prd_zt5vvy7t)
 
-2. **ProjectNG (Open Source / Free)**
+4. **ProjectNG (Open Source / Free)**
    - **Category**: Workspace & Management
    - **Description**: A premium, zoneless Angular 22+ dashboard template styled with Tailwind CSS v4. Features tasks, calendar, team view, inbox, and optimized animations.
    - **Links**: [Live Preview](https://projectng-three.vercel.app/dashboard) | [Get Source Code](https://github.com/Likeur/draftng/tree/main/templates/projectng)
 
-3. **Jordy AI (Premium)**
+5. **Jordy AI (Premium)**
    - **Category**: AI Chatbot & Platform
    - **Description**: A premium, modern AI chatbot platform template (similar to Gemini or Perplexity). Fully built with Angular 22 and Tailwind CSS v4, featuring integrated AI image generation, video generation, code generation, and a personal library.
    - **Links**: [Live Preview](https://jordyai.vercel.app/chat) | [Buy Template](https://store.draftng.xyz/prd_ztd707zu)
