@@ -11,15 +11,19 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
   imports: [NgApexchartsModule, FormsModule, UiSelectComponent, UiDatepickerComponent],
   template: `
     <div class="space-y-6">
-      
-      <!-- Page Header -->
-      <div class="animate-blur-slide stagger-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+
+      <!-- ═══════════════════════════════════════════
+           PAGE HEADER — title + filters (desktop)
+      ══════════════════════════════════════════════ -->
+      <div class="animate-blur-slide stagger-1 flex items-start justify-between gap-4">
+        <!-- Title -->
         <div>
           <h2 class="text-lg font-semibold text-theme-text-main">Good morning, Alex</h2>
           <p class="text-xs text-theme-text-muted mt-0.5">Here's a snapshot of your store's performance today.</p>
         </div>
-        <!-- Date Picker + Period Selector -->
-        <div class="flex flex-wrap items-center gap-2 shrink-0">
+
+        <!-- Desktop: filters inline (hidden on mobile) -->
+        <div class="hidden sm:flex items-center gap-2 shrink-0">
           <ui-select
             [(value)]="activePeriod"
             [options]="periodOptions"
@@ -39,10 +43,23 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
             [alignRight]="true"
           />
         </div>
+
+        <!-- Mobile: Filter button (visible only on mobile) -->
+        <button
+          (click)="openMobileFilters()"
+          class="sm:hidden flex items-center gap-1.5 h-9 px-3 bg-theme-panel border border-theme-border rounded-xl text-xs text-theme-text-main hover:border-sky-500/50 transition-colors cursor-pointer clickable-scale shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          Filters
+          @if (activePeriod() !== 'monthly' || dateFrom() || dateTo()) {
+            <span class="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0"></span>
+          }
+        </button>
       </div>
 
-      <!-- Quick Actions -->
-      <div class="animate-blur-slide stagger-2 grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <!-- ═══════════════════════════════════════════
+           QUICK ACTIONS — desktop only
+      ══════════════════════════════════════════════ -->
+      <div class="animate-blur-slide stagger-2 hidden sm:grid sm:grid-cols-4 gap-3">
         <button class="flex items-center justify-center gap-2.5 px-4 py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
           New Order
@@ -60,6 +77,60 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
           View Reports
         </button>
       </div>
+
+      <!-- ═══════════════════════════════════════════
+           MOBILE FILTER OVERLAY
+      ══════════════════════════════════════════════ -->
+      @if (mobileFiltersOpen()) {
+        <!-- Backdrop -->
+        <div
+          class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm sm:hidden"
+          (click)="closeMobileFilters()">
+        </div>
+        <!-- Bottom sheet -->
+        <div class="fixed bottom-0 left-0 right-0 z-50 sm:hidden bg-theme-panel border-t border-theme-border rounded-t-2xl p-5 space-y-4 animate-slide-up">
+          <div class="flex items-center justify-between mb-1">
+            <h3 class="text-sm font-semibold text-theme-text-main">Filters</h3>
+            <button (click)="closeMobileFilters()" class="w-7 h-7 flex items-center justify-center rounded-lg text-theme-text-muted hover:text-theme-text-main hover:bg-theme-hover transition-colors cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          </div>
+          <div>
+            <p class="text-[10px] font-medium text-theme-text-muted uppercase tracking-wider mb-2">Period</p>
+            <ui-select
+              [(value)]="activePeriod"
+              [options]="periodOptions"
+              placeholder="Period"
+              wrapperClass="w-full"
+            />
+          </div>
+          <div>
+            <p class="text-[10px] font-medium text-theme-text-muted uppercase tracking-wider mb-2">Date range</p>
+            <div class="flex items-center gap-2">
+              <ui-datepicker
+                [(value)]="dateFrom"
+                placeholder="From"
+                wrapperClass="flex-1"
+              />
+              <span class="text-xs text-theme-text-muted select-none shrink-0">—</span>
+              <ui-datepicker
+                [(value)]="dateTo"
+                placeholder="To"
+                wrapperClass="flex-1"
+                [alignRight]="true"
+              />
+            </div>
+          </div>
+          <div class="flex gap-2 pt-1">
+            <button (click)="resetFilters()" class="flex-1 py-2.5 rounded-xl text-xs font-medium border border-theme-border text-theme-text-muted hover:text-theme-text-main hover:bg-theme-hover transition-colors cursor-pointer">
+              Reset
+            </button>
+            <button (click)="closeMobileFilters()" class="flex-1 py-2.5 rounded-xl text-xs font-medium bg-sky-500 hover:bg-sky-600 text-white transition-colors cursor-pointer">
+              Apply
+            </button>
+          </div>
+        </div>
+      }
 
       <!-- KPI Cards Grid -->
       <div class="animate-blur-slide stagger-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -350,10 +421,19 @@ export class DashboardComponent {
 
   protected readonly recentOrders = signal(this.state.orders().slice(0, 5));
 
+  protected readonly mobileFiltersOpen = signal(false);
   protected readonly activePeriod = signal('monthly');
   protected readonly chartPeriod = signal('monthly');
   protected readonly dateFrom = signal('');
   protected readonly dateTo = signal('');
+
+  protected openMobileFilters(): void  { this.mobileFiltersOpen.set(true); }
+  protected closeMobileFilters(): void { this.mobileFiltersOpen.set(false); }
+  protected resetFilters(): void {
+    this.activePeriod.set('monthly');
+    this.dateFrom.set('');
+    this.dateTo.set('');
+  }
 
   protected readonly periodOptions: SelectOption[] = [
     { value: 'daily',   label: 'Daily'   },

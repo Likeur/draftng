@@ -166,6 +166,15 @@
   z-index: 1;
 }
 
+/* Mobile bottom-sheet slide-up */
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.animate-slide-up {
+  animation: slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* Staggered blur-slide entrance animations */
 @keyframes blur-slide-in {
   0% {
