@@ -7,7 +7,7 @@ import { StoreService } from '../services/store.service';
   selector: 'app-topbar',
   imports: [FormsModule],
   host: {
-    'class': 'block sticky top-0 z-30',
+    'class': 'block sticky top-0 z-[300]',
     '(document:click)': 'onClickOutside($event)'
   },
   template: `
@@ -79,7 +79,7 @@ import { StoreService } from '../services/store.service';
             </button>
 
             <!-- Notifications -->
-            <div class="relative shrink-0" id="notification-container">
+            <div class="relative z-[310] shrink-0" id="notification-container">
               <button 
                 (click)="toggleNotifications()" 
                 class="w-9 h-9 flex items-center justify-center bg-theme-panel border border-theme-border text-theme-text-muted hover:text-theme-text-main rounded-xl cursor-pointer select-none relative clickable-scale">
@@ -98,7 +98,7 @@ import { StoreService } from '../services/store.service';
                 [class.pointer-events-none]="!isNotificationsOpen()"
                 [class.scale-95]="!isNotificationsOpen()"
                 [class.translate-y-[-8px]]="!isNotificationsOpen()"
-                class="absolute right-0 mt-2 w-80 bg-theme-panel border border-theme-border text-theme-text-main rounded-xl overflow-hidden py-1 z-50 shadow-lg transition-all duration-200 ease-out origin-top-right transform">
+                class="absolute right-0 mt-2 w-80 bg-theme-panel border border-theme-border text-theme-text-main rounded-xl overflow-hidden py-1 z-[320] shadow-lg transition-all duration-200 ease-out origin-top-right transform">
                 <div class="px-4 py-2.5 border-b border-theme-border font-display font-medium text-xs text-theme-text-muted flex justify-between items-center">
                   <span>Notifications</span>
                   <span class="text-[9px] bg-sky-500/10 text-sky-600 dark:text-sky-400 px-1.5 py-0.5 rounded font-medium border border-sky-500/20">3 New</span>
