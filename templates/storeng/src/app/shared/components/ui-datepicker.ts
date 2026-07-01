@@ -1,9 +1,9 @@
-import { Component, input, model, output, signal, computed, ElementRef, inject, HostListener, PLATFORM_ID } from '@angular/core';
+import { Component, input, model, output, signal, computed, ElementRef, inject, HostListener } from '@angular/core';
 
 @Component({
   selector: 'ui-datepicker',
   template: `
-    <div [class]="wrapperClass()">
+    <div class="relative" [class]="wrapperClass()">
       <button
         type="button"
         (click)="toggle()"
@@ -22,9 +22,10 @@ import { Component, input, model, output, signal, computed, ElementRef, inject, 
 
       @if (open()) {
         <div
-          class="fixed z-[9999] bg-theme-panel border border-theme-border rounded-xl shadow-xl overflow-hidden p-3 w-64"
-          [style.top.px]="dropPos().top"
-          [style.left.px]="dropPos().left">
+          class="absolute z-[200] mt-1.5 bg-theme-panel border border-theme-border rounded-xl shadow-xl overflow-hidden p-3 w-64"
+          [class.right-0]="alignRight()"
+          [class.bottom-full]="dropUp()"
+          [class.mb-1.5]="dropUp()">
 
           <!-- Month/Year nav -->
           <div class="flex items-center justify-between mb-3">
@@ -53,14 +54,20 @@ import { Component, input, model, output, signal, computed, ElementRef, inject, 
                 <button
                   type="button"
                   (click)="selectDay(cell)"
-                  class="h-7 w-full flex items-center justify-center rounded-lg text-xs transition-colors cursor-pointer"
-                  [class.bg-sky-500]="isSelected(cell)"
-                  [class.text-white]="isSelected(cell)"
-                  [class.font-semibold]="isSelected(cell)"
-                  [class.text-theme-text-main]="!isSelected(cell) && !isToday(cell)"
-                  [class.text-sky-500]="isToday(cell) && !isSelected(cell)"
+                  class="h-7 w-full flex items-center justify-center rounded-lg text-xs transition-colors"
+                  [disabled]="isDisabled(cell)"
+                  [class.cursor-pointer]="!isDisabled(cell)"
+                  [class.cursor-not-allowed]="isDisabled(cell)"
+                  [class.opacity-30]="isDisabled(cell)"
+                  [class.bg-sky-500]="isSelected(cell) || isRangeEdge(cell)"
+                  [class.bg-sky-500\/10]="isInRange(cell) && !isSelected(cell) && !isRangeEdge(cell)"
+                  [class.text-white]="isSelected(cell) || isRangeEdge(cell)"
+                  [class.font-semibold]="isSelected(cell) || isRangeEdge(cell)"
+                  [class.text-theme-text-main]="!isSelected(cell) && !isRangeEdge(cell) && !isToday(cell) && !isDisabled(cell)"
+                  [class.text-theme-text-muted]="isDisabled(cell)"
+                  [class.text-sky-500]="isToday(cell) && !isSelected(cell) && !isRangeEdge(cell) && !isDisabled(cell)"
                   [class.font-medium]="isToday(cell)"
-                  [class.hover:bg-theme-hover]="!isSelected(cell)">
+                  [class.hover:bg-theme-hover]="!isSelected(cell) && !isRangeEdge(cell) && !isDisabled(cell)">
                   {{ cell }}
                 </button>
               }
@@ -83,31 +90,19 @@ import { Component, input, model, output, signal, computed, ElementRef, inject, 
 })
 export class UiDatepickerComponent {
   private readonly el = inject(ElementRef);
-  private readonly platformId = inject(PLATFORM_ID);
 
   readonly placeholder = input('Pick a date');
   readonly height = input('36px');
   readonly wrapperClass = input('');
   readonly alignRight = input(false);
   readonly dropUp = input(false);
+  readonly minDate = input('');
+  readonly rangeStart = input('');
+  readonly rangeEnd = input('');
   readonly value = model('');
 
   readonly changed = output<string>();
   readonly open = signal(false);
-
-  private triggerRect = signal<DOMRect | null>(null);
-  readonly PANEL_W = 256;
-
-  readonly dropPos = computed(() => {
-    const r = this.triggerRect();
-    if (!r) return { top: 0, left: 0 };
-    const GAP = 6;
-    const vw = typeof window !== 'undefined' ? window.innerWidth : 1200;
-    let left = this.alignRight() ? r.right - this.PANEL_W : r.left;
-    if (left + this.PANEL_W > vw - 8) left = vw - this.PANEL_W - 8;
-    if (left < 8) left = 8;
-    return { top: r.bottom + GAP, left };
-  });
 
   readonly dayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   readonly shortcuts = [
@@ -155,13 +150,26 @@ export class UiDatepickerComponent {
     return t.getFullYear() === this.viewYear() && t.getMonth() === this.viewMonth() && t.getDate() === day;
   }
 
-  toggle(): void {
-    if (!this.open()) {
-      const btn = this.el.nativeElement.querySelector('button');
-      if (btn) this.triggerRect.set(btn.getBoundingClientRect());
-    }
-    this.open.update(v => !v);
+  isDisabled(day: number): boolean {
+    const min = this.minDate();
+    if (!min) return false;
+    return this.toTimestamp(this.formatValue(day)) < this.toTimestamp(min);
   }
+
+  isInRange(day: number): boolean {
+    const start = this.rangeStart();
+    const end = this.rangeEnd();
+    if (!start || !end) return false;
+    const current = this.toTimestamp(this.formatValue(day));
+    return current > this.toTimestamp(start) && current < this.toTimestamp(end);
+  }
+
+  isRangeEdge(day: number): boolean {
+    const value = this.formatValue(day);
+    return !!this.rangeStart() && !!this.rangeEnd() && (value === this.rangeStart() || value === this.rangeEnd());
+  }
+
+  toggle(): void { this.open.update(v => !v); }
 
   prevMonth(): void {
     if (this.viewMonth() === 0) {
@@ -182,10 +190,8 @@ export class UiDatepickerComponent {
   }
 
   selectDay(day: number): void {
-    const y = this.viewYear();
-    const m = String(this.viewMonth() + 1).padStart(2, '0');
-    const d = String(day).padStart(2, '0');
-    const val = `${y}-${m}-${d}`;
+    if (this.isDisabled(day)) return;
+    const val = this.formatValue(day);
     this.value.set(val);
     this.changed.emit(val);
     this.open.set(false);
@@ -197,26 +203,31 @@ export class UiDatepickerComponent {
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, '0');
     const d = String(date.getDate()).padStart(2, '0');
+    const val = `${y}-${m}-${d}`;
+    if (this.minDate() && this.toTimestamp(val) < this.toTimestamp(this.minDate())) return;
     this.viewYear.set(date.getFullYear());
     this.viewMonth.set(date.getMonth());
-    this.value.set(`${y}-${m}-${d}`);
-    this.changed.emit(`${y}-${m}-${d}`);
+    this.value.set(val);
+    this.changed.emit(val);
     this.open.set(false);
+  }
+
+  private formatValue(day: number): string {
+    const y = this.viewYear();
+    const m = String(this.viewMonth() + 1).padStart(2, '0');
+    const d = String(day).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  private toTimestamp(value: string): number {
+    const [y, m, d] = value.split('-').map(Number);
+    return new Date(y, m - 1, d).getTime();
   }
 
   @HostListener('document:click', ['$event'])
   onClickOutside(e: MouseEvent): void {
     if (!this.el.nativeElement.contains(e.target)) {
       this.open.set(false);
-    }
-  }
-
-  @HostListener('window:scroll')
-  @HostListener('window:resize')
-  onScroll(): void {
-    if (this.open()) {
-      const btn = this.el.nativeElement.querySelector('button');
-      if (btn) this.triggerRect.set(btn.getBoundingClientRect());
     }
   }
 }

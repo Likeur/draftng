@@ -175,22 +175,26 @@
   animation: slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Staggered blur-slide entrance animations */
-@keyframes blur-slide-in {
-  0% {
-    opacity: 0;
-    transform: translateY(16px);
-    filter: blur(12px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
+/* Staggered entrance animations.
+   CRITICAL: both `filter` AND `transform` (non-none) create persistent CSS
+   stacking contexts when kept via fill-mode. That traps child dropdown menus
+   behind sibling cards. So we split:
+     - fade  (opacity)   → fill-mode both  (element stays visible)
+     - rise  (transform) → fill-mode none  (transform removed after → NO context) */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes rise-in {
+  from { transform: translateY(12px); }
+  to   { transform: translateY(0); }
 }
 
 .animate-blur-slide {
-  animation: blur-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-name:            fade-in,                   rise-in;
+  animation-duration:        0.4s,                      0.4s;
+  animation-timing-function: cubic-bezier(0.16,1,0.3,1), cubic-bezier(0.16,1,0.3,1);
+  animation-fill-mode:       both,                      none;
 }
 
 .stagger-1 { animation-delay: 50ms; }

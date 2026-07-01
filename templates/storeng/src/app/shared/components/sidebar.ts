@@ -109,9 +109,14 @@ import { StoreService } from '../services/store.service';
 
         <!-- Catalog Section -->
         <div class="mb-4">
-          <p class="text-[9px] font-medium text-theme-text-muted mb-1.5 px-3 overflow-hidden text-ellipsis whitespace-nowrap capitalize tracking-wider">
-            {{ state.isCollapsed() ? '•••' : 'Catalog' }}
-          </p>
+          <button (click)="toggleSection('catalog')" class="w-full flex items-center justify-between text-[9px] font-medium text-theme-text-muted hover:text-theme-text-main mb-1.5 px-3 overflow-hidden capitalize tracking-wider transition-colors cursor-pointer">
+            <span class="overflow-hidden text-ellipsis whitespace-nowrap">{{ state.isCollapsed() ? '•••' : 'Catalog' }}</span>
+            @if (!state.isCollapsed()) {
+              <svg class="w-3 h-3 shrink-0 transition-transform duration-200" [class.rotate-180]="isSectionOpen('catalog')" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            }
+          </button>
+          <div class="grid transition-[grid-template-rows,opacity] duration-200 ease-out" [class.grid-rows-[1fr]]="state.isCollapsed() || isSectionOpen('catalog')" [class.grid-rows-[0fr]]="!state.isCollapsed() && !isSectionOpen('catalog')" [class.opacity-100]="state.isCollapsed() || isSectionOpen('catalog')" [class.opacity-0]="!state.isCollapsed() && !isSectionOpen('catalog')">
+            <div class="overflow-hidden">
           <nav class="space-y-0.5">
             <button [class]="'text-theme-text-muted hover:text-theme-text-main hover:bg-theme-hover'" class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale" [class.justify-center]="state.isCollapsed()" [class.gap-3]="!state.isCollapsed()" [class.px-2]="state.isCollapsed()" [class.px-3]="!state.isCollapsed()">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
@@ -126,13 +131,20 @@ import { StoreService } from '../services/store.service';
               @if (!state.isCollapsed()) { <span class="animate-fade-in whitespace-nowrap">Collections</span> }
             </button>
           </nav>
+            </div>
+          </div>
         </div>
 
         <!-- Sales Section -->
         <div class="mb-4">
-          <p class="text-[9px] font-medium text-theme-text-muted mb-1.5 px-3 overflow-hidden text-ellipsis whitespace-nowrap capitalize tracking-wider">
-            {{ state.isCollapsed() ? '•••' : 'Sales' }}
-          </p>
+          <button (click)="toggleSection('sales')" class="w-full flex items-center justify-between text-[9px] font-medium text-theme-text-muted hover:text-theme-text-main mb-1.5 px-3 overflow-hidden capitalize tracking-wider transition-colors cursor-pointer">
+            <span class="overflow-hidden text-ellipsis whitespace-nowrap">{{ state.isCollapsed() ? '•••' : 'Sales' }}</span>
+            @if (!state.isCollapsed()) {
+              <svg class="w-3 h-3 shrink-0 transition-transform duration-200" [class.rotate-180]="isSectionOpen('sales')" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            }
+          </button>
+          <div class="grid transition-[grid-template-rows,opacity] duration-200 ease-out" [class.grid-rows-[1fr]]="state.isCollapsed() || isSectionOpen('sales')" [class.grid-rows-[0fr]]="!state.isCollapsed() && !isSectionOpen('sales')" [class.opacity-100]="state.isCollapsed() || isSectionOpen('sales')" [class.opacity-0]="!state.isCollapsed() && !isSectionOpen('sales')">
+            <div class="overflow-hidden">
           <nav class="space-y-0.5">
             <button [class]="'text-theme-text-muted hover:text-theme-text-main hover:bg-theme-hover'" class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale" [class.justify-center]="state.isCollapsed()" [class.gap-3]="!state.isCollapsed()" [class.px-2]="state.isCollapsed()" [class.px-3]="!state.isCollapsed()">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
@@ -154,13 +166,20 @@ import { StoreService } from '../services/store.service';
               @if (!state.isCollapsed()) { <span class="animate-fade-in whitespace-nowrap">Discounts</span> }
             </button>
           </nav>
+            </div>
+          </div>
         </div>
 
         <!-- Customers Section -->
         <div class="mb-4">
-          <p class="text-[9px] font-medium text-theme-text-muted mb-1.5 px-3 overflow-hidden text-ellipsis whitespace-nowrap capitalize tracking-wider">
-            {{ state.isCollapsed() ? '•••' : 'Customers' }}
-          </p>
+          <button (click)="toggleSection('customers')" class="w-full flex items-center justify-between text-[9px] font-medium text-theme-text-muted hover:text-theme-text-main mb-1.5 px-3 overflow-hidden capitalize tracking-wider transition-colors cursor-pointer">
+            <span class="overflow-hidden text-ellipsis whitespace-nowrap">{{ state.isCollapsed() ? '•••' : 'Customers' }}</span>
+            @if (!state.isCollapsed()) {
+              <svg class="w-3 h-3 shrink-0 transition-transform duration-200" [class.rotate-180]="isSectionOpen('customers')" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            }
+          </button>
+          <div class="grid transition-[grid-template-rows,opacity] duration-200 ease-out" [class.grid-rows-[1fr]]="state.isCollapsed() || isSectionOpen('customers')" [class.grid-rows-[0fr]]="!state.isCollapsed() && !isSectionOpen('customers')" [class.opacity-100]="state.isCollapsed() || isSectionOpen('customers')" [class.opacity-0]="!state.isCollapsed() && !isSectionOpen('customers')">
+            <div class="overflow-hidden">
           <nav class="space-y-0.5">
             <button [class]="'text-theme-text-muted hover:text-theme-text-main hover:bg-theme-hover'" class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale" [class.justify-center]="state.isCollapsed()" [class.gap-3]="!state.isCollapsed()" [class.px-2]="state.isCollapsed()" [class.px-3]="!state.isCollapsed()">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -175,13 +194,20 @@ import { StoreService } from '../services/store.service';
               @if (!state.isCollapsed()) { <span class="animate-fade-in whitespace-nowrap">Reviews</span> }
             </button>
           </nav>
+            </div>
+          </div>
         </div>
 
         <!-- Analytics Section -->
         <div class="mb-4">
-          <p class="text-[9px] font-medium text-theme-text-muted mb-1.5 px-3 overflow-hidden text-ellipsis whitespace-nowrap capitalize tracking-wider">
-            {{ state.isCollapsed() ? '•••' : 'Analytics' }}
-          </p>
+          <button (click)="toggleSection('analytics')" class="w-full flex items-center justify-between text-[9px] font-medium text-theme-text-muted hover:text-theme-text-main mb-1.5 px-3 overflow-hidden capitalize tracking-wider transition-colors cursor-pointer">
+            <span class="overflow-hidden text-ellipsis whitespace-nowrap">{{ state.isCollapsed() ? '•••' : 'Analytics' }}</span>
+            @if (!state.isCollapsed()) {
+              <svg class="w-3 h-3 shrink-0 transition-transform duration-200" [class.rotate-180]="isSectionOpen('analytics')" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            }
+          </button>
+          <div class="grid transition-[grid-template-rows,opacity] duration-200 ease-out" [class.grid-rows-[1fr]]="state.isCollapsed() || isSectionOpen('analytics')" [class.grid-rows-[0fr]]="!state.isCollapsed() && !isSectionOpen('analytics')" [class.opacity-100]="state.isCollapsed() || isSectionOpen('analytics')" [class.opacity-0]="!state.isCollapsed() && !isSectionOpen('analytics')">
+            <div class="overflow-hidden">
           <nav class="space-y-0.5">
             <button [class]="'text-theme-text-muted hover:text-theme-text-main hover:bg-theme-hover'" class="w-full flex items-center py-2 rounded-lg text-xs transition-all cursor-pointer text-left overflow-hidden font-normal clickable-scale" [class.justify-center]="state.isCollapsed()" [class.gap-3]="!state.isCollapsed()" [class.px-2]="state.isCollapsed()" [class.px-3]="!state.isCollapsed()">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>
@@ -192,6 +218,8 @@ import { StoreService } from '../services/store.service';
               @if (!state.isCollapsed()) { <span class="animate-fade-in whitespace-nowrap">Traffic</span> }
             </button>
           </nav>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -292,6 +320,24 @@ export class SidebarComponent {
   private readonly elementRef = inject(ElementRef);
 
   protected readonly isUserDropdownOpen = signal(false);
+  protected readonly openSections = signal<Record<string, boolean>>({
+    catalog: true,
+    sales: true,
+    customers: true,
+    analytics: true,
+  });
+
+  protected isSectionOpen(section: string): boolean {
+    return this.openSections()[section] ?? true;
+  }
+
+  protected toggleSection(section: string): void {
+    if (this.state.isCollapsed()) return;
+    this.openSections.update(sections => ({
+      ...sections,
+      [section]: !(sections[section] ?? true)
+    }));
+  }
 
   protected isActive(path: string): boolean {
     const url = this.state.currentUrl();

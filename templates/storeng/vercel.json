@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/clinicng/browser",
+  "outputDirectory": "dist/storeng/browser",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]

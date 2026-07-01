@@ -15,7 +15,7 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
       <!-- ═══════════════════════════════════════════
            PAGE HEADER — title + filters (desktop)
       ══════════════════════════════════════════════ -->
-      <div class="animate-blur-slide stagger-1 flex items-start justify-between gap-4">
+      <div class="relative z-[100] animate-blur-slide stagger-1 flex items-start justify-between gap-4">
         <!-- Title -->
         <div>
           <h2 class="text-lg font-semibold text-theme-text-main">Good morning, Alex</h2>
@@ -32,12 +32,17 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
           />
           <ui-datepicker
             [(value)]="dateFrom"
+            [rangeStart]="dateFrom()"
+            [rangeEnd]="dateTo()"
             placeholder="From"
             wrapperClass="w-36"
           />
           <span class="text-xs text-theme-text-muted select-none">—</span>
           <ui-datepicker
             [(value)]="dateTo"
+            [minDate]="dateFrom()"
+            [rangeStart]="dateFrom()"
+            [rangeEnd]="dateTo()"
             placeholder="To"
             wrapperClass="w-36"
             [alignRight]="true"
@@ -59,7 +64,7 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
       <!-- ═══════════════════════════════════════════
            QUICK ACTIONS — desktop only
       ══════════════════════════════════════════════ -->
-      <div class="animate-blur-slide stagger-2 hidden sm:grid sm:grid-cols-4 gap-3">
+      <div class="relative z-10 animate-blur-slide stagger-2 hidden sm:grid sm:grid-cols-4 gap-3">
         <button class="flex items-center justify-center gap-2.5 px-4 py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
           New Order
@@ -109,12 +114,17 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
             <div class="flex items-center gap-2">
               <ui-datepicker
                 [(value)]="dateFrom"
+                [rangeStart]="dateFrom()"
+                [rangeEnd]="dateTo()"
                 placeholder="From"
                 wrapperClass="flex-1"
               />
               <span class="text-xs text-theme-text-muted select-none shrink-0">—</span>
               <ui-datepicker
                 [(value)]="dateTo"
+                [minDate]="dateFrom()"
+                [rangeStart]="dateFrom()"
+                [rangeEnd]="dateTo()"
                 placeholder="To"
                 wrapperClass="flex-1"
                 [alignRight]="true"
@@ -133,7 +143,7 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
       }
 
       <!-- KPI Cards Grid -->
-      <div class="animate-blur-slide stagger-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="relative z-0 animate-blur-slide stagger-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         <!-- Total Revenue -->
         <div class="bg-theme-panel border border-theme-border rounded-xl p-5 transition-all hover:border-sky-500/30">
@@ -141,9 +151,9 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
             <div class="w-9 h-9 rounded-lg bg-sky-500/10 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-500"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
-            <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">{{ state.totalRevenue().change }}</span>
+            <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">{{ overviewStats().revenue.change }}</span>
           </div>
-          <p class="text-2xl font-semibold text-theme-text-main tracking-tight">{{ state.totalRevenue().value }}</p>
+          <p class="text-2xl font-semibold text-theme-text-main tracking-tight">{{ overviewStats().revenue.value }}</p>
           <p class="text-[10px] text-theme-text-muted mt-1">Total Revenue</p>
         </div>
 
@@ -153,9 +163,9 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
             <div class="w-9 h-9 rounded-lg bg-violet-500/10 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-violet-500"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
             </div>
-            <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">{{ state.totalOrders().change }}</span>
+            <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">{{ overviewStats().orders.change }}</span>
           </div>
-          <p class="text-2xl font-semibold text-theme-text-main tracking-tight">{{ state.totalOrders().value }}</p>
+          <p class="text-2xl font-semibold text-theme-text-main tracking-tight">{{ overviewStats().orders.value }}</p>
           <p class="text-[10px] text-theme-text-muted mt-1">Total Orders</p>
         </div>
 
@@ -165,9 +175,9 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
             <div class="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-500"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7"/></svg>
             </div>
-            <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">{{ state.totalProducts().change }}</span>
+            <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">{{ overviewStats().products.change }}</span>
           </div>
-          <p class="text-2xl font-semibold text-theme-text-main tracking-tight">{{ state.totalProducts().value }}</p>
+          <p class="text-2xl font-semibold text-theme-text-main tracking-tight">{{ overviewStats().products.value }}</p>
           <p class="text-[10px] text-theme-text-muted mt-1">Total Products</p>
         </div>
 
@@ -177,9 +187,9 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
             <div class="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
             </div>
-            <span class="text-[10px] font-medium text-sky-500 bg-sky-500/10 px-2 py-0.5 rounded-full">{{ state.conversionRate().status }}</span>
+            <span class="text-[10px] font-medium text-sky-500 bg-sky-500/10 px-2 py-0.5 rounded-full">{{ overviewStats().conversion.status }}</span>
           </div>
-          <p class="text-2xl font-semibold text-theme-text-main tracking-tight">{{ state.conversionRate().value }}</p>
+          <p class="text-2xl font-semibold text-theme-text-main tracking-tight">{{ overviewStats().conversion.value }}</p>
           <p class="text-[10px] text-theme-text-muted mt-1">Conversion Rate</p>
         </div>
 
@@ -195,8 +205,8 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
             <div>
               <p class="text-[10px] text-theme-text-muted">Total Revenue</p>
               <div class="flex items-baseline gap-2 mt-0.5">
-                <span class="text-xl font-semibold text-theme-text-main tracking-tight">{{ revenueAmount() }}</span>
-                <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded-full">+12.4%</span>
+                <span class="text-xl font-semibold text-theme-text-main tracking-tight">{{ overviewStats().revenue.value }}</span>
+                <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded-full">{{ overviewStats().revenue.change }}</span>
               </div>
               <div class="flex items-center gap-3 text-[9px] text-theme-text-muted mt-1.5">
                 <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Revenue</span>
@@ -206,7 +216,7 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
             <div class="flex items-center gap-1.5 shrink-0">
               <!-- Period selector -->
               <ui-select
-                [(value)]="chartPeriod"
+                [(value)]="activePeriod"
                 [options]="periodOptions"
                 placeholder="Period"
                 wrapperClass="w-24"
@@ -264,7 +274,7 @@ import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
               <h3 class="text-xs font-semibold text-theme-text-main">Sales by Category</h3>
               <p class="text-[10px] text-theme-text-muted mt-0.5">Units sold per category</p>
             </div>
-            <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">+11.4%</span>
+            <span class="text-[10px] font-medium text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">{{ overviewStats().salesChange }}</span>
           </div>
           @if (isBrowser()) {
             <apx-chart
@@ -423,7 +433,6 @@ export class DashboardComponent {
 
   protected readonly mobileFiltersOpen = signal(false);
   protected readonly activePeriod = signal('monthly');
-  protected readonly chartPeriod = signal('monthly');
   protected readonly dateFrom = signal('');
   protected readonly dateTo = signal('');
 
@@ -447,12 +456,44 @@ export class DashboardComponent {
   protected showGridLines = true;
   protected smoothCurve = true;
 
-  protected readonly revenueAmount = computed(() => {
-    const p = this.chartPeriod();
-    if (p === 'daily') return '$1,612.00';
-    if (p === 'weekly') return '$11,284.00';
-    if (p === 'yearly') return '$581,048.00';
-    return '$48,392.00';
+  protected readonly overviewStats = computed(() => {
+    const data: Record<string, {
+      revenue: { value: string; change: string };
+      orders: { value: string; change: string };
+      products: { value: string; change: string };
+      conversion: { value: string; status: string };
+      salesChange: string;
+    }> = {
+      daily: {
+        revenue: { value: '$1,612.00', change: '+5.8%' },
+        orders: { value: '42', change: '+3.1%' },
+        products: { value: '18', change: '+1.4%' },
+        conversion: { value: '2.91%', status: 'Fair' },
+        salesChange: '+4.2%'
+      },
+      weekly: {
+        revenue: { value: '$11,284.00', change: '+8.7%' },
+        orders: { value: '334', change: '+6.5%' },
+        products: { value: '86', change: '+3.8%' },
+        conversion: { value: '3.18%', status: 'Good' },
+        salesChange: '+7.6%'
+      },
+      monthly: {
+        revenue: { value: '$48,392.00', change: '+12.4%' },
+        orders: { value: '1,284', change: '+9.2%' },
+        products: { value: '342', change: '+5.1%' },
+        conversion: { value: '3.64%', status: 'Good' },
+        salesChange: '+11.4%'
+      },
+      yearly: {
+        revenue: { value: '$581,048.00', change: '+18.9%' },
+        orders: { value: '13,840', change: '+15.7%' },
+        products: { value: '2,918', change: '+12.6%' },
+        conversion: { value: '4.08%', status: 'Excellent' },
+        salesChange: '+16.8%'
+      }
+    };
+    return data[this.activePeriod()] ?? data['monthly'];
   });
 
   protected toggleChartCustomizer(): void {
@@ -480,6 +521,19 @@ export class DashboardComponent {
         }, 220);
       }
     });
+
+    effect(() => {
+      const from = this.dateFrom();
+      const to = this.dateTo();
+      if (from && to && this.toTimestamp(to) < this.toTimestamp(from)) {
+        this.dateTo.set(from);
+      }
+    });
+  }
+
+  private toTimestamp(value: string): number {
+    const [y, m, d] = value.split('-').map(Number);
+    return new Date(y, m - 1, d).getTime();
   }
 
   // === Chart 1: Revenue Trend — Area Chart ===
@@ -487,7 +541,7 @@ export class DashboardComponent {
     const isDark = this.state.isDark();
     const gridColor = isDark ? '#27272a' : '#eaeaea';
     const labelColor = isDark ? '#71717a' : '#a1a1aa';
-    const period = this.chartPeriod();
+    const period = this.activePeriod();
     const periodData: Record<string, { cats: string[]; rev: number[]; ord: number[] }> = {
       daily:   { cats: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],  rev: [1200,980,1450,1100,1612,890,1300], ord: [31,25,38,29,42,22,34] },
       weekly:  { cats: ['W1','W2','W3','W4','W5','W6'],  rev: [8200,9400,10100,10800,11180,11284], ord: [210,248,275,302,320,334] },
@@ -524,8 +578,15 @@ export class DashboardComponent {
     const isDark = this.state.isDark();
     const gridColor = isDark ? '#27272a' : '#eaeaea';
     const labelColor = isDark ? '#71717a' : '#a1a1aa';
+    const period = this.activePeriod();
+    const periodData: Record<string, number[]> = {
+      daily: [24, 31, 12, 18],
+      weekly: [168, 204, 76, 118],
+      monthly: [451, 540, 214, 689],
+      yearly: [5210, 6480, 2490, 7820]
+    };
     return {
-      series: [{ name: 'Units Sold', data: [451, 540, 214, 689] }],
+      series: [{ name: 'Units Sold', data: periodData[period] ?? periodData['monthly'] }],
       chart: { type: 'bar' as any, height: 220, toolbar: { show: false }, animations: { enabled: true, speed: 600 } },
       colors: ['#0ea5e9'],
       plotOptions: { bar: { borderRadius: 6, columnWidth: '50%', distributed: true } },
@@ -544,8 +605,16 @@ export class DashboardComponent {
   // === Chart 3: Revenue Share — Donut Chart ===
   protected readonly revenueShareChart = computed(() => {
     const isDark = this.state.isDark();
+    const period = this.activePeriod();
+    const periodData: Record<string, { series: number[]; total: string }> = {
+      daily: { series: [38, 28, 20, 14], total: '$1.6k' },
+      weekly: { series: [40, 24, 21, 15], total: '$11.3k' },
+      monthly: { series: [42, 22, 18, 18], total: '$48.4k' },
+      yearly: { series: [45, 20, 17, 18], total: '$581k' }
+    };
+    const d = periodData[period] ?? periodData['monthly'];
     return {
-      series: [42, 22, 18, 18],
+      series: d.series,
       chart: { type: 'donut' as any, height: 220, animations: { enabled: true, speed: 600 } },
       colors: ['#0ea5e9', '#8b5cf6', '#f59e0b', '#10b981'],
       labels: ['Electronics', 'Accessories', 'Home & Kitchen', 'Sports'],
@@ -564,7 +633,7 @@ export class DashboardComponent {
               show: true,
               name: { show: true, fontSize: '10px', fontFamily: 'Geist Sans, sans-serif', color: isDark ? '#fafafa' : '#18181b' },
               value: { show: true, fontSize: '16px', fontFamily: 'Geist Sans, sans-serif', fontWeight: 600, color: isDark ? '#fafafa' : '#18181b', formatter: (val: string) => `${val}%` },
-              total: { show: true, label: 'Revenue', fontSize: '9px', fontFamily: 'Geist Sans, sans-serif', color: isDark ? '#71717a' : '#a1a1aa', formatter: () => '$48.4k' }
+              total: { show: true, label: 'Revenue', fontSize: '9px', fontFamily: 'Geist Sans, sans-serif', color: isDark ? '#71717a' : '#a1a1aa', formatter: () => d.total }
             }
           }
         }
@@ -576,8 +645,16 @@ export class DashboardComponent {
   // === Chart 4: Order Fulfillment — RadialBar Chart ===
   protected readonly fulfillmentChart = computed(() => {
     const isDark = this.state.isDark();
+    const period = this.activePeriod();
+    const periodData: Record<string, { series: number[]; average: string }> = {
+      daily: { series: [92, 81, 69], average: '81%' },
+      weekly: { series: [94, 85, 72], average: '84%' },
+      monthly: { series: [96, 88, 74], average: '86%' },
+      yearly: { series: [97, 91, 78], average: '89%' }
+    };
+    const d = periodData[period] ?? periodData['monthly'];
     return {
-      series: [96, 88, 74],
+      series: d.series,
       chart: { type: 'radialBar' as any, height: 230, animations: { enabled: true, speed: 600 } },
       colors: ['#0ea5e9', '#10b981', '#f59e0b'],
       plotOptions: {
@@ -587,7 +664,7 @@ export class DashboardComponent {
           dataLabels: {
             name: { fontSize: '10px', fontFamily: 'Geist Sans, sans-serif', color: isDark ? '#a1a1aa' : '#71717a', offsetY: -4 },
             value: { fontSize: '18px', fontFamily: 'Geist Sans, sans-serif', fontWeight: 600, color: isDark ? '#fafafa' : '#18181b', offsetY: 4, formatter: (val: number) => `${val}%` },
-            total: { show: true, label: 'Average', fontSize: '9px', fontFamily: 'Geist Sans, sans-serif', color: isDark ? '#71717a' : '#a1a1aa', formatter: () => '86%' }
+            total: { show: true, label: 'Average', fontSize: '9px', fontFamily: 'Geist Sans, sans-serif', color: isDark ? '#71717a' : '#a1a1aa', formatter: () => d.average }
           }
         }
       },
