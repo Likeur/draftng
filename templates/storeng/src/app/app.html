@@ -1,0 +1,9 @@
+<div class="min-h-screen flex bg-theme-bg text-theme-text-main transition-colors duration-300">
+  <app-sidebar></app-sidebar>
+  <div class="flex-grow flex flex-col min-w-0 h-screen overflow-hidden">
+    <app-topbar></app-topbar>
+    <main class="flex-grow overflow-y-auto p-6 md:p-8">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

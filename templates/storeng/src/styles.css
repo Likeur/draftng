@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+
+  --color-zinc-850: rgba(63, 63, 70, 0.45);
+
+  /* Semantic Theme Variables mapped to CSS custom variables */
+  --color-theme-bg: var(--theme-bg);
+  --color-theme-panel: var(--theme-panel);
+  --color-theme-nested: var(--theme-nested);
+  --color-theme-border: var(--theme-border);
+  --color-theme-hover: var(--theme-hover);
+
+  --color-theme-text-main: var(--theme-text-main);
+  --color-theme-text-muted: var(--theme-text-muted);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+  body {
+    font-family: var(--font-sans);
+  }
+
+  :root {
+    /* Clean medical-themed light variables */
+    --theme-bg: #fafafa;
+    --theme-panel: #ffffff;
+    --theme-nested: #ffffff;
+    --theme-border: #eaeaea;
+    --theme-hover: #f4f4f5;
+
+    --theme-text-main: #09090b;
+    --theme-text-muted: #71717a;
+  }
+
+  .dark {
+    /* High contrast dark theme variables */
+    --theme-bg: #09090b;
+    --theme-panel: #18181b;
+    --theme-nested: #1f1f23;
+    --theme-border: #27272a;
+    --theme-hover: #27272a;
+
+    --theme-text-main: #fafafa;
+    --theme-text-muted: #a1a1aa;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.12);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.3);
+}
+
+/* Global micro-interaction click scale */
+.clickable-scale {
+  transition: transform 120ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.clickable-scale:active {
+  transform: scale(0.96) !important;
+}
+
+/* Avatar Gradients for customers/products */
+.avatar-grad-1 {
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+}
+.avatar-grad-2 {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+}
+.avatar-grad-3 {
+  background: linear-gradient(135deg, #d97706 0%, #ca8a04 100%);
+}
+.avatar-grad-4 {
+  background: linear-gradient(135deg, #0d9488 0%, #059669 100%);
+}
+.avatar-grad-5 {
+  background: linear-gradient(135deg, #db2777 0%, #e11d48 100%);
+}
+
+/* Staggered blur-slide entrance animations */
+@keyframes blur-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-blur-slide {
+  animation: blur-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
+.stagger-7 { animation-delay: 350ms; }
+.stagger-8 { animation-delay: 400ms; }
+
+/* Profile mesh avatar */
+.profile-mesh-avatar {
+  background: radial-gradient(circle at 35% 25%, #6ee7b7 0%, #0d9488 55%, #065f46 100%);
+  position: relative;
+  overflow: hidden;
+}
+.profile-mesh-avatar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 0.75px, transparent 0);
+  background-size: 2px 2px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.dark .profile-mesh-avatar::after {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 0.75px, transparent 0);
+}
+
+/* ApexCharts custom styling overrides */
+.apexcharts-tooltip {
+  background: var(--theme-panel) !important;
+  border: 1px solid var(--theme-border) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  font-family: var(--font-sans) !important;
+  border-radius: 8px !important;
+  transition: opacity 0.15s ease !important;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light,
+.apexcharts-tooltip.apexcharts-theme-dark {
+  background: var(--theme-panel) !important;
+  border: 1px solid var(--theme-border) !important;
+}
+
+.apexcharts-tooltip-title {
+  background: var(--theme-hover) !important;
+  border-bottom: 1px solid var(--theme-border) !important;
+  color: var(--theme-text-main) !important;
+  font-weight: 500 !important;
+  font-family: var(--font-sans) !important;
+  padding: 6px 10px !important;
+}
+
+.apexcharts-tooltip-series-group {
+  color: var(--theme-text-main) !important;
+  background: transparent !important;
+  padding: 4px 10px !important;
+}
+
+.apexcharts-tooltip-text {
+  color: var(--theme-text-main) !important;
+  font-family: var(--font-sans) !important;
+}
+
+.apexcharts-tooltip-marker {
+  margin-right: 6px !important;
+}
+
+.apexcharts-legend-text {
+  color: var(--theme-text-muted) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 9px !important;
+}
+
+/* Force SVG canvas to scale smoothly */
+.apexcharts-canvas,
+.apexcharts-canvas svg {
+  width: 100% !important;
+}
