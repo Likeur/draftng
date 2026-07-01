@@ -1,4 +1,5 @@
-import { Component, input, model, output, signal, ElementRef, inject, HostListener } from '@angular/core';
+import { Component, input, model, output, signal, computed, ElementRef, inject, HostListener, NgZone, PLATFORM_ID, afterNextRender } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface SelectOption {
   value: string;
@@ -8,8 +9,9 @@ export interface SelectOption {
 @Component({
   selector: 'ui-select',
   template: `
-    <div class="relative" [class]="wrapperClass()">
+    <div [class]="wrapperClass()">
       <button
+        #trigger
         type="button"
         (click)="toggle()"
         class="flex items-center justify-between gap-2 w-full px-3 bg-theme-panel border border-theme-border rounded-xl text-xs text-theme-text-main hover:border-sky-500/50 transition-colors cursor-pointer select-none outline-none focus:border-sky-500"
@@ -25,9 +27,11 @@ export interface SelectOption {
       </button>
 
       @if (open()) {
-        <div class="absolute z-50 mt-1.5 w-full bg-theme-panel border border-theme-border rounded-xl shadow-lg overflow-hidden animate-blur-slide origin-top py-1"
-          [class.bottom-full]="dropUp()"
-          [class.mb-1.5]="dropUp()">
+        <div
+          class="fixed z-[9999] bg-theme-panel border border-theme-border rounded-xl shadow-xl overflow-hidden py-1"
+          [style.top.px]="dropRect().top"
+          [style.left.px]="dropRect().left"
+          [style.width.px]="dropRect().width">
           @for (opt of options(); track opt.value) {
             <button
               type="button"
@@ -55,6 +59,7 @@ export interface SelectOption {
 })
 export class UiSelectComponent {
   private readonly el = inject(ElementRef);
+  private readonly platformId = inject(PLATFORM_ID);
 
   readonly options = input<SelectOption[]>([]);
   readonly placeholder = input('Select...');
@@ -66,11 +71,24 @@ export class UiSelectComponent {
   readonly changed = output<string>();
   readonly open = signal(false);
 
+  private triggerRect = signal<DOMRect | null>(null);
+
+  readonly dropRect = computed(() => {
+    const r = this.triggerRect();
+    if (!r) return { top: 0, left: 0, width: 0 };
+    const GAP = 6;
+    return { top: r.bottom + GAP, left: r.left, width: r.width };
+  });
+
   get selectedLabel(): () => string {
     return () => this.options().find(o => o.value === this.value())?.label ?? '';
   }
 
   toggle(): void {
+    if (!this.open()) {
+      const btn = this.el.nativeElement.querySelector('button');
+      if (btn) this.triggerRect.set(btn.getBoundingClientRect());
+    }
     this.open.update(v => !v);
   }
 
@@ -84,6 +102,15 @@ export class UiSelectComponent {
   onClickOutside(e: MouseEvent): void {
     if (!this.el.nativeElement.contains(e.target)) {
       this.open.set(false);
+    }
+  }
+
+  @HostListener('window:scroll')
+  @HostListener('window:resize')
+  onScroll(): void {
+    if (this.open()) {
+      const btn = this.el.nativeElement.querySelector('button');
+      if (btn) this.triggerRect.set(btn.getBoundingClientRect());
     }
   }
 }

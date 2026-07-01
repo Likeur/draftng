@@ -1,9 +1,9 @@
-import { Component, input, model, output, signal, computed, ElementRef, inject, HostListener } from '@angular/core';
+import { Component, input, model, output, signal, computed, ElementRef, inject, HostListener, PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'ui-datepicker',
   template: `
-    <div class="relative" [class]="wrapperClass()">
+    <div [class]="wrapperClass()">
       <button
         type="button"
         (click)="toggle()"
@@ -21,10 +21,10 @@ import { Component, input, model, output, signal, computed, ElementRef, inject, 
       </button>
 
       @if (open()) {
-        <div class="absolute z-50 mt-1.5 bg-theme-panel border border-theme-border rounded-xl shadow-xl overflow-hidden animate-blur-slide origin-top p-3 w-64"
-          [class.right-0]="alignRight()"
-          [class.bottom-full]="dropUp()"
-          [class.mb-1.5]="dropUp()">
+        <div
+          class="fixed z-[9999] bg-theme-panel border border-theme-border rounded-xl shadow-xl overflow-hidden p-3 w-64"
+          [style.top.px]="dropPos().top"
+          [style.left.px]="dropPos().left">
 
           <!-- Month/Year nav -->
           <div class="flex items-center justify-between mb-3">
@@ -83,6 +83,7 @@ import { Component, input, model, output, signal, computed, ElementRef, inject, 
 })
 export class UiDatepickerComponent {
   private readonly el = inject(ElementRef);
+  private readonly platformId = inject(PLATFORM_ID);
 
   readonly placeholder = input('Pick a date');
   readonly height = input('36px');
@@ -93,6 +94,20 @@ export class UiDatepickerComponent {
 
   readonly changed = output<string>();
   readonly open = signal(false);
+
+  private triggerRect = signal<DOMRect | null>(null);
+  readonly PANEL_W = 256;
+
+  readonly dropPos = computed(() => {
+    const r = this.triggerRect();
+    if (!r) return { top: 0, left: 0 };
+    const GAP = 6;
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1200;
+    let left = this.alignRight() ? r.right - this.PANEL_W : r.left;
+    if (left + this.PANEL_W > vw - 8) left = vw - this.PANEL_W - 8;
+    if (left < 8) left = 8;
+    return { top: r.bottom + GAP, left };
+  });
 
   readonly dayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   readonly shortcuts = [
@@ -140,7 +155,13 @@ export class UiDatepickerComponent {
     return t.getFullYear() === this.viewYear() && t.getMonth() === this.viewMonth() && t.getDate() === day;
   }
 
-  toggle(): void { this.open.update(v => !v); }
+  toggle(): void {
+    if (!this.open()) {
+      const btn = this.el.nativeElement.querySelector('button');
+      if (btn) this.triggerRect.set(btn.getBoundingClientRect());
+    }
+    this.open.update(v => !v);
+  }
 
   prevMonth(): void {
     if (this.viewMonth() === 0) {
@@ -187,6 +208,15 @@ export class UiDatepickerComponent {
   onClickOutside(e: MouseEvent): void {
     if (!this.el.nativeElement.contains(e.target)) {
       this.open.set(false);
+    }
+  }
+
+  @HostListener('window:scroll')
+  @HostListener('window:resize')
+  onScroll(): void {
+    if (this.open()) {
+      const btn = this.el.nativeElement.querySelector('button');
+      if (btn) this.triggerRect.set(btn.getBoundingClientRect());
     }
   }
 }
