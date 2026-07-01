@@ -12,6 +12,7 @@ export interface Product {
   status: 'Active' | 'Draft' | 'Out of Stock';
   sku: string;
   image: string;
+  photo: string;
 }
 
 export interface Order {
@@ -64,34 +65,34 @@ export class StoreService {
 
   // Products
   public readonly products = signal<Product[]>([
-    { id: 1, name: 'Wireless Headphones Pro', category: 'Electronics', price: 149.99, stock: 84, sold: 312, status: 'Active', sku: 'EL-WHP-001', image: 'avatar-grad-1' },
-    { id: 2, name: 'Minimalist Leather Wallet', category: 'Accessories', price: 49.99, stock: 156, sold: 540, status: 'Active', sku: 'AC-MLW-002', image: 'avatar-grad-2' },
-    { id: 3, name: 'Portable Charger 20000mAh', category: 'Electronics', price: 59.99, stock: 0, sold: 278, status: 'Out of Stock', sku: 'EL-PCH-003', image: 'avatar-grad-3' },
-    { id: 4, name: 'Ceramic Coffee Mug Set', category: 'Home & Kitchen', price: 34.99, stock: 210, sold: 94, status: 'Active', sku: 'HK-CCM-004', image: 'avatar-grad-4' },
-    { id: 5, name: 'Running Shoes Ultralight', category: 'Sports', price: 119.99, stock: 47, sold: 183, status: 'Active', sku: 'SP-RSU-005', image: 'avatar-grad-5' },
-    { id: 6, name: 'Smart Watch Series 4', category: 'Electronics', price: 299.99, stock: 0, sold: 0, status: 'Draft', sku: 'EL-SWS-006', image: 'avatar-grad-1' },
-    { id: 7, name: 'Bamboo Cutting Board XL', category: 'Home & Kitchen', price: 29.99, stock: 88, sold: 122, status: 'Active', sku: 'HK-BCB-007', image: 'avatar-grad-2' },
-    { id: 8, name: 'Yoga Mat Premium', category: 'Sports', price: 64.99, stock: 31, sold: 207, status: 'Active', sku: 'SP-YMP-008', image: 'avatar-grad-3' },
-    { id: 9, name: 'Noise-Cancel Earbuds', category: 'Electronics', price: 89.99, stock: 62, sold: 451, status: 'Active', sku: 'EL-NCE-009', image: 'avatar-grad-4' },
-    { id: 10, name: 'Stainless Water Bottle', category: 'Sports', price: 24.99, stock: 334, sold: 689, status: 'Active', sku: 'SP-SWB-010', image: 'avatar-grad-5' },
-    { id: 11, name: 'Mechanical Keyboard TKL', category: 'Electronics', price: 189.99, stock: 18, sold: 97, status: 'Active', sku: 'EL-MKT-011', image: 'avatar-grad-1' },
-    { id: 12, name: 'Linen Throw Blanket', category: 'Home & Kitchen', price: 44.99, stock: 0, sold: 58, status: 'Out of Stock', sku: 'HK-LTB-012', image: 'avatar-grad-2' }
+    { id: 1,  name: 'Wireless Headphones Pro',    category: 'Electronics',   price: 149.99, stock: 84,  sold: 312, status: 'Active',       sku: 'EL-WHP-001', image: 'avatar-grad-1',  photo: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=120&h=120&fit=crop&auto=format' },
+    { id: 2,  name: 'Minimalist Leather Wallet',  category: 'Accessories',   price: 49.99,  stock: 156, sold: 540, status: 'Active',       sku: 'AC-MLW-002', image: 'avatar-grad-2',  photo: 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=120&h=120&fit=crop&auto=format' },
+    { id: 3,  name: 'Portable Charger 20000mAh',  category: 'Electronics',   price: 59.99,  stock: 0,   sold: 278, status: 'Out of Stock', sku: 'EL-PCH-003', image: 'avatar-grad-3',  photo: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=120&h=120&fit=crop&auto=format' },
+    { id: 4,  name: 'Ceramic Coffee Mug Set',     category: 'Home & Kitchen',price: 34.99,  stock: 210, sold: 94,  status: 'Active',       sku: 'HK-CCM-004', image: 'avatar-grad-4',  photo: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=120&h=120&fit=crop&auto=format' },
+    { id: 5,  name: 'Running Shoes Ultralight',   category: 'Sports',        price: 119.99, stock: 47,  sold: 183, status: 'Active',       sku: 'SP-RSU-005', image: 'avatar-grad-5',  photo: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=120&h=120&fit=crop&auto=format' },
+    { id: 6,  name: 'Smart Watch Series 4',       category: 'Electronics',   price: 299.99, stock: 0,   sold: 0,   status: 'Draft',        sku: 'EL-SWS-006', image: 'avatar-grad-6',  photo: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=120&h=120&fit=crop&auto=format' },
+    { id: 7,  name: 'Bamboo Cutting Board XL',    category: 'Home & Kitchen',price: 29.99,  stock: 88,  sold: 122, status: 'Active',       sku: 'HK-BCB-007', image: 'avatar-grad-7',  photo: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=120&h=120&fit=crop&auto=format' },
+    { id: 8,  name: 'Yoga Mat Premium',           category: 'Sports',        price: 64.99,  stock: 31,  sold: 207, status: 'Active',       sku: 'SP-YMP-008', image: 'avatar-grad-8',  photo: 'https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=120&h=120&fit=crop&auto=format' },
+    { id: 9,  name: 'Noise-Cancel Earbuds',       category: 'Electronics',   price: 89.99,  stock: 62,  sold: 451, status: 'Active',       sku: 'EL-NCE-009', image: 'avatar-grad-9',  photo: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=120&h=120&fit=crop&auto=format' },
+    { id: 10, name: 'Stainless Water Bottle',     category: 'Sports',        price: 24.99,  stock: 334, sold: 689, status: 'Active',       sku: 'SP-SWB-010', image: 'avatar-grad-10', photo: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=120&h=120&fit=crop&auto=format' },
+    { id: 11, name: 'Mechanical Keyboard TKL',    category: 'Electronics',   price: 189.99, stock: 18,  sold: 97,  status: 'Active',       sku: 'EL-MKT-011', image: 'avatar-grad-11', photo: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=120&h=120&fit=crop&auto=format' },
+    { id: 12, name: 'Linen Throw Blanket',        category: 'Home & Kitchen',price: 44.99,  stock: 0,   sold: 58,  status: 'Out of Stock', sku: 'HK-LTB-012', image: 'avatar-grad-12', photo: 'https://images.unsplash.com/photo-1586105251261-72a756497a11?w=120&h=120&fit=crop&auto=format' }
   ]);
 
   // Orders
   public readonly orders = signal<Order[]>([
-    { id: 1, orderNumber: 'ORD-1042', customer: 'Marcus Green', email: 'marcus@email.com', date: 'Jul 01, 2026', total: 284.00, items: 3, status: 'Pending', avatar: 'avatar-grad-1' },
-    { id: 2, orderNumber: 'ORD-1041', customer: 'Priya Sharma', email: 'priya@email.com', date: 'Jul 01, 2026', total: 149.99, items: 1, status: 'Processing', avatar: 'avatar-grad-2' },
-    { id: 3, orderNumber: 'ORD-1040', customer: 'Tyler Brooks', email: 'tyler@email.com', date: 'Jun 30, 2026', total: 74.98, items: 2, status: 'Shipped', avatar: 'avatar-grad-3' },
-    { id: 4, orderNumber: 'ORD-1039', customer: 'Amara Diallo', email: 'amara@email.com', date: 'Jun 30, 2026', total: 419.97, items: 4, status: 'Delivered', avatar: 'avatar-grad-4' },
-    { id: 5, orderNumber: 'ORD-1038', customer: 'Noah Kim', email: 'noah@email.com', date: 'Jun 29, 2026', total: 299.99, items: 1, status: 'Shipped', avatar: 'avatar-grad-5' },
-    { id: 6, orderNumber: 'ORD-1037', customer: 'Sophie Chen', email: 'sophie@email.com', date: 'Jun 29, 2026', total: 54.98, items: 2, status: 'Delivered', avatar: 'avatar-grad-1' },
-    { id: 7, orderNumber: 'ORD-1036', customer: 'Carlos Mendez', email: 'carlos@email.com', date: 'Jun 28, 2026', total: 189.99, items: 1, status: 'Delivered', avatar: 'avatar-grad-2' },
-    { id: 8, orderNumber: 'ORD-1035', customer: 'Fatima Al-Hassan', email: 'fatima@email.com', date: 'Jun 28, 2026', total: 134.97, items: 3, status: 'Cancelled', avatar: 'avatar-grad-3' },
-    { id: 9, orderNumber: 'ORD-1034', customer: 'James Okafor', email: 'james@email.com', date: 'Jun 27, 2026', total: 89.99, items: 1, status: 'Delivered', avatar: 'avatar-grad-4' },
-    { id: 10, orderNumber: 'ORD-1033', customer: 'Yuki Tanaka', email: 'yuki@email.com', date: 'Jun 27, 2026', total: 364.96, items: 5, status: 'Delivered', avatar: 'avatar-grad-5' },
-    { id: 11, orderNumber: 'ORD-1032', customer: 'Lena Mueller', email: 'lena@email.com', date: 'Jun 26, 2026', total: 49.99, items: 1, status: 'Delivered', avatar: 'avatar-grad-1' },
-    { id: 12, orderNumber: 'ORD-1031', customer: 'Raj Patel', email: 'raj@email.com', date: 'Jun 26, 2026', total: 239.98, items: 2, status: 'Cancelled', avatar: 'avatar-grad-2' }
+    { id: 1,  orderNumber: 'ORD-1042', customer: 'Marcus Green',    email: 'marcus@email.com', date: 'Jul 01, 2026', total: 284.00,  items: 3, status: 'Pending',    avatar: 'avatar-grad-1'  },
+    { id: 2,  orderNumber: 'ORD-1041', customer: 'Priya Sharma',    email: 'priya@email.com',  date: 'Jul 01, 2026', total: 149.99,  items: 1, status: 'Processing', avatar: 'avatar-grad-2'  },
+    { id: 3,  orderNumber: 'ORD-1040', customer: 'Tyler Brooks',    email: 'tyler@email.com',  date: 'Jun 30, 2026', total: 74.98,   items: 2, status: 'Shipped',    avatar: 'avatar-grad-3'  },
+    { id: 4,  orderNumber: 'ORD-1039', customer: 'Amara Diallo',    email: 'amara@email.com',  date: 'Jun 30, 2026', total: 419.97,  items: 4, status: 'Delivered',  avatar: 'avatar-grad-4'  },
+    { id: 5,  orderNumber: 'ORD-1038', customer: 'Noah Kim',        email: 'noah@email.com',   date: 'Jun 29, 2026', total: 299.99,  items: 1, status: 'Shipped',    avatar: 'avatar-grad-5'  },
+    { id: 6,  orderNumber: 'ORD-1037', customer: 'Sophie Chen',     email: 'sophie@email.com', date: 'Jun 29, 2026', total: 54.98,   items: 2, status: 'Delivered',  avatar: 'avatar-grad-6'  },
+    { id: 7,  orderNumber: 'ORD-1036', customer: 'Carlos Mendez',   email: 'carlos@email.com', date: 'Jun 28, 2026', total: 189.99,  items: 1, status: 'Delivered',  avatar: 'avatar-grad-7'  },
+    { id: 8,  orderNumber: 'ORD-1035', customer: 'Fatima Al-Hassan',email: 'fatima@email.com', date: 'Jun 28, 2026', total: 134.97,  items: 3, status: 'Cancelled',  avatar: 'avatar-grad-8'  },
+    { id: 9,  orderNumber: 'ORD-1034', customer: 'James Okafor',    email: 'james@email.com',  date: 'Jun 27, 2026', total: 89.99,   items: 1, status: 'Delivered',  avatar: 'avatar-grad-9'  },
+    { id: 10, orderNumber: 'ORD-1033', customer: 'Yuki Tanaka',     email: 'yuki@email.com',   date: 'Jun 27, 2026', total: 364.96,  items: 5, status: 'Delivered',  avatar: 'avatar-grad-10' },
+    { id: 11, orderNumber: 'ORD-1032', customer: 'Lena Mueller',    email: 'lena@email.com',   date: 'Jun 26, 2026', total: 49.99,   items: 1, status: 'Delivered',  avatar: 'avatar-grad-11' },
+    { id: 12, orderNumber: 'ORD-1031', customer: 'Raj Patel',       email: 'raj@email.com',    date: 'Jun 26, 2026', total: 239.98,  items: 2, status: 'Cancelled',  avatar: 'avatar-grad-12' }
   ]);
 
   constructor() {

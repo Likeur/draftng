@@ -68,9 +68,7 @@ import { StoreService, Order } from '../shared/services/store.service';
                   </td>
                   <td class="px-5 py-3 hidden sm:table-cell">
                     <div class="flex items-center gap-2">
-                      <div [class]="order.avatar" class="w-7 h-7 rounded-full flex items-center justify-center text-white text-[9px] font-bold shrink-0">
-                        {{ getInitials(order.customer) }}
-                      </div>
+                      <div [class]="order.avatar" class="w-7 h-7 rounded-full shrink-0"></div>
                       <div class="min-w-0">
                         <p class="text-xs font-medium text-theme-text-main truncate max-w-[140px]">{{ order.customer }}</p>
                         <p class="text-[9px] text-theme-text-muted truncate max-w-[140px]">{{ order.email }}</p>
@@ -241,7 +239,7 @@ export class OrdersComponent {
         )
       );
     } else {
-      const avatars = ['avatar-grad-1', 'avatar-grad-2', 'avatar-grad-3', 'avatar-grad-4', 'avatar-grad-5'];
+      const avatars = ['avatar-grad-1','avatar-grad-2','avatar-grad-3','avatar-grad-4','avatar-grad-5','avatar-grad-6','avatar-grad-7','avatar-grad-8','avatar-grad-9','avatar-grad-10','avatar-grad-11','avatar-grad-12'];
       const newId = Math.max(...this.state.orders().map(o => o.id)) + 1;
       const orderNum = `ORD-${1000 + newId}`;
       const today = new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
@@ -264,7 +262,4 @@ export class OrdersComponent {
     this.state.orders.update(list => list.filter(o => o.id !== id));
   }
 
-  protected getInitials(name: string): string {
-    return name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
-  }
 }

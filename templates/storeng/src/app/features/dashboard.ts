@@ -3,10 +3,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FormsModule } from '@angular/forms';
 import { StoreService } from '../shared/services/store.service';
+import { UiSelectComponent, SelectOption } from '../shared/components/ui-select';
+import { UiDatepickerComponent } from '../shared/components/ui-datepicker';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [NgApexchartsModule, FormsModule],
+  imports: [NgApexchartsModule, FormsModule, UiSelectComponent, UiDatepickerComponent],
   template: `
     <div class="space-y-6">
       
@@ -18,41 +20,42 @@ import { StoreService } from '../shared/services/store.service';
         </div>
         <!-- Date Picker + Period Selector -->
         <div class="flex flex-wrap items-center gap-2 shrink-0">
-          <!-- Period Dropdown -->
-          <div class="relative">
-            <select [(ngModel)]="activePeriod" class="appearance-none h-9 pl-3 pr-8 bg-theme-panel border border-theme-border rounded-xl text-xs text-theme-text-main outline-none focus:border-sky-500 cursor-pointer transition-colors">
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="yearly">Yearly</option>
-            </select>
-            <svg class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-theme-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-          </div>
-          <!-- Date Range Picker -->
-          <div class="flex items-center gap-1.5 h-9 px-3 bg-theme-panel border border-theme-border rounded-xl text-xs text-theme-text-muted cursor-pointer hover:border-sky-500/50 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
-            <input type="date" [(ngModel)]="dateFrom" class="bg-transparent border-none outline-none text-xs text-theme-text-main w-24 cursor-pointer">
-            <span class="text-theme-text-muted">—</span>
-            <input type="date" [(ngModel)]="dateTo" class="bg-transparent border-none outline-none text-xs text-theme-text-main w-24 cursor-pointer">
-          </div>
+          <ui-select
+            [(value)]="activePeriod"
+            [options]="periodOptions"
+            placeholder="Period"
+            wrapperClass="w-28"
+          />
+          <ui-datepicker
+            [(value)]="dateFrom"
+            placeholder="From"
+            wrapperClass="w-36"
+          />
+          <span class="text-xs text-theme-text-muted select-none">—</span>
+          <ui-datepicker
+            [(value)]="dateTo"
+            placeholder="To"
+            wrapperClass="w-36"
+            [alignRight]="true"
+          />
         </div>
       </div>
 
       <!-- Quick Actions -->
       <div class="animate-blur-slide stagger-2 grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <button class="flex items-center gap-2.5 px-4 py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
+        <button class="flex items-center justify-center gap-2.5 px-4 py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
           New Order
         </button>
-        <button class="flex items-center gap-2.5 px-4 py-3 bg-theme-panel border border-theme-border hover:border-sky-500/40 text-theme-text-main rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
+        <button class="flex items-center justify-center gap-2.5 px-4 py-3 bg-theme-panel border border-theme-border hover:border-sky-500/40 text-theme-text-main rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-500"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/></svg>
           Add Product
         </button>
-        <button class="flex items-center gap-2.5 px-4 py-3 bg-theme-panel border border-theme-border hover:border-sky-500/40 text-theme-text-main rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
+        <button class="flex items-center justify-center gap-2.5 px-4 py-3 bg-theme-panel border border-theme-border hover:border-sky-500/40 text-theme-text-main rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-violet-500"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           Export CSV
         </button>
-        <button class="flex items-center gap-2.5 px-4 py-3 bg-theme-panel border border-theme-border hover:border-sky-500/40 text-theme-text-main rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
+        <button class="flex items-center justify-center gap-2.5 px-4 py-3 bg-theme-panel border border-theme-border hover:border-sky-500/40 text-theme-text-main rounded-xl text-xs font-medium transition-all cursor-pointer clickable-scale">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>
           View Reports
         </button>
@@ -131,15 +134,13 @@ import { StoreService } from '../shared/services/store.service';
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
               <!-- Period selector -->
-              <div class="relative">
-                <select [(ngModel)]="chartPeriod" class="appearance-none h-7 pl-2.5 pr-7 bg-theme-bg border border-theme-border rounded-lg text-[10px] text-theme-text-muted outline-none focus:border-sky-500 cursor-pointer transition-colors">
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                  <option value="yearly">Yearly</option>
-                </select>
-                <svg class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-theme-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-              </div>
+              <ui-select
+                [(value)]="chartPeriod"
+                [options]="periodOptions"
+                placeholder="Period"
+                wrapperClass="w-24"
+                height="28px"
+              />
               <!-- Customize button -->
               <button (click)="toggleChartCustomizer()" [class.border-sky-500]="showChartCustomizer()" [class.text-sky-500]="showChartCustomizer()" class="h-7 w-7 flex items-center justify-center bg-theme-bg border border-theme-border rounded-lg text-theme-text-muted hover:text-theme-text-main hover:border-sky-500/50 transition-colors cursor-pointer clickable-scale">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
@@ -314,9 +315,7 @@ import { StoreService } from '../shared/services/store.service';
                   </td>
                   <td class="py-2.5 px-3 sm:px-5 hidden sm:table-cell">
                     <div class="flex items-center gap-2">
-                      <div [class]="order.avatar" class="w-6 h-6 rounded-full flex items-center justify-center text-white text-[8px] font-bold shrink-0">
-                        {{ getInitials(order.customer) }}
-                      </div>
+                      <div [class]="order.avatar" class="w-6 h-6 rounded-full shrink-0"></div>
                       <span class="text-[11px] text-theme-text-muted">{{ order.customer }}</span>
                     </div>
                   </td>
@@ -355,6 +354,13 @@ export class DashboardComponent {
   protected readonly chartPeriod = signal('monthly');
   protected readonly dateFrom = signal('');
   protected readonly dateTo = signal('');
+
+  protected readonly periodOptions: SelectOption[] = [
+    { value: 'daily',   label: 'Daily'   },
+    { value: 'weekly',  label: 'Weekly'  },
+    { value: 'monthly', label: 'Monthly' },
+    { value: 'yearly',  label: 'Yearly'  },
+  ];
   protected readonly showChartCustomizer = signal(false);
   protected showRevenueSeries = true;
   protected showOrdersSeries = true;
@@ -510,7 +516,4 @@ export class DashboardComponent {
     };
   });
 
-  protected getInitials(name: string): string {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
-  }
 }

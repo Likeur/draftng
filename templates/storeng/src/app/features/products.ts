@@ -65,8 +65,13 @@ import { StoreService, Product } from '../shared/services/store.service';
                 <tr class="border-b border-theme-border/50 last:border-none hover:bg-theme-hover/50 transition-colors">
                   <td class="px-5 py-3">
                     <div class="flex items-center gap-3">
-                      <div [class]="product.image" class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-[9px] font-bold shrink-0">
-                        {{ getInitials(product.name) }}
+                      <div class="w-10 h-10 rounded-xl overflow-hidden shrink-0 border border-theme-border bg-theme-hover">
+                        <img
+                          [src]="product.photo"
+                          [alt]="product.name"
+                          class="w-full h-full object-cover"
+                          loading="lazy"
+                          (error)="onImgError($event, product.image)">
                       </div>
                       <div class="min-w-0">
                         <p class="text-xs font-medium text-theme-text-main truncate max-w-[180px]">{{ product.name }}</p>
@@ -253,7 +258,7 @@ export class ProductsComponent {
         )
       );
     } else {
-      const avatars = ['avatar-grad-1', 'avatar-grad-2', 'avatar-grad-3', 'avatar-grad-4', 'avatar-grad-5'];
+      const avatars = ['avatar-grad-1','avatar-grad-2','avatar-grad-3','avatar-grad-4','avatar-grad-5','avatar-grad-6','avatar-grad-7','avatar-grad-8','avatar-grad-9','avatar-grad-10','avatar-grad-11','avatar-grad-12'];
       const newId = Math.max(...this.state.products().map(p => p.id)) + 1;
       this.state.products.update(list => [{
         id: newId,
@@ -264,7 +269,8 @@ export class ProductsComponent {
         sold: 0,
         status: this.form.status,
         sku: this.form.sku,
-        image: avatars[newId % avatars.length]
+        image: avatars[newId % avatars.length],
+        photo: ''
       }, ...list]);
     }
     this.closeModal();
@@ -274,7 +280,12 @@ export class ProductsComponent {
     this.state.products.update(list => list.filter(p => p.id !== id));
   }
 
-  protected getInitials(name: string): string {
-    return name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
+  protected onImgError(event: Event, fallbackClass: string): void {
+    const img = event.target as HTMLImageElement;
+    const parent = img.parentElement;
+    if (parent) {
+      parent.classList.add(...fallbackClass.split(' '));
+      img.style.display = 'none';
+    }
   }
 }

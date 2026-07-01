@@ -81,21 +81,89 @@
   transform: scale(0.96) !important;
 }
 
-/* Avatar Gradients for customers/products */
-.avatar-grad-1 {
-  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+/* Avatar Gradients — glassy mesh style */
+.avatar-grad-1,
+.avatar-grad-2,
+.avatar-grad-3,
+.avatar-grad-4,
+.avatar-grad-5,
+.avatar-grad-6,
+.avatar-grad-7,
+.avatar-grad-8,
+.avatar-grad-9,
+.avatar-grad-10,
+.avatar-grad-11,
+.avatar-grad-12 {
+  position: relative;
+  overflow: hidden;
 }
-.avatar-grad-2 {
-  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+.avatar-grad-1,
+.avatar-grad-2,
+.avatar-grad-3,
+.avatar-grad-4,
+.avatar-grad-5,
+.avatar-grad-6,
+.avatar-grad-7,
+.avatar-grad-8,
+.avatar-grad-9,
+.avatar-grad-10,
+.avatar-grad-11,
+.avatar-grad-12 {
+  isolation: isolate;
 }
-.avatar-grad-3 {
-  background: linear-gradient(135deg, #d97706 0%, #ca8a04 100%);
+.avatar-grad-1  { background: radial-gradient(ellipse at 30% 20%, #38bdf8 0%, #0369a1 55%, #0c4a6e 100%); }
+.avatar-grad-2  { background: radial-gradient(ellipse at 70% 25%, #a78bfa 0%, #6d28d9 50%, #3b0764 100%); }
+.avatar-grad-3  { background: radial-gradient(ellipse at 40% 30%, #fbbf24 0%, #d97706 50%, #78350f 100%); }
+.avatar-grad-4  { background: radial-gradient(ellipse at 60% 20%, #34d399 0%, #059669 50%, #064e3b 100%); }
+.avatar-grad-5  { background: radial-gradient(ellipse at 35% 25%, #fb7185 0%, #e11d48 50%, #881337 100%); }
+.avatar-grad-6  { background: radial-gradient(ellipse at 65% 30%, #67e8f9 0%, #0891b2 50%, #164e63 100%); }
+.avatar-grad-7  { background: radial-gradient(ellipse at 40% 20%, #86efac 0%, #16a34a 50%, #14532d 100%); }
+.avatar-grad-8  { background: radial-gradient(ellipse at 55% 25%, #fda4af 0%, #db2777 50%, #831843 100%); }
+.avatar-grad-9  { background: radial-gradient(ellipse at 45% 30%, #93c5fd 0%, #2563eb 50%, #1e3a8a 100%); }
+.avatar-grad-10 { background: radial-gradient(ellipse at 60% 20%, #d8b4fe 0%, #9333ea 50%, #4a044e 100%); }
+.avatar-grad-11 { background: radial-gradient(ellipse at 35% 25%, #fed7aa 0%, #ea580c 50%, #7c2d12 100%); }
+.avatar-grad-12 { background: radial-gradient(ellipse at 50% 20%, #a5f3fc 0%, #0e7490 50%, #083344 100%); }
+
+/* Glass sheen overlay on all avatar grads */
+.avatar-grad-1::after,
+.avatar-grad-2::after,
+.avatar-grad-3::after,
+.avatar-grad-4::after,
+.avatar-grad-5::after,
+.avatar-grad-6::after,
+.avatar-grad-7::after,
+.avatar-grad-8::after,
+.avatar-grad-9::after,
+.avatar-grad-10::after,
+.avatar-grad-11::after,
+.avatar-grad-12::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.04) 50%, rgba(0,0,0,0.12) 100%);
+  pointer-events: none;
 }
-.avatar-grad-4 {
-  background: linear-gradient(135deg, #0d9488 0%, #059669 100%);
-}
-.avatar-grad-5 {
-  background: linear-gradient(135deg, #db2777 0%, #e11d48 100%);
+/* Dot-mesh texture */
+.avatar-grad-1::before,
+.avatar-grad-2::before,
+.avatar-grad-3::before,
+.avatar-grad-4::before,
+.avatar-grad-5::before,
+.avatar-grad-6::before,
+.avatar-grad-7::before,
+.avatar-grad-8::before,
+.avatar-grad-9::before,
+.avatar-grad-10::before,
+.avatar-grad-11::before,
+.avatar-grad-12::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.3) 0.6px, transparent 0);
+  background-size: 3px 3px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Staggered blur-slide entrance animations */
