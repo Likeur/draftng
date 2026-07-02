@@ -16,7 +16,7 @@ import { StoreService } from '../services/store.service';
       [class.p-4]="!state.isCollapsed()"
       [class.-translate-x-full]="state.isCollapsed()"
       [class.translate-x-0]="!state.isCollapsed()"
-      class="fixed md:sticky left-0 top-0 bottom-0 z-50 md:z-45 h-screen bg-theme-panel border-r border-theme-border flex flex-col justify-between shrink-0 transition-all duration-200 font-sans select-none md:translate-x-0 overflow-hidden">
+      class="fixed md:sticky left-0 top-0 bottom-0 z-50 md:z-45 h-screen bg-theme-panel border-r border-theme-border flex flex-col justify-between shrink-0 transition-all duration-200 font-sans select-none md:translate-x-0 overflow-visible">
       
       <div class="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin">
         <!-- Top Branding -->
@@ -225,7 +225,7 @@ import { StoreService } from '../services/store.service';
       </div>
 
       <!-- User Options Bottom Section -->
-      <div class="relative" id="user-menu-container">
+      <div class="relative z-[120]" id="user-menu-container">
         <!-- Dropdown Menu -->
         <div 
           [class.opacity-100]="isUserDropdownOpen()"
@@ -236,7 +236,7 @@ import { StoreService } from '../services/store.service';
           [class.pointer-events-none]="!isUserDropdownOpen()"
           [class.scale-95]="!isUserDropdownOpen()"
           [class.translate-y-2]="!isUserDropdownOpen()"
-          class="absolute bottom-full left-0 mb-2 w-64 bg-theme-panel border border-theme-border text-theme-text-main rounded-xl p-1.5 z-50 shadow-md transition-all duration-200 ease-out origin-bottom-left transform select-none">
+          class="absolute bottom-full left-0 mb-2 w-64 bg-theme-panel border border-theme-border text-theme-text-main rounded-xl p-1.5 z-[130] shadow-md transition-all duration-200 ease-out origin-bottom-left transform select-none">
           
           <!-- User Profile Header -->
           <div class="flex items-center gap-2.5 p-2.5 pb-3 border-b border-theme-border">
@@ -264,7 +264,7 @@ import { StoreService } from '../services/store.service';
               </button>
 
               <!-- Flyout Menu -->
-              <div class="absolute left-full bottom-0 pl-2 w-32 z-55 opacity-0 pointer-events-none group-hover/appearance:opacity-100 group-hover/appearance:pointer-events-auto transition-all duration-150">
+              <div class="absolute left-full bottom-0 pl-2 w-32 z-[140] opacity-0 pointer-events-none group-hover/appearance:opacity-100 group-hover/appearance:pointer-events-auto transition-all duration-150">
                 <div class="bg-theme-panel border border-theme-border rounded-xl p-1.5 shadow-lg flex flex-col gap-1 text-theme-text-main animate-fade-in">
                   <button (click)="selectTheme('light')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-theme-hover transition-all clickable-scale font-medium">Light</button>
                   <button (click)="selectTheme('dark')" class="w-full text-left px-2 py-1.5 rounded-lg text-xs font-normal cursor-pointer hover:bg-theme-hover transition-all clickable-scale font-medium">Dark</button>
