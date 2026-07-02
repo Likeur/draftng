@@ -4,6 +4,10 @@ Minimalist & high-performance Angular 22+ platform templates. A curated suite of
 
 ## Templates Available
 
+- **StoreNG** (Free / Open Source): A free, open-source e-commerce dashboard template built with Angular 22+ and Tailwind CSS v4. Features interactive ApexCharts (revenue trends, sales by category, revenue share, order fulfillment), custom date pickers with range highlighting, period-based data filtering (daily/weekly/monthly/yearly), collapsible sidebar sections, and responsive dark/light themes.
+  - Demo: [https://storeng.vercel.app/dashboard](https://storeng.vercel.app/dashboard)
+  - GitHub: [https://github.com/Likeur/draftng/tree/main/templates/storeng](https://github.com/Likeur/draftng/tree/main/templates/storeng)
+
 - **Clinicng** (Free / Open Source): A free, open-source medical clinic dashboard template built with Angular 22+ and Tailwind CSS v4. Features 4 interactive ApexCharts, dual-view appointment scheduling (cards + weekly calendar), patient registry with filters, and responsive dark/light themes.
   - Demo: [https://clinicng.vercel.app/dashboard](https://clinicng.vercel.app/dashboard)
   - GitHub: [https://github.com/Likeur/draftng/tree/main/templates/clinicng](https://github.com/Likeur/draftng/tree/main/templates/clinicng)
